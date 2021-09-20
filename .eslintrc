@@ -19,6 +19,7 @@
     "import",
     "react"
   ],
+  "ignorePatterns": ["dist/**/*.js"],
   "rules": {
     "prettier/prettier": [
       1,
