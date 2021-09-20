@@ -1,0 +1,64 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb-typescript",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      1,
+      {
+        "trailingComma": "es5",
+        "signleQuote": true,
+        "semi": true
+      }
+    ],
+    "import/no-anonymous-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "no-console": "error",
+    "no-unused-vars": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    },
+    "insert_final_newline": true
+  }
+}
