@@ -11,6 +11,8 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "noImplicitAny": true,
     "baseUrl": "./",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": [
     "node_modules"

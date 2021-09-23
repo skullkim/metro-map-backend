@@ -1,5 +1,5 @@
 import express from 'express';
-import {createConnection} from 'typeorm';
+import { createConnection } from 'typeorm';
 
 /* eslint-disable */
 createConnection().then(connection => {
