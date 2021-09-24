@@ -30,17 +30,18 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mysql2": "^2.3.0",
-    "sequelize": "^6.6.5",
-    "sequelize-cli": "^6.2.0"
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.37"
   },
   "scripts": {
     "prestart": "tsc",
     "start": "npm run build:live",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint --fix src/**/*.ts",
+    "build": "tsc -p .",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts",
+    "lint": "eslint src/**/*.ts ormconfig.ts",
+    "lint:fix": "eslint --fix src/**/*.ts ormconfig.ts",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
-    "prepare": "husky install",
-    "build:live": "nodemon --watch 'src/**/*.tx' --exec 'ts-node' src/app.ts"
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {

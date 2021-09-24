@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany
-} from 'typeorm';
-
-import {MinTimeValue} from './MinTimeValue';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class StationFromTo {
@@ -16,14 +9,12 @@ export class StationFromTo {
     length: 10,
     nullable: false,
   })
-  from!: string
+  from!: string;
 
   @Column({
     length: 10,
     nullable: false,
   })
-  to!: string
+  to!: string;
 
-  @OneToMany(() => MinTimeValue, minTimeValue => minTimeValue.station)
-  min_time_value!: MinTimeValue[];
 }
