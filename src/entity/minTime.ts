@@ -1,11 +1,6 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import {MinTimeValue} from './minTimeValue';
+import { MinTimeValue } from './minTimeValue';
 
 @Entity()
 export class MinTime {
@@ -18,9 +13,6 @@ export class MinTime {
   })
   station!: string;
 
-  @ManyToOne(
-    () => MinTimeValue,
-    (minTimeValue) => minTimeValue.MTValue
-  )
+  @ManyToOne(() => MinTimeValue, (minTimeValue) => minTimeValue.MTValue)
   minTime!: MinTimeValue;
 }

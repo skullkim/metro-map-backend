@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MinTimeValue = void 0;
 var typeorm_1 = require("typeorm");
-var stationFromTo_1 = require("./stationFromTo");
 var minTime_1 = require("./minTime");
+var stationFromTo_1 = require("./stationFromTo");
 var MinTimeValue = /** @class */ (function () {
     function MinTimeValue() {
     }
@@ -28,9 +28,10 @@ var MinTimeValue = /** @class */ (function () {
         __metadata("design:type", String)
     ], MinTimeValue.prototype, "minValue", void 0);
     __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return stationFromTo_1.StationFromTo; }, function (stationFromTo) { return stationFromTo.minTimeValue; }),
+        (0, typeorm_1.OneToOne)(function () { return stationFromTo_1.StationFromTo; }),
+        (0, typeorm_1.JoinColumn)(),
         __metadata("design:type", stationFromTo_1.StationFromTo)
-    ], MinTimeValue.prototype, "minTimeValue", void 0);
+    ], MinTimeValue.prototype, "fromTo", void 0);
     __decorate([
         (0, typeorm_1.OneToMany)(function () { return minTime_1.MinTime; }, function (minTime) { return minTime.minTime; }),
         __metadata("design:type", Array)

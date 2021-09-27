@@ -1,6 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import {MinPathValue} from './minPathValue';
+import { MinPathValue } from './minPathValue';
 
 @Entity()
 export class MinPath {
@@ -13,10 +13,6 @@ export class MinPath {
   })
   station!: string;
 
-  @ManyToOne(
-    () => MinPathValue,
-    (minPathValue) => minPathValue.MPValue
-  )
+  @ManyToOne(() => MinPathValue, (minPathValue) => minPathValue.MPValue)
   minPath!: MinPathValue;
-
 }

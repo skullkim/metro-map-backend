@@ -1,6 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import {MinCostValue} from './minCostValue';
+import { MinCostValue } from './minCostValue';
 
 @Entity()
 export class MinCost {
@@ -13,10 +13,6 @@ export class MinCost {
   })
   station!: string;
 
-  @ManyToOne(
-    () => MinCostValue ,
-    (minCostValue) => minCostValue.MCValue
-  )
+  @ManyToOne(() => MinCostValue, (minCostValue) => minCostValue.MCValue)
   minCost!: MinCostValue;
-
 }

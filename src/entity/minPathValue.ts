@@ -1,7 +1,14 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 
-import {StationFromTo} from './stationFromTo';
-import {MinPath} from './minPath';
+import { MinPath } from './minPath';
+import { StationFromTo } from './stationFromTo';
 
 @Entity()
 export class MinPathValue {
@@ -18,10 +25,6 @@ export class MinPathValue {
   @JoinColumn()
   fromTo!: StationFromTo;
 
-  @OneToMany(
-    () => MinPath,
-    (minPath) => minPath.minPath
-  )
+  @OneToMany(() => MinPath, (minPath) => minPath.minPath)
   MPValue!: MinPath;
-
 }

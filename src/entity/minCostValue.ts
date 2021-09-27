@@ -1,7 +1,14 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 
-import {StationFromTo} from './stationFromTo';
-import {MinCost} from './minCost';
+import { MinCost } from './minCost';
+import { StationFromTo } from './stationFromTo';
 
 @Entity()
 export class MinCostValue {
@@ -18,9 +25,6 @@ export class MinCostValue {
   @JoinColumn()
   fromTo!: StationFromTo;
 
-  @OneToMany(
-    () => MinCost,
-    (minCost) => minCost.minCost
-  )
+  @OneToMany(() => MinCost, (minCost) => minCost.minCost)
   MCValue!: MinCost[];
 }

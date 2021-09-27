@@ -9,33 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StationFromTo = void 0;
+exports.MinCost = void 0;
 var typeorm_1 = require("typeorm");
-var StationFromTo = /** @class */ (function () {
-    function StationFromTo() {
+var minCostValue_1 = require("./minCostValue");
+var MinCost = /** @class */ (function () {
+    function MinCost() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], StationFromTo.prototype, "id", void 0);
+    ], MinCost.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             length: 10,
             nullable: false,
         }),
         __metadata("design:type", String)
-    ], StationFromTo.prototype, "from", void 0);
+    ], MinCost.prototype, "station", void 0);
     __decorate([
-        (0, typeorm_1.Column)({
-            length: 10,
-            nullable: false,
-        }),
-        __metadata("design:type", String)
-    ], StationFromTo.prototype, "to", void 0);
-    StationFromTo = __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return minCostValue_1.MinCostValue; }, function (minCostValue) { return minCostValue.MCValue; }),
+        __metadata("design:type", minCostValue_1.MinCostValue)
+    ], MinCost.prototype, "minCost", void 0);
+    MinCost = __decorate([
         (0, typeorm_1.Entity)()
-    ], StationFromTo);
-    return StationFromTo;
+    ], MinCost);
+    return MinCost;
 }());
-exports.StationFromTo = StationFromTo;
-//# sourceMappingURL=stationFromTo.js.map
+exports.MinCost = MinCost;
+//# sourceMappingURL=minCost.js.map

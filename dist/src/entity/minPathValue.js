@@ -9,33 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StationFromTo = void 0;
+exports.MinPathValue = void 0;
 var typeorm_1 = require("typeorm");
-var StationFromTo = /** @class */ (function () {
-    function StationFromTo() {
+var minPath_1 = require("./minPath");
+var stationFromTo_1 = require("./stationFromTo");
+var MinPathValue = /** @class */ (function () {
+    function MinPathValue() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], StationFromTo.prototype, "id", void 0);
+    ], MinPathValue.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             length: 10,
             nullable: false,
         }),
         __metadata("design:type", String)
-    ], StationFromTo.prototype, "from", void 0);
+    ], MinPathValue.prototype, "minValue", void 0);
     __decorate([
-        (0, typeorm_1.Column)({
-            length: 10,
-            nullable: false,
-        }),
-        __metadata("design:type", String)
-    ], StationFromTo.prototype, "to", void 0);
-    StationFromTo = __decorate([
+        (0, typeorm_1.OneToOne)(function () { return stationFromTo_1.StationFromTo; }),
+        (0, typeorm_1.JoinColumn)(),
+        __metadata("design:type", stationFromTo_1.StationFromTo)
+    ], MinPathValue.prototype, "fromTo", void 0);
+    __decorate([
+        (0, typeorm_1.OneToMany)(function () { return minPath_1.MinPath; }, function (minPath) { return minPath.minPath; }),
+        __metadata("design:type", minPath_1.MinPath)
+    ], MinPathValue.prototype, "MPValue", void 0);
+    MinPathValue = __decorate([
         (0, typeorm_1.Entity)()
-    ], StationFromTo);
-    return StationFromTo;
+    ], MinPathValue);
+    return MinPathValue;
 }());
-exports.StationFromTo = StationFromTo;
-//# sourceMappingURL=stationFromTo.js.map
+exports.MinPathValue = MinPathValue;
+//# sourceMappingURL=minPathValue.js.map

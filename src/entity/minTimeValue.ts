@@ -1,7 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, OneToOne} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
 
-import { StationFromTo } from './stationFromTo';
 import { MinTime } from './minTime';
+import { StationFromTo } from './stationFromTo';
 
 @Entity()
 export class MinTimeValue {
@@ -18,10 +25,6 @@ export class MinTimeValue {
   @JoinColumn()
   fromTo!: StationFromTo;
 
-  @OneToMany(
-    () => MinTime,
-    (minTime) => minTime.minTime
-  )
+  @OneToMany(() => MinTime, (minTime) => minTime.minTime)
   MTValue!: MinTime[];
-
 }
