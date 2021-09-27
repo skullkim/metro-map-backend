@@ -1,35 +1,39 @@
-import {Request} from 'express';
+import { Request } from 'express';
 
-import {StatusType, ResultType} from '../type/responseType';
+import { ResultType, StatusType } from '../type/responseType';
 
 const results = [
   {
     status: 200,
     statusText: 'OK',
-    description: 'Server successfully performs client request'
+    description: 'Server successfully performs client request',
   },
   {
     status: 201,
     statusText: 'Created',
-    description: 'Server successfully generates information from client request'
+    description:
+      'Server successfully generates information from client request',
   },
 ];
 
-export const jsonResponse = (req: Request, data: object, status: number = 200) => {
-  const {url, method, params, query} = req;
+export const jsonResponse = (
+  req: Request,
+  data: object,
+  status: number = 200
+) => {
+  const { originalUrl, method, params, query } = req;
   const resMessage: ResultType[] = results.filter(
-    ({status: statusResult}: StatusType) => statusResult == status
+    ({ status: statusResult }: StatusType) => statusResult == status
   );
-  const responseData = {
+  return {
     status,
     status_code: resMessage[0].statusText,
     request: {
-      url,
+      path: originalUrl,
       method,
       params,
       query,
     },
     data,
-  }
-  return responseData;
-}
+  };
+};

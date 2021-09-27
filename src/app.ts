@@ -16,27 +16,40 @@ createConnection().then(() => {
 
   app.use(morgan('dev'));
   app.use(express.json());
-  app.use(express.urlencoded({extended: true}));
+  app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if(req.is('application/vnd.api+json')) {
+      res.contentType('application/vnd.api+json');
+      res.setHeader('Accept', 'application/json');
+    }
+    res.setHeader('Allow', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Origin', `${process.env.CLIENT_ORIGIN}`);
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+  });
 
   app.use('/path', pathRouter);
 
   app.use((req: Request, response: Response, next: NextFunction) => {
-    const error: ReqError = new Error(`${req.method} ${req.originalUrl} router doesn't exist`);
+    const error: ReqError = new Error(
+      `${req.method} ${req.originalUrl} router doesn't exist`
+    );
     error.status = 400;
     next(error);
-  })
+  });
 
-  app.use((err: HttpException, req: Request, res: Response, next: NextFunction) => {
-    res.locals.message = err.message;
-    res.locals.error = process.env.NODE_DEV !== 'production' ? err : {};
-    res.send(res.locals.message);
-  })
+  app.use(
+    // eslint-disable-next-line no-unused-vars
+    (err: HttpException, req: Request, res: Response, next: NextFunction) => {
+      res.locals.message = err.message;
+      res.locals.error = process.env.NODE_DEV !== 'production' ? err : {};
+      res.send(res.locals.message);
+    }
+  );
 
   app.listen(app.get('port'), () => {
     // eslint-disable-next-line no-console
     console.log(`${app.get('port')} server start`);
   });
-
 });
-

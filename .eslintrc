@@ -57,7 +57,9 @@
       }
     ],
     "no-console": "error",
-    "no-unused-vars": "error"
+    "no-unused-vars": ["error", {"argsIgnorePattern": "next"}],
+    "@typescript-eslint/no-unused-vars": ["error", {"argsIgnorePattern": "next"}]
+
   },
   "settings": {
     "import/resolver": {
