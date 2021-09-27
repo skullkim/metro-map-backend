@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MinCost = void 0;
 var typeorm_1 = require("typeorm");
-var minCostValue_1 = require("./minCostValue");
+var minCostValue_1 = require("./minCostValue/minCostValue");
 var MinCost = /** @class */ (function () {
     function MinCost() {
     }
