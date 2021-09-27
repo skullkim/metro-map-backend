@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-import {CurrentSearched} from './currentSearched';
+import { CurrentSearched } from './currentSearched';
 
 @Entity()
 export class StationFromTo {
@@ -19,10 +19,6 @@ export class StationFromTo {
   })
   to!: string;
 
-  @OneToMany(
-    () => CurrentSearched,
-    (currentSearched) => currentSearched.fromTo
-  )
-  searched!: CurrentSearched
-
+  @OneToMany(() => CurrentSearched, (currentSearched) => currentSearched.fromTo)
+  searched!: CurrentSearched;
 }

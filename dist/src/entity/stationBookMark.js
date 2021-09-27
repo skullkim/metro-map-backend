@@ -9,38 +9,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StationFromTo = void 0;
+exports.StationBookMark = void 0;
 var typeorm_1 = require("typeorm");
-var currentSearched_1 = require("./currentSearched");
-var StationFromTo = /** @class */ (function () {
-    function StationFromTo() {
+var user_1 = require("./user");
+var StationBookMark = /** @class */ (function () {
+    function StationBookMark() {
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], StationFromTo.prototype, "id", void 0);
+    ], StationBookMark.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             length: 10,
             nullable: false,
         }),
         __metadata("design:type", String)
-    ], StationFromTo.prototype, "from", void 0);
+    ], StationBookMark.prototype, "from", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             length: 10,
             nullable: false,
         }),
         __metadata("design:type", String)
-    ], StationFromTo.prototype, "to", void 0);
+    ], StationBookMark.prototype, "to", void 0);
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return currentSearched_1.CurrentSearched; }, function (currentSearched) { return currentSearched.fromTo; }),
-        __metadata("design:type", currentSearched_1.CurrentSearched)
-    ], StationFromTo.prototype, "searched", void 0);
-    StationFromTo = __decorate([
+        (0, typeorm_1.ManyToOne)(function () { return user_1.User; }, function (user) { return user.bookMark; }),
+        __metadata("design:type", user_1.User)
+    ], StationBookMark.prototype, "user", void 0);
+    StationBookMark = __decorate([
         (0, typeorm_1.Entity)()
-    ], StationFromTo);
-    return StationFromTo;
+    ], StationBookMark);
+    return StationBookMark;
 }());
-exports.StationFromTo = StationFromTo;
-//# sourceMappingURL=stationFromTo.js.map
+exports.StationBookMark = StationBookMark;
+//# sourceMappingURL=stationBookMark.js.map

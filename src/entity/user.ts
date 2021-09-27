@@ -1,7 +1,7 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-import {CurrentSearched} from './currentSearched';
-import {StationBookMark} from './stationBookMark';
+import { CurrentSearched } from './currentSearched';
+import { StationBookMark } from './stationBookMark';
 
 @Entity()
 export class User {
@@ -20,15 +20,9 @@ export class User {
   })
   password!: string;
 
-  @OneToMany(
-    () => CurrentSearched,
-    (currentSearched) => currentSearched.user
-  )
+  @OneToMany(() => CurrentSearched, (currentSearched) => currentSearched.user)
   targetUser!: CurrentSearched;
 
-  @OneToMany(
-    () => StationBookMark,
-    (stationBookMark) => stationBookMark.user
-  )
+  @OneToMany(() => StationBookMark, (stationBookMark) => stationBookMark.user)
   bookMark!: StationBookMark;
 }
