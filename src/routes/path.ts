@@ -57,8 +57,7 @@ router.get(
 
       res.status(200);
       res.json(jsonResponse(req, resJson));
-    }
-    catch(err) {
+    } catch (err) {
       next(err);
     }
   }
@@ -85,11 +84,9 @@ router.get(
 
       res.status(200);
       res.json(jsonResponse(req, resJson));
-    }
-    catch(err) {
+    } catch (err) {
       next(err);
     }
-
   }
 );
 
