@@ -1,6 +1,6 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import {User} from './user';
+import { User } from './user';
 
 @Entity()
 export class StationBookMark {
@@ -11,7 +11,7 @@ export class StationBookMark {
     length: 10,
     nullable: false,
   })
-  from!: string
+  from!: string;
 
   @Column({
     length: 10,
@@ -19,10 +19,6 @@ export class StationBookMark {
   })
   to!: string;
 
-  @ManyToOne(
-    () => User,
-    (user) => user.bookMark
-  )
+  @ManyToOne(() => User, (user) => user.bookMark)
   user!: User;
-
 }

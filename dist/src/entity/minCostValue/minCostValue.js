@@ -26,18 +26,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MinCostValue = void 0;
 var typeorm_1 = require("typeorm");
-var minCost_1 = require("./minCost");
-var stationFromTo_1 = require("./stationFromTo");
+var minCost_1 = require("../minCost");
+var stationFromTo_1 = require("../stationFromTo");
 var MinCostValue = /** @class */ (function (_super) {
     __extends(MinCostValue, _super);
     function MinCostValue() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MinCostValue.getMinCostValue = function (from, to) {
-        return this.createQueryBuilder('minCostValue')
-            .innerJoin('minCostValue.fromTo', 'stationFromTo')
-            .where('stationFromTo.from = :from', { from: from })
-            .andWhere('stationFromTo.to = :to', { to: to })
+        return this.createQueryBuilder("minCostValue")
+            .innerJoin("minCostValue.fromTo", 'stationFromTo')
+            .where("stationFromTo.from = :from", { from: from })
+            .andWhere("stationFromTo.to = :to", { to: to })
             .getOne();
     };
     __decorate([
