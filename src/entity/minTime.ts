@@ -1,9 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+} from 'typeorm';
 
 import { MinTimeValue } from './minTimeValue';
 
 @Entity()
-export class MinTime {
+export class MinTime extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

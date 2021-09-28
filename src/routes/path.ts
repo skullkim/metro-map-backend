@@ -2,8 +2,9 @@ import express, { Router, Request, Response, NextFunction } from 'express';
 
 import { MinCost } from '../entity/minCost';
 import { MinCostValue } from '../entity/minCostValue';
+import { MinTimeValue } from '../entity/minTimeValue';
 import { jsonResponse } from '../lib/jsonResponse/success';
-import {SearchPath} from '../lib/type/searchPath';
+import { SearchPath } from '../lib/type/searchPath';
 
 import { validateStation } from './middleWare';
 
@@ -31,5 +32,13 @@ router.get(
     }
   }
 );
+
+router.get('/time', async (req: Request, res: Response, next: NextFunction) => {
+  const { from, to } = req.query as unknown as SearchPath;
+  /* eslint-disable */
+  const minTimeVal: MinTimeValue | undefined =
+    await MinTimeValue.getMinTimeValue(from, to);
+  res.end();
+});
 
 export default router;
