@@ -21,4 +21,13 @@ export class MinTime extends BaseEntity {
 
   @ManyToOne(() => MinTimeValue, (minTimeValue) => minTimeValue.MTValue)
   minTime!: MinTimeValue;
+
+  static getMinTimePath(id: number = -1) {
+    if (id == -1) return;
+    return this.createQueryBuilder('minTime')
+      .leftJoin('minTime.minTime', "minTimeValue")
+      .where('minTimeValue.id = :id', {id})
+      .getMany();
+
+  }
 }

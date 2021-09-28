@@ -42,9 +42,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var minCost_1 = require("../entity/minCost");
 var minCostValue_1 = require("../entity/minCostValue");
+var minTimeValue_1 = require("../entity/minTimeValue");
 var success_1 = require("../lib/jsonResponse/success");
 var middleWare_1 = require("./middleWare");
-var minTimeValue_1 = require("../entity/minTimeValue");
 var router = express_1.default.Router();
 router.get('/cost', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, from, to, minCostVal, minCostPath, resJson, err_1;
@@ -83,7 +83,6 @@ router.get('/time', function (req, res, next) { return __awaiter(void 0, void 0,
                 return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
             case 1:
                 minTimeVal = _b.sent();
-                console.log(minTimeVal);
                 res.end();
                 return [2 /*return*/];
         }
