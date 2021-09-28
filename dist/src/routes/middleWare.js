@@ -40,18 +40,27 @@ exports.validateStation = void 0;
 var stationFromTo_1 = require("../entity/stationFromTo");
 var fail_1 = require("../lib/jsonResponse/fail");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, errorMessage, fromTarget, toTarget, errorMessage_1, err_1;
+    var _a, from, to, numRegx, isFromNum, isToNum, errorMessage, fromTarget, toTarget, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 3, , 4]);
                 _a = req.query, from = _a.from, to = _a.to;
+                numRegx = /^[0-9]*$/;
+                isFromNum = from.match(numRegx);
+                isToNum = to.match(numRegx);
                 errorMessage = '';
                 if (!from || !to) {
                     errorMessage = !from ? '출발점이 없습니다' : '도착점이 없습니다';
                 }
-                else if ((from === null || from === void 0 ? void 0 : from.length) >= 5 || (to === null || to === void 0 ? void 0 : to.length) >= 5) {
-                    errorMessage = (from === null || from === void 0 ? void 0 : from.length) ? '존재하지 않는 출발점입니다' : '존재하지 않는 도착점입니다';
+                else if (from.length >= 5 || to.length >= 5 || !isFromNum || !isToNum) {
+                    errorMessage =
+                        from.length >= 5 || !isFromNum
+                            ? '존재하지 않는 출발점입니다'
+                            : '존재하지 않는 도착점입니다';
+                }
+                else if (from == to) {
+                    errorMessage = '도착점과 출발점을 같을 수 없습니다';
                 }
                 if (errorMessage) {
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];
@@ -63,10 +72,10 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
             case 2:
                 toTarget = _b.sent();
                 if (!fromTarget || !toTarget) {
-                    errorMessage_1 = !fromTarget
+                    errorMessage = !fromTarget
                         ? '존재하지 않는 출발점입니다'
                         : '존재하지 않는 도착점입니다';
-                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage_1 }))];
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];
                 }
                 next();
                 return [3 /*break*/, 4];

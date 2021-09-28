@@ -2,6 +2,7 @@ import express, { Router, Request, Response, NextFunction } from 'express';
 
 import { MinCost } from '../entity/minCost';
 import { MinCostValue } from '../entity/minCostValue';
+import { MinPathValue } from '../entity/minPathValue';
 import { MinTime } from '../entity/minTime';
 import { MinTimeValue } from '../entity/minTimeValue';
 import { jsonResponse } from '../lib/jsonResponse/success';
@@ -50,6 +51,18 @@ router.get(
     };
     res.status(200);
     res.json(jsonResponse(req, resJson));
+  }
+);
+
+router.get(
+  '/distance',
+  validateStation,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { from, to } = req.query as unknown as SearchPath;
+    /* eslint-disable */
+    const minDistanceVal: MinPathValue | undefined =
+      await MinPathValue.getMinPathValue(from, to);
+    res.end();
   }
 );
 

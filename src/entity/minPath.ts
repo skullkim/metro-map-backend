@@ -1,9 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+} from 'typeorm';
 
 import { MinPathValue } from './minPathValue';
 
 @Entity()
-export class MinPath {
+export class MinPath extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
