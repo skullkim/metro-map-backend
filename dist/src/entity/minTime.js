@@ -32,6 +32,15 @@ var MinTime = /** @class */ (function (_super) {
     function MinTime() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    MinTime.getMinTimePath = function (id) {
+        if (id === void 0) { id = -1; }
+        if (id == -1)
+            return;
+        return this.createQueryBuilder('minTime')
+            .leftJoin('minTime.minTime', 'minTimeValue')
+            .where('minTimeValue.id = :id', { id: id })
+            .getMany();
+    };
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)

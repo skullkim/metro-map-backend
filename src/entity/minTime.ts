@@ -25,9 +25,8 @@ export class MinTime extends BaseEntity {
   static getMinTimePath(id: number = -1) {
     if (id == -1) return;
     return this.createQueryBuilder('minTime')
-      .leftJoin('minTime.minTime', "minTimeValue")
-      .where('minTimeValue.id = :id', {id})
+      .leftJoin('minTime.minTime', 'minTimeValue')
+      .where('minTimeValue.id = :id', { id })
       .getMany();
-
   }
 }

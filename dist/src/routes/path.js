@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var minCost_1 = require("../entity/minCost");
 var minCostValue_1 = require("../entity/minCostValue");
+var minTime_1 = require("../entity/minTime");
 var minTimeValue_1 = require("../entity/minTimeValue");
 var success_1 = require("../lib/jsonResponse/success");
 var middleWare_1 = require("./middleWare");
@@ -74,8 +75,8 @@ router.get('/cost', middleWare_1.validateStation, function (req, res, next) { re
         }
     });
 }); });
-router.get('/time', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, minTimeVal;
+router.get('/time', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, from, to, minTimeVal, minTimePath, resJson;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -83,7 +84,15 @@ router.get('/time', function (req, res, next) { return __awaiter(void 0, void 0,
                 return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
             case 1:
                 minTimeVal = _b.sent();
-                res.end();
+                return [4 /*yield*/, minTime_1.MinTime.getMinTimePath(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
+            case 2:
+                minTimePath = _b.sent();
+                resJson = {
+                    min_value: minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue,
+                    path: minTimePath,
+                };
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, resJson));
                 return [2 /*return*/];
         }
     });
