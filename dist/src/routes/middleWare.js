@@ -40,20 +40,40 @@ exports.validateStation = void 0;
 var stationFromTo_1 = require("../entity/stationFromTo");
 var fail_1 = require("../lib/jsonResponse/fail");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, numRegx, isFromNum, isToNum, errorMessage, fromTarget, toTarget, err_1;
+    var _a, from, to, stopover, numRegx, isFromNum, isToNum, isStopoverNum, errorMessage, fromTarget, toTarget, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 3, , 4]);
-                _a = req.query, from = _a.from, to = _a.to;
+                _a = req.query, from = _a.from, to = _a.to, stopover = _a.stopover;
                 numRegx = /^[0-9]*$/;
                 isFromNum = from.match(numRegx);
                 isToNum = to.match(numRegx);
+                isStopoverNum = stopover === null || stopover === void 0 ? void 0 : stopover.match(numRegx);
                 errorMessage = '';
-                if (!from || !to) {
-                    errorMessage = !from ? '출발점이 없습니다' : '도착점이 없습니다';
+                if (!from || !to || (req.originalUrl.includes('stopover') && !stopover)) {
+                    if (!stopover) {
+                        errorMessage = '경유지가 없습니다';
+                    }
+                    else {
+                        errorMessage = !from ? '출발점이 없습니다' : '도착점이 없습니다';
+                    }
                 }
-                else if (from.length >= 5 || to.length >= 5 || !isFromNum || !isToNum) {
+                else if (from.length >= 5 ||
+                    to.length >= 5 ||
+                    (stopover === null || stopover === void 0 ? void 0 : stopover.length) >= 5 ||
+                    !isFromNum ||
+                    !isToNum ||
+                    (stopover && !isStopoverNum)) {
+                    if (from.length >= 5 || !isFromNum) {
+                        errorMessage = '존재하지 않는 출발점입니다';
+                    }
+                    else if (stopover && (stopover.length >= 5 || !isStopoverNum)) {
+                        errorMessage = '존재하지 않는 경유지 입니다';
+                    }
+                    else if (to.length >= 5 || !isToNum) {
+                        errorMessage = '존재하지 않는 도착점 입니다';
+                    }
                     errorMessage =
                         from.length >= 5 || !isFromNum
                             ? '존재하지 않는 출발점입니다'
@@ -61,6 +81,12 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
                 }
                 else if (from == to) {
                     errorMessage = '도착점과 출발점을 같을 수 없습니다';
+                }
+                else if (stopover && (from == stopover || to == stopover)) {
+                    errorMessage =
+                        from == stopover
+                            ? '출발점과 경유지가 같을 수 없습니다'
+                            : '도착점과 경유지가 같을 수 없습니다';
                 }
                 if (errorMessage) {
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];

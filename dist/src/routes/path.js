@@ -133,5 +133,14 @@ router.get('/distance', middleWare_1.validateStation, function (req, res, next) 
         }
     });
 }); });
+router.get('/stopover/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, from, stopover, to, pathTarget;
+    return __generator(this, function (_b) {
+        _a = req.query, from = _a.from, stopover = _a.stopover, to = _a.to;
+        pathTarget = req.params.pathTarget;
+        res.end();
+        return [2 /*return*/];
+    });
+}); });
 exports.default = router;
 //# sourceMappingURL=path.js.map

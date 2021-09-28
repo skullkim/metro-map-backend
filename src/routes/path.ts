@@ -90,4 +90,14 @@ router.get(
   }
 );
 
+router.get(
+  '/stopover/:pathTarget',
+  validateStation,
+  async (req: Request, res: Response, next: NextFunction) => {
+    // const { from, stopover, to } = req.query as unknown as SearchPath;
+    // const { pathTarget } = req.params as unknown as MinPathTarget;
+    res.end();
+  }
+);
+
 export default router;
