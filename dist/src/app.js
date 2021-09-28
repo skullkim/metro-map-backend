@@ -17,6 +17,16 @@ var path_1 = __importDefault(require("./routes/path"));
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());
+    app.use(function (req, res, next) {
+        if (req.is('application/vnd.api+json')) {
+            res.contentType('application/vnd.api+json');
+            res.setHeader('Accept', 'application/json');
+        }
+        res.setHeader('Allow', 'GET, POST, PUT, DELETE');
+        res.setHeader('Access-Control-Allow-Origin', "" + process.env.CLIENT_ORIGIN);
+        res.setHeader('Cache-Control', 'no-store');
+        next();
+    });
     app.use('/path', path_1.default);
     app.use(function (req, response, next) {
         var error = new Error(req.method + " " + req.originalUrl + " router doesn't exist");

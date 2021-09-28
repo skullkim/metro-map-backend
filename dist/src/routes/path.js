@@ -43,8 +43,9 @@ var express_1 = __importDefault(require("express"));
 var minCost_1 = require("../entity/minCost");
 var minCostValue_1 = require("../entity/minCostValue");
 var success_1 = require("../lib/jsonResponse/success");
+var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
-router.get('/cost', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/cost', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, from, to, minCostVal, minCostPath, resJson, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -61,7 +62,7 @@ router.get('/cost', function (req, res, next) { return __awaiter(void 0, void 0,
                     min_value: minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue,
                     path: minCostPath,
                 };
-                console.log(req);
+                res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
                 return [3 /*break*/, 4];
             case 3:

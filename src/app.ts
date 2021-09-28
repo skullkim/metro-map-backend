@@ -19,12 +19,15 @@ createConnection().then(() => {
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
   app.use((req: Request, res: Response, next: NextFunction) => {
-    if(req.is('application/vnd.api+json')) {
+    if (req.is('application/vnd.api+json')) {
       res.contentType('application/vnd.api+json');
       res.setHeader('Accept', 'application/json');
     }
     res.setHeader('Allow', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Origin', `${process.env.CLIENT_ORIGIN}`);
+    res.setHeader(
+      'Access-Control-Allow-Origin',
+      `${process.env.CLIENT_ORIGIN}`
+    );
     res.setHeader('Cache-Control', 'no-store');
     next();
   });
