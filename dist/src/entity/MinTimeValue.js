@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,9 +28,18 @@ exports.MinTimeValue = void 0;
 var typeorm_1 = require("typeorm");
 var minTime_1 = require("./minTime");
 var stationFromTo_1 = require("./stationFromTo");
-var MinTimeValue = /** @class */ (function () {
+var MinTimeValue = /** @class */ (function (_super) {
+    __extends(MinTimeValue, _super);
     function MinTimeValue() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
+    MinTimeValue.getMinTimeValue = function (from, to) {
+        return this.createQueryBuilder('minTimeValue')
+            .innerJoin('minTimeValue.fromTo', 'stationFromTo')
+            .where('stationFromTo.from = :from', { from: from })
+            .andWhere('stationFromTo.to = :to', { to: to })
+            .getOne();
+    };
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
@@ -40,6 +64,6 @@ var MinTimeValue = /** @class */ (function () {
         (0, typeorm_1.Entity)()
     ], MinTimeValue);
     return MinTimeValue;
-}());
+}(typeorm_1.BaseEntity));
 exports.MinTimeValue = MinTimeValue;
 //# sourceMappingURL=minTimeValue.js.map

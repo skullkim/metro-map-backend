@@ -5,17 +5,17 @@ var results = [
     {
         status: 400,
         statusText: 'Bad Request',
-        description: 'Request query or parameter error'
+        description: 'Request query or parameter error',
     },
     {
         status: 401,
         statusText: 'Unauthorized',
-        description: 'Authentication error'
+        description: 'Authentication error',
     },
     {
         status: 403,
         statusText: 'Forbidden',
-        description: 'The request wat forwarded to the server, but declined because of permissions'
+        description: 'The request wat forwarded to the server, but declined because of permissions',
     },
 ];
 var jsonErrorResponse = function (req, error, status) {

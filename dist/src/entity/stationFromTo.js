@@ -32,10 +32,9 @@ var StationFromTo = /** @class */ (function (_super) {
     function StationFromTo() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    StationFromTo.hasStation = function (from, to) {
+    StationFromTo.hasStation = function (station) {
         return this.createQueryBuilder('stationFromTo')
-            .where('stationFromTo.from = :from', { from: from })
-            .andWhere('stationFromTo.to = :to', { to: to })
+            .where('stationFromTo.from = :station', { station: station })
             .getOne();
     };
     __decorate([

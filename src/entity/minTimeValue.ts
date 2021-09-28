@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Entity,
   Column,
   PrimaryGeneratedColumn,
@@ -11,7 +12,7 @@ import { MinTime } from './minTime';
 import { StationFromTo } from './stationFromTo';
 
 @Entity()
-export class MinTimeValue {
+export class MinTimeValue extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -27,4 +28,12 @@ export class MinTimeValue {
 
   @OneToMany(() => MinTime, (minTime) => minTime.minTime)
   MTValue!: MinTime[];
+
+  static getMinTimeValue(from: string, to: string) {
+    return this.createQueryBuilder('minTimeValue')
+      .innerJoin('minTimeValue.fromTo', 'stationFromTo')
+      .where('stationFromTo.from = :from', { from })
+      .andWhere('stationFromTo.to = :to', { to })
+      .getOne();
+  }
 }
