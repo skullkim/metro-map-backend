@@ -23,10 +23,10 @@ export class MinPath extends BaseEntity {
   minPath!: MinPathValue;
 
   static getMinPath(id: number = -1) {
-    if(id == -1) return;
+    if (id == -1) return;
     return this.createQueryBuilder('minPath')
       .innerJoin('minPath.minPath', 'minPathValue')
-      .where('minPathValue.id = :id', {id})
+      .where('minPathValue.id = :id', { id })
       .getMany();
   }
 }
