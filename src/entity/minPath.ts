@@ -21,4 +21,12 @@ export class MinPath extends BaseEntity {
 
   @ManyToOne(() => MinPathValue, (minPathValue) => minPathValue.MPValue)
   minPath!: MinPathValue;
+
+  static getMinPath(id: number = -1) {
+    if(id == -1) return;
+    return this.createQueryBuilder('minPath')
+      .innerJoin('minPath.minPath', 'minPathValue')
+      .where('minPathValue.id = :id', {id})
+      .getMany();
+  }
 }

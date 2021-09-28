@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var minCost_1 = require("../entity/minCost");
 var minCostValue_1 = require("../entity/minCostValue");
+var minPathValue_1 = require("../entity/minPathValue");
 var minTime_1 = require("../entity/minTime");
 var minTimeValue_1 = require("../entity/minTimeValue");
 var success_1 = require("../lib/jsonResponse/success");
@@ -93,6 +94,20 @@ router.get('/time', middleWare_1.validateStation, function (req, res, next) { re
                 };
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
+                return [2 /*return*/];
+        }
+    });
+}); });
+router.get('/distance', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, from, to, minDistanceVal;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.query, from = _a.from, to = _a.to;
+                return [4 /*yield*/, minPathValue_1.MinPathValue.getMinPathValue(from, to)];
+            case 1:
+                minDistanceVal = _b.sent();
+                res.end();
                 return [2 /*return*/];
         }
     });

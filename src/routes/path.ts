@@ -9,6 +9,7 @@ import { jsonResponse } from '../lib/jsonResponse/success';
 import { SearchPath } from '../lib/type/searchPath';
 
 import { validateStation } from './middleWare';
+import { MinPath } from '../entity/minPath';
 
 const router: Router = express.Router();
 
@@ -59,10 +60,16 @@ router.get(
   validateStation,
   async (req: Request, res: Response, next: NextFunction) => {
     const { from, to } = req.query as unknown as SearchPath;
-    /* eslint-disable */
     const minDistanceVal: MinPathValue | undefined =
       await MinPathValue.getMinPathValue(from, to);
-    res.end();
+    const minDistance : MinPath[] | undefined =
+      await MinPath.getMinPath(minDistanceVal?.id);
+    const resJson = {
+      min_value: minDistanceVal?.minValue,
+      path: minDistance,
+    };
+    res.status(200);
+    res.json(jsonResponse(req, resJson));
   }
 );
 
