@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var minCost_1 = require("../entity/minCost");
 var minCostValue_1 = require("../entity/minCostValue");
+var minPath_1 = require("../entity/minPath");
 var minPathValue_1 = require("../entity/minPathValue");
 var minTime_1 = require("../entity/minTime");
 var minTimeValue_1 = require("../entity/minTimeValue");
@@ -77,10 +78,11 @@ router.get('/cost', middleWare_1.validateStation, function (req, res, next) { re
     });
 }); });
 router.get('/time', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, minTimeVal, minTimePath, resJson;
+    var _a, from, to, minTimeVal, minTimePath, resJson, err_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                _b.trys.push([0, 3, , 4]);
                 _a = req.query, from = _a.from, to = _a.to;
                 return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
             case 1:
@@ -94,21 +96,40 @@ router.get('/time', middleWare_1.validateStation, function (req, res, next) { re
                 };
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
-                return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _b.sent();
+                next(err_2);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
 router.get('/distance', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, minDistanceVal;
+    var _a, from, to, minDistanceVal, minDistance, resJson, err_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                _b.trys.push([0, 3, , 4]);
                 _a = req.query, from = _a.from, to = _a.to;
                 return [4 /*yield*/, minPathValue_1.MinPathValue.getMinPathValue(from, to)];
             case 1:
                 minDistanceVal = _b.sent();
-                res.end();
-                return [2 /*return*/];
+                return [4 /*yield*/, minPath_1.MinPath.getMinPath(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
+            case 2:
+                minDistance = _b.sent();
+                resJson = {
+                    min_value: minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue,
+                    path: minDistance,
+                };
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, resJson));
+                return [3 /*break*/, 4];
+            case 3:
+                err_3 = _b.sent();
+                next(err_3);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });

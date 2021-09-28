@@ -32,6 +32,15 @@ var MinPath = /** @class */ (function (_super) {
     function MinPath() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    MinPath.getMinPath = function (id) {
+        if (id === void 0) { id = -1; }
+        if (id == -1)
+            return;
+        return this.createQueryBuilder('minPath')
+            .innerJoin('minPath.minPath', 'minPathValue')
+            .where('minPathValue.id = :id', { id: id })
+            .getMany();
+    };
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)

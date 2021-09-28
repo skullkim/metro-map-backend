@@ -40,18 +40,27 @@ router.get(
   '/time',
   validateStation,
   async (req: Request, res: Response, next: NextFunction) => {
-    const { from, to } = req.query as unknown as SearchPath;
-    const minTimeVal: MinTimeValue | undefined =
-      await MinTimeValue.getMinTimeValue(from, to);
-    const minTimePath: MinTime[] | undefined = await MinTime.getMinTimePath(
-      minTimeVal?.id
-    );
-    const resJson = {
-      min_value: minTimeVal?.minValue,
-      path: minTimePath,
-    };
-    res.status(200);
-    res.json(jsonResponse(req, resJson));
+    try {
+      const { from, to } = req.query as unknown as SearchPath;
+
+      const minTimeVal: MinTimeValue | undefined =
+        await MinTimeValue.getMinTimeValue(from, to);
+
+      const minTimePath: MinTime[] | undefined = await MinTime.getMinTimePath(
+        minTimeVal?.id
+      );
+
+      const resJson = {
+        min_value: minTimeVal?.minValue,
+        path: minTimePath,
+      };
+
+      res.status(200);
+      res.json(jsonResponse(req, resJson));
+    }
+    catch(err) {
+      next(err);
+    }
   }
 );
 
@@ -59,18 +68,28 @@ router.get(
   '/distance',
   validateStation,
   async (req: Request, res: Response, next: NextFunction) => {
-    const { from, to } = req.query as unknown as SearchPath;
-    const minDistanceVal: MinPathValue | undefined =
-      await MinPathValue.getMinPathValue(from, to);
-    const minDistance: MinPath[] | undefined = await MinPath.getMinPath(
-      minDistanceVal?.id
-    );
-    const resJson = {
-      min_value: minDistanceVal?.minValue,
-      path: minDistance,
-    };
-    res.status(200);
-    res.json(jsonResponse(req, resJson));
+    try {
+      const { from, to } = req.query as unknown as SearchPath;
+
+      const minDistanceVal: MinPathValue | undefined =
+        await MinPathValue.getMinPathValue(from, to);
+
+      const minDistance: MinPath[] | undefined = await MinPath.getMinPath(
+        minDistanceVal?.id
+      );
+
+      const resJson = {
+        min_value: minDistanceVal?.minValue,
+        path: minDistance,
+      };
+
+      res.status(200);
+      res.json(jsonResponse(req, resJson));
+    }
+    catch(err) {
+      next(err);
+    }
+
   }
 );
 
