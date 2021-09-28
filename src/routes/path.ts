@@ -3,6 +3,7 @@ import express, { Router, Request, Response, NextFunction } from 'express';
 import { MinCost } from '../entity/minCost';
 import { MinCostValue } from '../entity/minCostValue';
 import { jsonResponse } from '../lib/jsonResponse/success';
+import {SearchPath} from '../lib/type/searchPath';
 
 import { validateStation } from './middleWare';
 
@@ -13,7 +14,7 @@ router.get(
   validateStation,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { from, to } = req.query as { from: string; to: string };
+      const { from, to } = req.query as unknown as SearchPath;
       const minCostVal: MinCostValue | undefined =
         await MinCostValue.getMinCostValue(from, to);
       const minCostPath: MinCost[] | undefined = await MinCost.getMinCostPath(
