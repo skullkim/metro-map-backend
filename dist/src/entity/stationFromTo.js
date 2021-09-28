@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12,9 +27,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StationFromTo = void 0;
 var typeorm_1 = require("typeorm");
 var currentSearched_1 = require("./currentSearched");
-var StationFromTo = /** @class */ (function () {
+var StationFromTo = /** @class */ (function (_super) {
+    __extends(StationFromTo, _super);
     function StationFromTo() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
+    StationFromTo.hasStation = function (from, to) {
+        return this.createQueryBuilder('stationFromTo')
+            .where('stationFromTo.from = :from', { from: from })
+            .andWhere('stationFromTo.to = :to', { to: to })
+            .getOne();
+    };
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
@@ -41,6 +64,6 @@ var StationFromTo = /** @class */ (function () {
         (0, typeorm_1.Entity)()
     ], StationFromTo);
     return StationFromTo;
-}());
+}(typeorm_1.BaseEntity));
 exports.StationFromTo = StationFromTo;
 //# sourceMappingURL=stationFromTo.js.map
