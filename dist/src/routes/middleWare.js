@@ -37,55 +37,52 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateStation = void 0;
-var stationFromTo_1 = require("../entity/stationFromTo");
 var fail_1 = require("../lib/jsonResponse/fail");
 var station_1 = require("../lib/validation/station");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, stopover, originalUrl, errorMessage, fromTarget, toTarget, err_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, from, to, stopover, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0:
-                _b.trys.push([0, 3, , 4]);
+                _d.trys.push([0, 6, , 7]);
                 _a = req.query, from = _a.from, to = _a.to, stopover = _a.stopover;
-                originalUrl = req.originalUrl;
-                errorMessage = '';
-                errorMessage = (0, station_1.checkEmpty)(from, station_1.StationKr.FROM);
-                errorMessage = (0, station_1.checkEmpty)(to, station_1.StationKr.TO);
-                if (stopover) {
-                    errorMessage = (0, station_1.checkEmpty)(stopover, station_1.StationKr.STOPOVER);
-                }
-                errorMessage = (0, station_1.isStationExist)(from, station_1.StationKr.FROM);
-                errorMessage = (0, station_1.isStationExist)(to, station_1.StationKr.TO);
-                if (stopover) {
-                    errorMessage = (0, station_1.isStationExist)(stopover, station_1.StationKr.STOPOVER);
-                }
-                errorMessage = (0, station_1.isSameStation)(from, to, station_1.StationKr.FROM, station_1.StationKr.TO);
-                if (stopover) {
-                    errorMessage = (0, station_1.isSameStation)(from, stopover, station_1.StationKr.FROM, station_1.StationKr.STOPOVER);
-                    errorMessage = (0, station_1.isSameStation)(stopover, to, station_1.StationKr.STOPOVER, station_1.StationKr.TO);
-                }
-                if (errorMessage) {
-                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];
-                }
-                return [4 /*yield*/, stationFromTo_1.StationFromTo.hasStation(from)];
+                emptyStation = (0, station_1.checkEmpty)(from, station_1.StationKr.FROM) ||
+                    (0, station_1.checkEmpty)(to, station_1.StationKr.TO) ||
+                    (0, station_1.checkEmpty)(stopover, station_1.StationKr.STOPOVER);
+                sameStation = (0, station_1.isSameStation)(from, to, station_1.StationKr.FROM, station_1.StationKr.TO) ||
+                    (0, station_1.isSameStation)(from, stopover, station_1.StationKr.FROM, station_1.StationKr.STOPOVER) ||
+                    (0, station_1.isSameStation)(stopover, to, station_1.StationKr.STOPOVER, station_1.StationKr.TO);
+                incorrectStationName = (0, station_1.involveChar)(from, station_1.StationKr.FROM) ||
+                    (0, station_1.involveChar)(to, station_1.StationKr.TO) ||
+                    (0, station_1.involveChar)(stopover, station_1.StationKr.STOPOVER);
+                return [4 /*yield*/, (0, station_1.hasStation)(from, station_1.StationKr.FROM)];
             case 1:
-                fromTarget = _b.sent();
-                return [4 /*yield*/, stationFromTo_1.StationFromTo.hasStation(to)];
+                _c = (_d.sent());
+                if (_c) return [3 /*break*/, 3];
+                return [4 /*yield*/, (0, station_1.hasStation)(to, station_1.StationKr.TO)];
             case 2:
-                toTarget = _b.sent();
-                if (!fromTarget || !toTarget) {
-                    errorMessage = !fromTarget
-                        ? '존재하지 않는 출발점입니다'
-                        : '존재하지 않는 도착점입니다';
-                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];
+                _c = (_d.sent());
+                _d.label = 3;
+            case 3:
+                _b = _c;
+                if (_b) return [3 /*break*/, 5];
+                return [4 /*yield*/, (0, station_1.hasStation)(stopover, station_1.StationKr.STOPOVER)];
+            case 4:
+                _b = (_d.sent());
+                _d.label = 5;
+            case 5:
+                existStation = _b;
+                errorMessage = emptyStation || sameStation || incorrectStationName || existStation;
+                if (errorMessage) {
+                    res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }));
                 }
                 next();
-                return [3 /*break*/, 4];
-            case 3:
-                err_1 = _b.sent();
+                return [3 /*break*/, 7];
+            case 6:
+                err_1 = _d.sent();
                 next(err_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };
