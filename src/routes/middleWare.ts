@@ -1,8 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import { SearchPath } from '../lib/type/searchPath';
-import { checkEmpty, hasStation, involveChar, isSameStation, StationKr } from '../lib/validation/station';
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 
+import { jsonErrorResponse } from '../lib/jsonResponse/fail';
+import { SearchPath } from '../lib/type/searchPath';
+import {
+  checkEmpty,
+  hasStation,
+  involveChar,
+  isSameStation,
+  StationKr,
+} from '../lib/validation/station';
 
 export const validateStation = async (
   req: Request,
@@ -28,17 +34,17 @@ export const validateStation = async (
       involveChar(stopover, StationKr.STOPOVER);
 
     const existStation =
-      await hasStation(from, StationKr.FROM) ||
-      await hasStation(to, StationKr.TO) ||
-      await hasStation(stopover, StationKr.STOPOVER);
+      (await hasStation(from, StationKr.FROM)) ||
+      (await hasStation(to, StationKr.TO)) ||
+      (await hasStation(stopover, StationKr.STOPOVER));
 
     const errorMessage =
       emptyStation || sameStation || incorrectStationName || existStation;
 
-    if(errorMessage) {
-      res.json(jsonErrorResponse(req, {message: errorMessage}));
+    if (errorMessage) {
+      res.json(jsonErrorResponse(req, { message: errorMessage }));
     }
-    
+
     next();
   } catch (err) {
     next(err);
