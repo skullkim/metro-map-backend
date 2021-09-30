@@ -79,7 +79,6 @@ export const combineMinPath = (
   return result;
 };
 
-
 export const getOptimizedPathWithStopover = async (
   from: string,
   stopover: string,
@@ -109,4 +108,3 @@ export const getOptimizedPathWithStopover = async (
     throw err;
   }
 };
-
