@@ -5,6 +5,8 @@ import { MinPathValue } from '../entity/minPathValue';
 import { MinTime } from '../entity/minTime';
 import { MinTimeValue } from '../entity/minTimeValue';
 
+import { MinPathStopover } from './type/searchPath';
+
 export const getMinCost = async (from: string, to: string) => {
   try {
     const minCostVal: MinCostValue | undefined =
@@ -58,3 +60,53 @@ export const getMinDistance = async (from: string, to: string) => {
     throw err;
   }
 };
+
+const invalidOption = (err: string) => {
+  throw new Error(err);
+};
+
+export const combineMinPath = (
+  path1: MinPathStopover,
+  path2: MinPathStopover
+) => {
+  const result: MinPathStopover = {};
+  result.min_value = (
+    +(path1?.min_value ?? '1') + +(path2?.min_value ?? '1')
+  ).toString();
+  result.path = (path1?.path as Array<MinCost | MinTime | MinPath>).concat(
+    path2?.path ?? []
+  );
+  return result;
+};
+
+
+export const getOptimizedPathWithStopover = async (
+  from: string,
+  stopover: string,
+  to: string,
+  target: string
+) => {
+  try {
+    let fromStopover: MinPathStopover = {};
+    let stopOverTo: MinPathStopover = {};
+    switch (target) {
+      case 'cost':
+        fromStopover = { ...(await getMinCost(from, stopover)) };
+        stopOverTo = { ...(await getMinCost(stopover, to)) };
+        return combineMinPath(fromStopover, stopOverTo);
+      case 'time':
+        fromStopover = { ...(await getMinTime(from, stopover)) };
+        stopOverTo = { ...(await getMinTime(stopover, to)) };
+        return combineMinPath(fromStopover, stopOverTo);
+      case 'distance':
+        fromStopover = { ...(await getMinDistance(from, stopover)) };
+        stopOverTo = { ...(await getMinDistance(stopover, to)) };
+        return combineMinPath(fromStopover, stopOverTo);
+      default:
+        return invalidOption('no target');
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+

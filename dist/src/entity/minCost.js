@@ -37,7 +37,7 @@ var MinCost = /** @class */ (function (_super) {
         if (id == -1)
             return;
         return this.createQueryBuilder('minCost')
-            .innerJoin('optimizedPath.optimizedPath', 'minCostValue')
+            .innerJoin('minCost.minCost', 'minCostValue')
             .where('minCostValue.id = :id', { id: id })
             .getMany();
     };
@@ -62,4 +62,4 @@ var MinCost = /** @class */ (function (_super) {
     return MinCost;
 }(typeorm_1.BaseEntity));
 exports.MinCost = MinCost;
-//# sourceMappingURL=optimizedPath.js.map
+//# sourceMappingURL=minCost.js.map
