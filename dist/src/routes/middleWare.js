@@ -40,12 +40,14 @@ exports.validateStation = void 0;
 var fail_1 = require("../lib/jsonResponse/fail");
 var station_1 = require("../lib/validation/station");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, stopover, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
+    var _a, from, to, stopover, pathTarget, existPathTarget, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
                 _d.trys.push([0, 6, , 7]);
                 _a = req.query, from = _a.from, to = _a.to, stopover = _a.stopover;
+                pathTarget = req.params.pathTarget;
+                existPathTarget = (0, station_1.checkPathTarget)(pathTarget);
                 emptyStation = (0, station_1.checkEmpty)(from, station_1.StationKr.FROM) ||
                     (0, station_1.checkEmpty)(to, station_1.StationKr.TO) ||
                     (0, station_1.checkEmpty)(stopover, station_1.StationKr.STOPOVER);
@@ -72,9 +74,13 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
                 _d.label = 5;
             case 5:
                 existStation = _b;
-                errorMessage = emptyStation || sameStation || incorrectStationName || existStation;
+                errorMessage = existPathTarget ||
+                    emptyStation ||
+                    sameStation ||
+                    incorrectStationName ||
+                    existStation;
                 if (errorMessage) {
-                    res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }));
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];
                 }
                 next();
                 return [3 /*break*/, 7];

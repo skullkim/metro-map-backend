@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.combineMinPath = exports.getOptimizedPathWithStopover = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
+exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
 var minCost_1 = require("../entity/minCost");
 var minCostValue_1 = require("../entity/minCostValue");
 var minPath_1 = require("../entity/minPath");
@@ -126,8 +126,48 @@ var getMinDistance = function (from, to) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.getMinDistance = getMinDistance;
+var invalidOption = function (err) {
+    throw new Error(err);
+};
+var combineMinPath = function (path1, path2) {
+    var _a, _b, _c;
+    var result = {};
+    result.min_value = (+((_a = path1 === null || path1 === void 0 ? void 0 : path1.min_value) !== null && _a !== void 0 ? _a : '1') + +((_b = path2 === null || path2 === void 0 ? void 0 : path2.min_value) !== null && _b !== void 0 ? _b : '1')).toString();
+    result.path = (path1 === null || path1 === void 0 ? void 0 : path1.path).concat((_c = path2 === null || path2 === void 0 ? void 0 : path2.path) !== null && _c !== void 0 ? _c : []);
+    return result;
+};
+exports.combineMinPath = combineMinPath;
+var getOptimizedPath = function (from, to, target) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, err_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 9, , 10]);
+                _a = target;
+                switch (_a) {
+                    case 'cost': return [3 /*break*/, 1];
+                    case 'time': return [3 /*break*/, 3];
+                    case 'distance': return [3 /*break*/, 5];
+                }
+                return [3 /*break*/, 7];
+            case 1: return [4 /*yield*/, (0, exports.getMinCost)(from, to)];
+            case 2: return [2 /*return*/, _b.sent()];
+            case 3: return [4 /*yield*/, (0, exports.getMinTime)(from, to)];
+            case 4: return [2 /*return*/, _b.sent()];
+            case 5: return [4 /*yield*/, (0, exports.getMinDistance)(from, to)];
+            case 6: return [2 /*return*/, _b.sent()];
+            case 7: return [2 /*return*/, invalidOption('no target')];
+            case 8: return [3 /*break*/, 10];
+            case 9:
+                err_4 = _b.sent();
+                throw err_4;
+            case 10: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getOptimizedPath = getOptimizedPath;
 var getOptimizedPathWithStopover = function (from, stopover, to, target) { return __awaiter(void 0, void 0, void 0, function () {
-    var fromStopover, stopOverTo, _a, _b, _c, _d, _e, _f, _g, err_4;
+    var fromStopover, stopOverTo, _a, _b, _c, _d, _e, _f, _g, err_5;
     return __generator(this, function (_h) {
         switch (_h.label) {
             case 0:
@@ -145,48 +185,40 @@ var getOptimizedPathWithStopover = function (from, stopover, to, target) { retur
                 _b = [{}];
                 return [4 /*yield*/, (0, exports.getMinCost)(from, stopover)];
             case 2:
-                fromStopover = __assign.apply(void 0, _b.concat([_h.sent()]));
+                fromStopover = __assign.apply(void 0, _b.concat([(_h.sent())]));
                 _c = [{}];
                 return [4 /*yield*/, (0, exports.getMinCost)(stopover, to)];
             case 3:
-                stopOverTo = __assign.apply(void 0, _c.concat([_h.sent()]));
+                stopOverTo = __assign.apply(void 0, _c.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo)];
             case 4:
                 _d = [{}];
                 return [4 /*yield*/, (0, exports.getMinTime)(from, stopover)];
             case 5:
-                fromStopover = __assign.apply(void 0, _d.concat([_h.sent()]));
+                fromStopover = __assign.apply(void 0, _d.concat([(_h.sent())]));
                 _e = [{}];
                 return [4 /*yield*/, (0, exports.getMinTime)(stopover, to)];
             case 6:
-                stopOverTo = __assign.apply(void 0, _e.concat([_h.sent()]));
+                stopOverTo = __assign.apply(void 0, _e.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo)];
             case 7:
                 _f = [{}];
                 return [4 /*yield*/, (0, exports.getMinDistance)(from, stopover)];
             case 8:
-                fromStopover = __assign.apply(void 0, _f.concat([_h.sent()]));
+                fromStopover = __assign.apply(void 0, _f.concat([(_h.sent())]));
                 _g = [{}];
                 return [4 /*yield*/, (0, exports.getMinDistance)(stopover, to)];
             case 9:
-                stopOverTo = __assign.apply(void 0, _g.concat([_h.sent()]));
+                stopOverTo = __assign.apply(void 0, _g.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo)];
-            case 10: return [2 /*return*/, new Error('no target')];
+            case 10: return [2 /*return*/, invalidOption('no target')];
             case 11: return [3 /*break*/, 13];
             case 12:
-                err_4 = _h.sent();
-                throw err_4;
+                err_5 = _h.sent();
+                throw err_5;
             case 13: return [2 /*return*/];
         }
     });
 }); };
 exports.getOptimizedPathWithStopover = getOptimizedPathWithStopover;
-var combineMinPath = function (path1, path2) {
-    var _a, _b, _c;
-    var result = {};
-    result.min_value = ((+((_a = path1 === null || path1 === void 0 ? void 0 : path1.min_value) !== null && _a !== void 0 ? _a : '1')) + (+((_b = path2 === null || path2 === void 0 ? void 0 : path2.min_value) !== null && _b !== void 0 ? _b : '1'))).toString();
-    result.path = (path1 === null || path1 === void 0 ? void 0 : path1.path).concat((_c = path2 === null || path2 === void 0 ? void 0 : path2.path) !== null && _c !== void 0 ? _c : []);
-    return result;
-};
-exports.combineMinPath = combineMinPath;
 //# sourceMappingURL=optimizedPath.js.map
