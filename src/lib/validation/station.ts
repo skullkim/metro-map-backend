@@ -29,9 +29,10 @@ export const involveChar = (station: string, stationName: StationKr) => {
 };
 
 export const checkPathTarget = (target: any) => {
-  return !Object.values(PathTarget).includes(target) ? '길찾기 대상이 잘못되었습니다' : '';
-
-}
+  return !Object.values(PathTarget).includes(target)
+    ? '길찾기 대상이 잘못되었습니다'
+    : '';
+};
 
 export const isSameStation = (
   station1: string,
