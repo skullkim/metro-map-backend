@@ -44,14 +44,62 @@ var success_1 = require("../lib/jsonResponse/success");
 var optimizedPath_1 = require("../lib/optimizedPath");
 var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
-router.get('/cost', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, resJson, err_1;
+// router.get(
+//   '/cost',
+//   validateStation,
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const { from, to } = req.query as unknown as SearchPath;
+//       const resJson = await getMinCost(from, to);
+//
+//       res.status(200);
+//       res.json(jsonResponse(req, resJson));
+//     } catch (err: any) {
+//       next(err);
+//     }
+//   }
+// );
+//
+// router.get(
+//   '/time',
+//   validateStation,
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const { from, to } = req.query as unknown as SearchPath;
+//       const resJson = await getMinTime(from, to);
+//
+//       res.status(200);
+//       res.json(jsonResponse(req, resJson));
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
+//
+// router.get(
+//   '/distance',
+//   validateStation,
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const { from, to } = req.query as unknown as SearchPath;
+//       const resJson = await getMinDistance(from, to);
+//
+//       res.status(200);
+//       res.json(jsonResponse(req, resJson));
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
+router.get('/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, from, to, pathTarget, resJson, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.query, from = _a.from, to = _a.to;
-                return [4 /*yield*/, (0, optimizedPath_1.getMinCost)(from, to)];
+                pathTarget = req.params.pathTarget;
+                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPath)(from, to, pathTarget)];
             case 1:
                 resJson = _b.sent();
                 res.status(200);
@@ -65,50 +113,8 @@ router.get('/cost', middleWare_1.validateStation, function (req, res, next) { re
         }
     });
 }); });
-router.get('/time', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, resJson, err_2;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 2, , 3]);
-                _a = req.query, from = _a.from, to = _a.to;
-                return [4 /*yield*/, (0, optimizedPath_1.getMinTime)(from, to)];
-            case 1:
-                resJson = _b.sent();
-                res.status(200);
-                res.json((0, success_1.jsonResponse)(req, resJson));
-                return [3 /*break*/, 3];
-            case 2:
-                err_2 = _b.sent();
-                next(err_2);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); });
-router.get('/distance', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, resJson, err_3;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 2, , 3]);
-                _a = req.query, from = _a.from, to = _a.to;
-                return [4 /*yield*/, (0, optimizedPath_1.getMinDistance)(from, to)];
-            case 1:
-                resJson = _b.sent();
-                res.status(200);
-                res.json((0, success_1.jsonResponse)(req, resJson));
-                return [3 /*break*/, 3];
-            case 2:
-                err_3 = _b.sent();
-                next(err_3);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); });
 router.get('/stopover/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, stopover, to, pathTarget, jsonRes, err_4;
+    var _a, from, stopover, to, pathTarget, jsonRes, err_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -124,9 +130,8 @@ router.get('/stopover/:pathTarget', middleWare_1.validateStation, function (req,
                 res.json((0, success_1.jsonResponse)(req, jsonRes));
                 return [3 /*break*/, 4];
             case 3:
-                err_4 = _b.sent();
-                console.log(err_4);
-                next(err_4);
+                err_2 = _b.sent();
+                next(err_2);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
