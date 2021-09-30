@@ -40,94 +40,93 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var minCost_1 = require("../entity/minCost");
-var minCostValue_1 = require("../entity/minCostValue");
-var minPath_1 = require("../entity/minPath");
-var minPathValue_1 = require("../entity/minPathValue");
-var minTime_1 = require("../entity/minTime");
-var minTimeValue_1 = require("../entity/minTimeValue");
 var success_1 = require("../lib/jsonResponse/success");
+var optimizedPath_1 = require("../lib/optimizedPath");
 var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
 router.get('/cost', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, minCostVal, minCostPath, resJson, err_1;
+    var _a, from, to, resJson, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 3, , 4]);
+                _b.trys.push([0, 2, , 3]);
                 _a = req.query, from = _a.from, to = _a.to;
-                return [4 /*yield*/, minCostValue_1.MinCostValue.getMinCostValue(from, to)];
+                return [4 /*yield*/, (0, optimizedPath_1.getMinCost)(from, to)];
             case 1:
-                minCostVal = _b.sent();
-                return [4 /*yield*/, minCost_1.MinCost.getMinCostPath(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
-            case 2:
-                minCostPath = _b.sent();
-                resJson = {
-                    min_value: minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue,
-                    path: minCostPath,
-                };
+                resJson = _b.sent();
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 err_1 = _b.sent();
                 next(err_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
 router.get('/time', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, minTimeVal, minTimePath, resJson, err_2;
+    var _a, from, to, resJson, err_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 3, , 4]);
+                _b.trys.push([0, 2, , 3]);
                 _a = req.query, from = _a.from, to = _a.to;
-                return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
+                return [4 /*yield*/, (0, optimizedPath_1.getMinTime)(from, to)];
             case 1:
-                minTimeVal = _b.sent();
-                return [4 /*yield*/, minTime_1.MinTime.getMinTimePath(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
-            case 2:
-                minTimePath = _b.sent();
-                resJson = {
-                    min_value: minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue,
-                    path: minTimePath,
-                };
+                resJson = _b.sent();
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 err_2 = _b.sent();
                 next(err_2);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
 router.get('/distance', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, minDistanceVal, minDistance, resJson, err_3;
+    var _a, from, to, resJson, err_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 3, , 4]);
+                _b.trys.push([0, 2, , 3]);
                 _a = req.query, from = _a.from, to = _a.to;
-                return [4 /*yield*/, minPathValue_1.MinPathValue.getMinPathValue(from, to)];
+                return [4 /*yield*/, (0, optimizedPath_1.getMinDistance)(from, to)];
             case 1:
-                minDistanceVal = _b.sent();
-                return [4 /*yield*/, minPath_1.MinPath.getMinPath(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
-            case 2:
-                minDistance = _b.sent();
-                resJson = {
-                    min_value: minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue,
-                    path: minDistance,
-                };
+                resJson = _b.sent();
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 err_3 = _b.sent();
                 next(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
+router.get('/stopover/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, from, stopover, to, pathTarget, jsonRes, err_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.query, from = _a.from, stopover = _a.stopover, to = _a.to;
+                pathTarget = req.params.pathTarget;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(from, stopover, to, pathTarget)];
+            case 2:
+                jsonRes = _b.sent();
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, jsonRes));
+                return [3 /*break*/, 4];
+            case 3:
+                err_4 = _b.sent();
+                console.log(err_4);
+                next(err_4);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

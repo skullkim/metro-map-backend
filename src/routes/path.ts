@@ -1,13 +1,13 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 
-import { MinCost } from '../entity/minCost';
-import { MinCostValue } from '../entity/minCostValue';
-import { MinPath } from '../entity/minPath';
-import { MinPathValue } from '../entity/minPathValue';
-import { MinTime } from '../entity/minTime';
-import { MinTimeValue } from '../entity/minTimeValue';
 import { jsonResponse } from '../lib/jsonResponse/success';
-import { SearchPath } from '../lib/type/searchPath';
+import {
+  getMinCost,
+  getMinDistance,
+  getMinTime,
+  getOptimizedPathWithStopover,
+} from '../lib/optimizedPath';
+import { MinPathTarget, SearchPath } from '../lib/type/searchPath';
 
 import { validateStation } from './middleWare';
 
@@ -19,15 +19,8 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { from, to } = req.query as unknown as SearchPath;
-      const minCostVal: MinCostValue | undefined =
-        await MinCostValue.getMinCostValue(from, to);
-      const minCostPath: MinCost[] | undefined = await MinCost.getMinCostPath(
-        minCostVal?.id
-      );
-      const resJson = {
-        min_value: minCostVal?.minValue,
-        path: minCostPath,
-      };
+      const resJson = await getMinCost(from, to);
+
       res.status(200);
       res.json(jsonResponse(req, resJson));
     } catch (err: any) {
@@ -42,18 +35,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { from, to } = req.query as unknown as SearchPath;
-
-      const minTimeVal: MinTimeValue | undefined =
-        await MinTimeValue.getMinTimeValue(from, to);
-
-      const minTimePath: MinTime[] | undefined = await MinTime.getMinTimePath(
-        minTimeVal?.id
-      );
-
-      const resJson = {
-        min_value: minTimeVal?.minValue,
-        path: minTimePath,
-      };
+      const resJson = await getMinTime(from, to);
 
       res.status(200);
       res.json(jsonResponse(req, resJson));
@@ -69,22 +51,33 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { from, to } = req.query as unknown as SearchPath;
-
-      const minDistanceVal: MinPathValue | undefined =
-        await MinPathValue.getMinPathValue(from, to);
-
-      const minDistance: MinPath[] | undefined = await MinPath.getMinPath(
-        minDistanceVal?.id
-      );
-
-      const resJson = {
-        min_value: minDistanceVal?.minValue,
-        path: minDistance,
-      };
+      const resJson = await getMinDistance(from, to);
 
       res.status(200);
       res.json(jsonResponse(req, resJson));
     } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get(
+  '/stopover/:pathTarget',
+  validateStation,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { from, stopover, to } = req.query as unknown as SearchPath;
+    const { pathTarget } = req.params as unknown as MinPathTarget;
+
+    try {
+      const jsonRes = await getOptimizedPathWithStopover(
+        from,
+        stopover,
+        to,
+        pathTarget
+      );
+      res.status(200);
+      res.json(jsonResponse(req, jsonRes));
+    } catch (err: any) {
       next(err);
     }
   }

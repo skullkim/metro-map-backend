@@ -1,8 +1,14 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-import { StationFromTo } from '../entity/stationFromTo';
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { SearchPath } from '../lib/type/searchPath';
+import {
+  checkEmpty,
+  hasStation,
+  involveChar,
+  isSameStation,
+  StationKr,
+} from '../lib/validation/station';
 
 export const validateStation = async (
   req: Request,
@@ -10,35 +16,35 @@ export const validateStation = async (
   next: NextFunction
 ) => {
   try {
-    const { from, to } = req.query as unknown as SearchPath;
-    const numRegx = /^[0-9]*$/;
-    const isFromNum = from.match(numRegx);
-    const isToNum = to.match(numRegx);
-    let errorMessage = '';
+    const { from, to, stopover } = req.query as unknown as SearchPath;
 
-    if (!from || !to) {
-      errorMessage = !from ? '출발점이 없습니다' : '도착점이 없습니다';
-    } else if (from.length >= 5 || to.length >= 5 || !isFromNum || !isToNum) {
-      errorMessage =
-        from.length >= 5 || !isFromNum
-          ? '존재하지 않는 출발점입니다'
-          : '존재하지 않는 도착점입니다';
-    } else if (from == to) {
-      errorMessage = '도착점과 출발점을 같을 수 없습니다';
-    }
+    const emptyStation =
+      checkEmpty(from, StationKr.FROM) ||
+      checkEmpty(to, StationKr.TO) ||
+      checkEmpty(stopover, StationKr.STOPOVER);
+
+    const sameStation =
+      isSameStation(from, to, StationKr.FROM, StationKr.TO) ||
+      isSameStation(from, stopover, StationKr.FROM, StationKr.STOPOVER) ||
+      isSameStation(stopover, to, StationKr.STOPOVER, StationKr.TO);
+
+    const incorrectStationName =
+      involveChar(from, StationKr.FROM) ||
+      involveChar(to, StationKr.TO) ||
+      involveChar(stopover, StationKr.STOPOVER);
+
+    const existStation =
+      (await hasStation(from, StationKr.FROM)) ||
+      (await hasStation(to, StationKr.TO)) ||
+      (await hasStation(stopover, StationKr.STOPOVER));
+
+    const errorMessage =
+      emptyStation || sameStation || incorrectStationName || existStation;
 
     if (errorMessage) {
-      return res.json(jsonErrorResponse(req, { message: errorMessage }));
+      res.json(jsonErrorResponse(req, { message: errorMessage }));
     }
 
-    const fromTarget = await StationFromTo.hasStation(from);
-    const toTarget = await StationFromTo.hasStation(to);
-    if (!fromTarget || !toTarget) {
-      errorMessage = !fromTarget
-        ? '존재하지 않는 출발점입니다'
-        : '존재하지 않는 도착점입니다';
-      return res.json(jsonErrorResponse(req, { message: errorMessage }));
-    }
     next();
   } catch (err) {
     next(err);
