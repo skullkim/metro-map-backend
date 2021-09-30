@@ -79,7 +79,11 @@ export const combineMinPath = (
   return result;
 };
 
-export const getOptimizedPath = async (from: string, to: string, target: string) => {
+export const getOptimizedPath = async (
+  from: string,
+  to: string,
+  target: string
+) => {
   try {
     switch (target) {
       case 'cost':
@@ -91,11 +95,10 @@ export const getOptimizedPath = async (from: string, to: string, target: string)
       default:
         return invalidOption('no target');
     }
-  }
-  catch(err) {
+  } catch (err) {
     throw err;
   }
-}
+};
 
 export const getOptimizedPathWithStopover = async (
   from: string,
