@@ -44,53 +44,6 @@ var success_1 = require("../lib/jsonResponse/success");
 var optimizedPath_1 = require("../lib/optimizedPath");
 var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
-// router.get(
-//   '/cost',
-//   validateStation,
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { from, to } = req.query as unknown as SearchPath;
-//       const resJson = await getMinCost(from, to);
-//
-//       res.status(200);
-//       res.json(jsonResponse(req, resJson));
-//     } catch (err: any) {
-//       next(err);
-//     }
-//   }
-// );
-//
-// router.get(
-//   '/time',
-//   validateStation,
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { from, to } = req.query as unknown as SearchPath;
-//       const resJson = await getMinTime(from, to);
-//
-//       res.status(200);
-//       res.json(jsonResponse(req, resJson));
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
-//
-// router.get(
-//   '/distance',
-//   validateStation,
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const { from, to } = req.query as unknown as SearchPath;
-//       const resJson = await getMinDistance(from, to);
-//
-//       res.status(200);
-//       res.json(jsonResponse(req, resJson));
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
 router.get('/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, from, to, pathTarget, resJson, err_1;
     return __generator(this, function (_b) {

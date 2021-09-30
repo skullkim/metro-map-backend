@@ -6,6 +6,12 @@ export enum StationKr {
   TO = '도착지',
 }
 
+export enum PathTarget {
+  TIME = 'time',
+  DISTANCE = 'distance',
+  COST = 'cost',
+}
+
 export const checkEmpty = (station: string, stationName: StationKr) => {
   if (!station && station !== undefined) {
     return `${stationName}이(가) 존재하지 않습니다`;
@@ -21,6 +27,11 @@ export const involveChar = (station: string, stationName: StationKr) => {
   }
   return '';
 };
+
+export const checkPathTarget = (target: any) => {
+  return !Object.values(PathTarget).includes(target) ? '길찾기 대상이 잘못되었습니다' : '';
+
+}
 
 export const isSameStation = (
   station1: string,

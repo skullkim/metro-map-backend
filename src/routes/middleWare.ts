@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { SearchPath } from '../lib/type/searchPath';
+import { MinPathTarget, SearchPath } from '../lib/type/searchPath';
 import {
-  checkEmpty,
+  checkEmpty, checkPathTarget,
   hasStation,
   involveChar,
   isSameStation,
-  StationKr,
+  StationKr
 } from '../lib/validation/station';
 
 export const validateStation = async (
@@ -17,6 +17,9 @@ export const validateStation = async (
 ) => {
   try {
     const { from, to, stopover } = req.query as unknown as SearchPath;
+    const {pathTarget} = req.params as unknown as MinPathTarget;
+
+    const existPathTarget = checkPathTarget(pathTarget);
 
     const emptyStation =
       checkEmpty(from, StationKr.FROM) ||
@@ -39,10 +42,10 @@ export const validateStation = async (
       (await hasStation(stopover, StationKr.STOPOVER));
 
     const errorMessage =
-      emptyStation || sameStation || incorrectStationName || existStation;
+      existPathTarget || emptyStation || sameStation || incorrectStationName || existStation;
 
     if (errorMessage) {
-      res.json(jsonErrorResponse(req, { message: errorMessage }));
+      return res.json(jsonErrorResponse(req, { message: errorMessage }));
     }
 
     next();
