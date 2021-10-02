@@ -55,6 +55,7 @@ router.get('/:pathTarget', middleWare_1.validateStation, function (req, res, nex
                 return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPath)(from, to, pathTarget)];
             case 1:
                 resJson = _b.sent();
+                // setTimeout(() => console.log(resJson), 100);
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, resJson));
                 return [3 /*break*/, 3];

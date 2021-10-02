@@ -19,7 +19,7 @@ router.get(
       const { from, to } = req.query as unknown as SearchPath;
       const { pathTarget } = req.params as unknown as MinPathTarget;
       const resJson = await getOptimizedPath(from, to, pathTarget);
-      // setTimeout(() => console.log(resJson), 100);
+
       res.status(200);
       res.json(jsonResponse(req, resJson));
     } catch (err) {

@@ -80,6 +80,7 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
                     incorrectStationName ||
                     existStation;
                 if (errorMessage) {
+                    res.status(400);
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: errorMessage }))];
                 }
                 next();
