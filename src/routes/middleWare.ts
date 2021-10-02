@@ -17,30 +17,30 @@ export const validateStation = async (
   next: NextFunction
 ) => {
   try {
-    const { from, to, stopover } = req.query as unknown as SearchPath;
+    const { startStation, arriveStation, stopoverStation } = req.query as unknown as SearchPath;
     const { pathTarget } = req.params as unknown as MinPathTarget;
 
     const existPathTarget = checkPathTarget(pathTarget);
 
     const emptyStation =
-      checkEmpty(from, StationKr.FROM) ||
-      checkEmpty(to, StationKr.TO) ||
-      checkEmpty(stopover, StationKr.STOPOVER);
+      checkEmpty(startStation, StationKr.START_STATION) ||
+      checkEmpty(arriveStation, StationKr.ARRIVE_STATION) ||
+      checkEmpty(stopoverStation, StationKr.STOPOVER_STATION);
 
     const sameStation =
-      isSameStation(from, to, StationKr.FROM, StationKr.TO) ||
-      isSameStation(from, stopover, StationKr.FROM, StationKr.STOPOVER) ||
-      isSameStation(stopover, to, StationKr.STOPOVER, StationKr.TO);
+      isSameStation(startStation, arriveStation, StationKr.START_STATION, StationKr.ARRIVE_STATION) ||
+      isSameStation(startStation, stopoverStation, StationKr.START_STATION, StationKr.STOPOVER_STATION) ||
+      isSameStation(stopoverStation, arriveStation, StationKr.STOPOVER_STATION, StationKr.ARRIVE_STATION);
 
     const incorrectStationName =
-      involveChar(from, StationKr.FROM) ||
-      involveChar(to, StationKr.TO) ||
-      involveChar(stopover, StationKr.STOPOVER);
+      involveChar(startStation, StationKr.START_STATION) ||
+      involveChar(arriveStation, StationKr.ARRIVE_STATION) ||
+      involveChar(stopoverStation, StationKr.STOPOVER_STATION);
 
     const existStation =
-      (await hasStation(from, StationKr.FROM)) ||
-      (await hasStation(to, StationKr.TO)) ||
-      (await hasStation(stopover, StationKr.STOPOVER));
+      (await hasStation(startStation, StationKr.START_STATION)) ||
+      (await hasStation(arriveStation, StationKr.ARRIVE_STATION)) ||
+      (await hasStation(stopoverStation, StationKr.STOPOVER_STATION));
 
     const errorMessage =
       existPathTarget ||

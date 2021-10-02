@@ -80,18 +80,18 @@ export const combineMinPath = (
 };
 
 export const getOptimizedPath = async (
-  from: string,
-  to: string,
+  startStation: string,
+  arriveStation: string,
   target: string
 ) => {
   try {
     switch (target) {
       case 'cost':
-        return await getMinCost(from, to);
+        return await getMinCost(startStation, arriveStation);
       case 'time':
-        return await getMinTime(from, to);
+        return await getMinTime(startStation, arriveStation);
       case 'distance':
-        return await getMinDistance(from, to);
+        return await getMinDistance(startStation, arriveStation);
       default:
         return invalidOption('no target');
     }
@@ -101,9 +101,9 @@ export const getOptimizedPath = async (
 };
 
 export const getOptimizedPathWithStopover = async (
-  from: string,
-  stopover: string,
-  to: string,
+  startStation: string,
+  stopoverStation: string,
+  arriveStation: string,
   target: string
 ) => {
   try {
@@ -111,16 +111,16 @@ export const getOptimizedPathWithStopover = async (
     let stopOverTo: MinPathStopover = {};
     switch (target) {
       case 'cost':
-        fromStopover = { ...(await getMinCost(from, stopover)) };
-        stopOverTo = { ...(await getMinCost(stopover, to)) };
+        fromStopover = { ...(await getMinCost(startStation, stopoverStation)) };
+        stopOverTo = { ...(await getMinCost(stopoverStation, arriveStation)) };
         return combineMinPath(fromStopover, stopOverTo);
       case 'time':
-        fromStopover = { ...(await getMinTime(from, stopover)) };
-        stopOverTo = { ...(await getMinTime(stopover, to)) };
+        fromStopover = { ...(await getMinTime(startStation, stopoverStation)) };
+        stopOverTo = { ...(await getMinTime(stopoverStation, arriveStation)) };
         return combineMinPath(fromStopover, stopOverTo);
       case 'distance':
-        fromStopover = { ...(await getMinDistance(from, stopover)) };
-        stopOverTo = { ...(await getMinDistance(stopover, to)) };
+        fromStopover = { ...(await getMinDistance(startStation, stopoverStation)) };
+        stopOverTo = { ...(await getMinDistance(stopoverStation, arriveStation)) };
         return combineMinPath(fromStopover, stopOverTo);
       default:
         return invalidOption('no target');

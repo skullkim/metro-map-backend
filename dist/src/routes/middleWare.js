@@ -40,35 +40,35 @@ exports.validateStation = void 0;
 var fail_1 = require("../lib/jsonResponse/fail");
 var station_1 = require("../lib/validation/station");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, stopover, pathTarget, existPathTarget, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
+    var _a, startStation, arriveStation, stopoverStation, pathTarget, existPathTarget, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
                 _d.trys.push([0, 6, , 7]);
-                _a = req.query, from = _a.from, to = _a.to, stopover = _a.stopover;
+                _a = req.query, startStation = _a.startStation, arriveStation = _a.arriveStation, stopoverStation = _a.stopoverStation;
                 pathTarget = req.params.pathTarget;
                 existPathTarget = (0, station_1.checkPathTarget)(pathTarget);
-                emptyStation = (0, station_1.checkEmpty)(from, station_1.StationKr.FROM) ||
-                    (0, station_1.checkEmpty)(to, station_1.StationKr.TO) ||
-                    (0, station_1.checkEmpty)(stopover, station_1.StationKr.STOPOVER);
-                sameStation = (0, station_1.isSameStation)(from, to, station_1.StationKr.FROM, station_1.StationKr.TO) ||
-                    (0, station_1.isSameStation)(from, stopover, station_1.StationKr.FROM, station_1.StationKr.STOPOVER) ||
-                    (0, station_1.isSameStation)(stopover, to, station_1.StationKr.STOPOVER, station_1.StationKr.TO);
-                incorrectStationName = (0, station_1.involveChar)(from, station_1.StationKr.FROM) ||
-                    (0, station_1.involveChar)(to, station_1.StationKr.TO) ||
-                    (0, station_1.involveChar)(stopover, station_1.StationKr.STOPOVER);
-                return [4 /*yield*/, (0, station_1.hasStation)(from, station_1.StationKr.FROM)];
+                emptyStation = (0, station_1.checkEmpty)(startStation, station_1.StationKr.START_STATION) ||
+                    (0, station_1.checkEmpty)(arriveStation, station_1.StationKr.ARRIVE_STATION) ||
+                    (0, station_1.checkEmpty)(stopoverStation, station_1.StationKr.STOPOVER_STATION);
+                sameStation = (0, station_1.isSameStation)(startStation, arriveStation, station_1.StationKr.START_STATION, station_1.StationKr.ARRIVE_STATION) ||
+                    (0, station_1.isSameStation)(startStation, stopoverStation, station_1.StationKr.START_STATION, station_1.StationKr.STOPOVER_STATION) ||
+                    (0, station_1.isSameStation)(stopoverStation, arriveStation, station_1.StationKr.STOPOVER_STATION, station_1.StationKr.ARRIVE_STATION);
+                incorrectStationName = (0, station_1.involveChar)(startStation, station_1.StationKr.START_STATION) ||
+                    (0, station_1.involveChar)(arriveStation, station_1.StationKr.ARRIVE_STATION) ||
+                    (0, station_1.involveChar)(stopoverStation, station_1.StationKr.STOPOVER_STATION);
+                return [4 /*yield*/, (0, station_1.hasStation)(startStation, station_1.StationKr.START_STATION)];
             case 1:
                 _c = (_d.sent());
                 if (_c) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, station_1.hasStation)(to, station_1.StationKr.TO)];
+                return [4 /*yield*/, (0, station_1.hasStation)(arriveStation, station_1.StationKr.ARRIVE_STATION)];
             case 2:
                 _c = (_d.sent());
                 _d.label = 3;
             case 3:
                 _b = _c;
                 if (_b) return [3 /*break*/, 5];
-                return [4 /*yield*/, (0, station_1.hasStation)(stopover, station_1.StationKr.STOPOVER)];
+                return [4 /*yield*/, (0, station_1.hasStation)(stopoverStation, station_1.StationKr.STOPOVER_STATION)];
             case 4:
                 _b = (_d.sent());
                 _d.label = 5;
