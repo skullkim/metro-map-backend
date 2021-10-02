@@ -119,8 +119,12 @@ export const getOptimizedPathWithStopover = async (
         stopOverTo = { ...(await getMinTime(stopoverStation, arriveStation)) };
         return combineMinPath(fromStopover, stopOverTo);
       case 'distance':
-        fromStopover = { ...(await getMinDistance(startStation, stopoverStation)) };
-        stopOverTo = { ...(await getMinDistance(stopoverStation, arriveStation)) };
+        fromStopover = {
+          ...(await getMinDistance(startStation, stopoverStation)),
+        };
+        stopOverTo = {
+          ...(await getMinDistance(stopoverStation, arriveStation)),
+        };
         return combineMinPath(fromStopover, stopOverTo);
       default:
         return invalidOption('no target');

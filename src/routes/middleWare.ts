@@ -17,7 +17,8 @@ export const validateStation = async (
   next: NextFunction
 ) => {
   try {
-    const { startStation, arriveStation, stopoverStation } = req.query as unknown as SearchPath;
+    const { startStation, arriveStation, stopoverStation } =
+      req.query as unknown as SearchPath;
     const { pathTarget } = req.params as unknown as MinPathTarget;
 
     const existPathTarget = checkPathTarget(pathTarget);
@@ -28,9 +29,24 @@ export const validateStation = async (
       checkEmpty(stopoverStation, StationKr.STOPOVER_STATION);
 
     const sameStation =
-      isSameStation(startStation, arriveStation, StationKr.START_STATION, StationKr.ARRIVE_STATION) ||
-      isSameStation(startStation, stopoverStation, StationKr.START_STATION, StationKr.STOPOVER_STATION) ||
-      isSameStation(stopoverStation, arriveStation, StationKr.STOPOVER_STATION, StationKr.ARRIVE_STATION);
+      isSameStation(
+        startStation,
+        arriveStation,
+        StationKr.START_STATION,
+        StationKr.ARRIVE_STATION
+      ) ||
+      isSameStation(
+        startStation,
+        stopoverStation,
+        StationKr.START_STATION,
+        StationKr.STOPOVER_STATION
+      ) ||
+      isSameStation(
+        stopoverStation,
+        arriveStation,
+        StationKr.STOPOVER_STATION,
+        StationKr.ARRIVE_STATION
+      );
 
     const incorrectStationName =
       involveChar(startStation, StationKr.START_STATION) ||
