@@ -1,4 +1,5 @@
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
@@ -15,6 +16,12 @@ createConnection().then(() => {
   app.set('port', process.env.PORT || 8080);
 
   app.use(morgan('dev'));
+  app.use(
+    cors({
+      origin: `${process.env.CLIENT_ORIGIN}`,
+      credentials: true,
+    })
+  );
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());

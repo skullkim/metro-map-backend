@@ -50,6 +50,7 @@ export const validateStation = async (
       existStation;
 
     if (errorMessage) {
+      res.status(400);
       return res.json(jsonErrorResponse(req, { message: errorMessage }));
     }
 
