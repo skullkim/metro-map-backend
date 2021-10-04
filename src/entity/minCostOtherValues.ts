@@ -1,4 +1,11 @@
-import {BaseEntity, Entity, Column, JoinColumn, OneToOne, PrimaryColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+} from 'typeorm';
 
 import { MinCostValue } from './minCostValue';
 
