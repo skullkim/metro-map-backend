@@ -14,10 +14,11 @@ Therefore, you have to install modules and create .env file first.
 ## Used skills
 Backend: Express  
 Frontend: React  
-Database: mysql, sequelize(ORM)
+Database: mysql, typeorm(ORM)
 - - -
-## Frontend repo link
-[metro-map-frontend](https://github.com/skullkim/metro-map-front)
+## repo link
+[metro-map-frontend](https://github.com/skullkim/metro-map-front)  
+[metro-map-docu](https://github.com/skullkim/metro-map-docu)
 - - -
 ## License
 This project is licensed under the terms of the MIT license.
