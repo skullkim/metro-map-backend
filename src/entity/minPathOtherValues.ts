@@ -4,7 +4,7 @@ import {
   Column,
   JoinColumn,
   OneToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { MinPathValue } from './minPathValue';
