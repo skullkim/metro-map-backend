@@ -40,9 +40,9 @@ exports.hasStation = exports.isSameStation = exports.checkPathTarget = exports.i
 var stationFromTo_1 = require("../../entity/stationFromTo");
 var StationKr;
 (function (StationKr) {
-    StationKr["FROM"] = "\uCD9C\uBC1C\uC810";
-    StationKr["STOPOVER"] = "\uACBD\uC720\uC9C0";
-    StationKr["TO"] = "\uB3C4\uCC29\uC9C0";
+    StationKr["START_STATION"] = "\uCD9C\uBC1C\uC810";
+    StationKr["STOPOVER_STATION"] = "\uACBD\uC720\uC9C0";
+    StationKr["ARRIVE_STATION"] = "\uB3C4\uCC29\uC9C0";
 })(StationKr = exports.StationKr || (exports.StationKr = {}));
 var PathTarget;
 (function (PathTarget) {

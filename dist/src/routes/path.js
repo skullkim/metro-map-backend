@@ -45,14 +45,14 @@ var optimizedPath_1 = require("../lib/optimizedPath");
 var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
 router.get('/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, to, pathTarget, resJson, err_1;
+    var _a, startStation, arriveStation, pathTarget, resJson, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.query, from = _a.from, to = _a.to;
+                _a = req.query, startStation = _a.startStation, arriveStation = _a.arriveStation;
                 pathTarget = req.params.pathTarget;
-                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPath)(from, to, pathTarget)];
+                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPath)(startStation, arriveStation, pathTarget)];
             case 1:
                 resJson = _b.sent();
                 res.status(200);
@@ -67,16 +67,16 @@ router.get('/:pathTarget', middleWare_1.validateStation, function (req, res, nex
     });
 }); });
 router.get('/stopover/:pathTarget', middleWare_1.validateStation, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, from, stopover, to, pathTarget, jsonRes, err_2;
+    var _a, startStation, stopoverStation, arriveStation, pathTarget, jsonRes, err_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _a = req.query, from = _a.from, stopover = _a.stopover, to = _a.to;
+                _a = req.query, startStation = _a.startStation, stopoverStation = _a.stopoverStation, arriveStation = _a.arriveStation;
                 pathTarget = req.params.pathTarget;
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(from, stopover, to, pathTarget)];
+                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(startStation, stopoverStation, arriveStation, pathTarget)];
             case 2:
                 jsonRes = _b.sent();
                 res.status(200);

@@ -137,7 +137,7 @@ var combineMinPath = function (path1, path2) {
     return result;
 };
 exports.combineMinPath = combineMinPath;
-var getOptimizedPath = function (from, to, target) { return __awaiter(void 0, void 0, void 0, function () {
+var getOptimizedPath = function (startStation, arriveStation, target) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, err_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -150,11 +150,11 @@ var getOptimizedPath = function (from, to, target) { return __awaiter(void 0, vo
                     case 'distance': return [3 /*break*/, 5];
                 }
                 return [3 /*break*/, 7];
-            case 1: return [4 /*yield*/, (0, exports.getMinCost)(from, to)];
+            case 1: return [4 /*yield*/, (0, exports.getMinCost)(startStation, arriveStation)];
             case 2: return [2 /*return*/, _b.sent()];
-            case 3: return [4 /*yield*/, (0, exports.getMinTime)(from, to)];
+            case 3: return [4 /*yield*/, (0, exports.getMinTime)(startStation, arriveStation)];
             case 4: return [2 /*return*/, _b.sent()];
-            case 5: return [4 /*yield*/, (0, exports.getMinDistance)(from, to)];
+            case 5: return [4 /*yield*/, (0, exports.getMinDistance)(startStation, arriveStation)];
             case 6: return [2 /*return*/, _b.sent()];
             case 7: return [2 /*return*/, invalidOption('no target')];
             case 8: return [3 /*break*/, 10];
@@ -166,7 +166,7 @@ var getOptimizedPath = function (from, to, target) { return __awaiter(void 0, vo
     });
 }); };
 exports.getOptimizedPath = getOptimizedPath;
-var getOptimizedPathWithStopover = function (from, stopover, to, target) { return __awaiter(void 0, void 0, void 0, function () {
+var getOptimizedPathWithStopover = function (startStation, stopoverStation, arriveStation, target) { return __awaiter(void 0, void 0, void 0, function () {
     var fromStopover, stopOverTo, _a, _b, _c, _d, _e, _f, _g, err_5;
     return __generator(this, function (_h) {
         switch (_h.label) {
@@ -183,31 +183,31 @@ var getOptimizedPathWithStopover = function (from, stopover, to, target) { retur
                 return [3 /*break*/, 10];
             case 1:
                 _b = [{}];
-                return [4 /*yield*/, (0, exports.getMinCost)(from, stopover)];
+                return [4 /*yield*/, (0, exports.getMinCost)(startStation, stopoverStation)];
             case 2:
                 fromStopover = __assign.apply(void 0, _b.concat([(_h.sent())]));
                 _c = [{}];
-                return [4 /*yield*/, (0, exports.getMinCost)(stopover, to)];
+                return [4 /*yield*/, (0, exports.getMinCost)(stopoverStation, arriveStation)];
             case 3:
                 stopOverTo = __assign.apply(void 0, _c.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo)];
             case 4:
                 _d = [{}];
-                return [4 /*yield*/, (0, exports.getMinTime)(from, stopover)];
+                return [4 /*yield*/, (0, exports.getMinTime)(startStation, stopoverStation)];
             case 5:
                 fromStopover = __assign.apply(void 0, _d.concat([(_h.sent())]));
                 _e = [{}];
-                return [4 /*yield*/, (0, exports.getMinTime)(stopover, to)];
+                return [4 /*yield*/, (0, exports.getMinTime)(stopoverStation, arriveStation)];
             case 6:
                 stopOverTo = __assign.apply(void 0, _e.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo)];
             case 7:
                 _f = [{}];
-                return [4 /*yield*/, (0, exports.getMinDistance)(from, stopover)];
+                return [4 /*yield*/, (0, exports.getMinDistance)(startStation, stopoverStation)];
             case 8:
                 fromStopover = __assign.apply(void 0, _f.concat([(_h.sent())]));
                 _g = [{}];
-                return [4 /*yield*/, (0, exports.getMinDistance)(stopover, to)];
+                return [4 /*yield*/, (0, exports.getMinDistance)(stopoverStation, arriveStation)];
             case 9:
                 stopOverTo = __assign.apply(void 0, _g.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo)];

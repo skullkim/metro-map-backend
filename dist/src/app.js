@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
+var cors_1 = __importDefault(require("cors"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var express_1 = __importDefault(require("express"));
 var morgan_1 = __importDefault(require("morgan"));
@@ -14,6 +15,10 @@ var path_1 = __importDefault(require("./routes/path"));
     dotenv_1.default.config();
     app.set('port', process.env.PORT || 8080);
     app.use((0, morgan_1.default)('dev'));
+    app.use((0, cors_1.default)({
+        origin: "" + process.env.CLIENT_ORIGIN,
+        credentials: true,
+    }));
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());

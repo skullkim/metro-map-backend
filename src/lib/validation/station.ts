@@ -1,9 +1,9 @@
 import { StationFromTo } from '../../entity/stationFromTo';
 
 export enum StationKr {
-  FROM = '출발점',
-  STOPOVER = '경유지',
-  TO = '도착지',
+  START_STATION = '출발점',
+  STOPOVER_STATION = '경유지',
+  ARRIVE_STATION = '도착지',
 }
 
 export enum PathTarget {

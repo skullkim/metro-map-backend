@@ -3,9 +3,9 @@ import { MinPath } from '../../entity/minPath';
 import { MinTime } from '../../entity/minTime';
 
 export interface SearchPath {
-  from: string;
-  to: string;
-  stopover: string;
+  startStation: string;
+  arriveStation: string;
+  stopoverStation: string;
 }
 
 export interface MinPathTarget {
