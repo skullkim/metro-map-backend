@@ -4,14 +4,14 @@ import {
   Column,
   JoinColumn,
   OneToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 
 import { MinPathValue } from './minPathValue';
 
 @Entity()
 export class MinPathOtherValues extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column({

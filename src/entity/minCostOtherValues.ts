@@ -4,14 +4,14 @@ import {
   Column,
   JoinColumn,
   OneToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 
 import { MinCostValue } from './minCostValue';
 
 @Entity()
 export class MinCostOtherValues extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Column({

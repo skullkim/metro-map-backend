@@ -24,41 +24,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MinCostOtherValues = void 0;
+exports.MinPathOtherValues = void 0;
 var typeorm_1 = require("typeorm");
-var minCostValue_1 = require("./minCostValue");
-var MinCostOtherValues = /** @class */ (function (_super) {
-    __extends(MinCostOtherValues, _super);
-    function MinCostOtherValues() {
+var minPathValue_1 = require("./minPathValue");
+var MinPathOtherValues = /** @class */ (function (_super) {
+    __extends(MinPathOtherValues, _super);
+    function MinPathOtherValues() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], MinCostOtherValues.prototype, "id", void 0);
+    ], MinPathOtherValues.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             length: 10,
             nullable: false,
         }),
         __metadata("design:type", String)
-    ], MinCostOtherValues.prototype, "distance", void 0);
+    ], MinPathOtherValues.prototype, "cost", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             length: 10,
             nullable: false,
         }),
         __metadata("design:type", String)
-    ], MinCostOtherValues.prototype, "time", void 0);
+    ], MinPathOtherValues.prototype, "time", void 0);
     __decorate([
-        (0, typeorm_1.OneToOne)(function () { return minCostValue_1.MinCostValue; }),
+        (0, typeorm_1.OneToOne)(function () { return minPathValue_1.MinPathValue; }),
         (0, typeorm_1.JoinColumn)(),
-        __metadata("design:type", minCostValue_1.MinCostValue)
-    ], MinCostOtherValues.prototype, "minCostValue", void 0);
-    MinCostOtherValues = __decorate([
+        __metadata("design:type", minPathValue_1.MinPathValue)
+    ], MinPathOtherValues.prototype, "minPathValue", void 0);
+    MinPathOtherValues = __decorate([
         (0, typeorm_1.Entity)()
-    ], MinCostOtherValues);
-    return MinCostOtherValues;
+    ], MinPathOtherValues);
+    return MinPathOtherValues;
 }(typeorm_1.BaseEntity));
-exports.MinCostOtherValues = MinCostOtherValues;
-//# sourceMappingURL=minCostOtherValues.js.map
+exports.MinPathOtherValues = MinPathOtherValues;
+//# sourceMappingURL=minPathOtherValues.js.map
