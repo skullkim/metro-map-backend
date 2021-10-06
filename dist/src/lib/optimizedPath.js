@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
+exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.combineOtherVal = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
 var minCost_1 = require("../entity/minCost");
 var minCostOtherValues_1 = require("../entity/minCostOtherValues");
 var minCostValue_1 = require("../entity/minCostValue");
@@ -57,6 +57,7 @@ var minPathValue_1 = require("../entity/minPathValue");
 var minTime_1 = require("../entity/minTime");
 var minTimeOtherValues_1 = require("../entity/minTimeOtherValues");
 var minTimeValue_1 = require("../entity/minTimeValue");
+var math_1 = require("./math");
 var getMinCost = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
     var minCostVal, minCostPath, minCostOtherVal, err_1;
     return __generator(this, function (_a) {
@@ -101,7 +102,7 @@ var getMinTime = function (from, to) { return __awaiter(void 0, void 0, void 0, 
             case 3:
                 minTimeOtherVal = _a.sent();
                 return [2 /*return*/, {
-                        min_value: minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue,
+                        min_value: (0, math_1.convertSecond)(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue),
                         path: minTimePath,
                         other_value: minTimeOtherVal,
                     }];
@@ -144,11 +145,26 @@ exports.getMinDistance = getMinDistance;
 var invalidOption = function (err) {
     throw new Error(err);
 };
-var combineMinPath = function (path1, path2) {
-    var _a, _b, _c;
+var combineOtherVal = function (pathOtherVal1, pathOtherVal2) {
     var result = {};
-    result.min_value = (+((_a = path1 === null || path1 === void 0 ? void 0 : path1.min_value) !== null && _a !== void 0 ? _a : '1') + +((_b = path2 === null || path2 === void 0 ? void 0 : path2.min_value) !== null && _b !== void 0 ? _b : '1')).toString();
-    result.path = (path1 === null || path1 === void 0 ? void 0 : path1.path).concat((_c = path2 === null || path2 === void 0 ? void 0 : path2.path) !== null && _c !== void 0 ? _c : []);
+    if ((pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost) && (pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost)) {
+        result.cost = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost, pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.cost);
+    }
+    if ((pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.time) && (pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.time)) {
+        result.time = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.time, pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.time);
+    }
+    if ((pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.distance) && (pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.distance)) {
+        result.distance = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.distance, pathOtherVal2.distance);
+    }
+    return result;
+};
+exports.combineOtherVal = combineOtherVal;
+var combineMinPath = function (path1, path2) {
+    var _a;
+    var result = {};
+    result.min_value = (0, math_1.addStringValue)(path1 === null || path1 === void 0 ? void 0 : path1.min_value, path2 === null || path2 === void 0 ? void 0 : path2.min_value);
+    result.path = (path1 === null || path1 === void 0 ? void 0 : path1.path).concat((_a = path2 === null || path2 === void 0 ? void 0 : path2.path) !== null && _a !== void 0 ? _a : []);
+    result.other_value = (0, exports.combineOtherVal)(path1 === null || path1 === void 0 ? void 0 : path1.other_value, path2 === null || path2 === void 0 ? void 0 : path2.other_value);
     return result;
 };
 exports.combineMinPath = combineMinPath;
