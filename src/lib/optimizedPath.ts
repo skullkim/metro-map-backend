@@ -8,7 +8,8 @@ import { MinTime } from '../entity/minTime';
 import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
 import { MinTimeValue } from '../entity/minTimeValue';
 
-import { MinPathStopover } from './type/searchPath';
+import { addStringValue } from './math';
+import { MinPathStopover, PathOtherValue } from './type/searchPath';
 
 export const getMinCost = async (from: string, to: string) => {
   try {
@@ -80,17 +81,36 @@ const invalidOption = (err: string) => {
   throw new Error(err);
 };
 
+export const combineOtherVal = (
+  pathOtherVal1?: PathOtherValue,
+  pathOtherVal2?: PathOtherValue
+) => {
+  const result: PathOtherValue = {};
+  if (pathOtherVal1?.cost && pathOtherVal1?.cost) {
+    result.cost = addStringValue(pathOtherVal1?.cost, pathOtherVal2?.cost);
+  }
+  if (pathOtherVal1?.time && pathOtherVal2?.time) {
+    result.time = addStringValue(pathOtherVal1?.time, pathOtherVal2?.time);
+  }
+  if (pathOtherVal1?.distance && pathOtherVal2?.distance) {
+    result.distance = addStringValue(
+      pathOtherVal1?.distance,
+      pathOtherVal2.distance
+    );
+  }
+  return result;
+};
+
 export const combineMinPath = (
   path1: MinPathStopover,
   path2: MinPathStopover
 ) => {
   const result: MinPathStopover = {};
-  result.min_value = (
-    +(path1?.min_value ?? '1') + +(path2?.min_value ?? '1')
-  ).toString();
+  result.min_value = addStringValue(path1?.min_value, path2?.min_value);
   result.path = (path1?.path as Array<MinCost | MinTime | MinPath>).concat(
     path2?.path ?? []
   );
+  result.other_value = combineOtherVal(path1?.other_value, path2?.other_value);
   return result;
 };
 

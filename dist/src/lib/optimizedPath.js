@@ -49,79 +49,94 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
 var minCost_1 = require("../entity/minCost");
+var minCostOtherValues_1 = require("../entity/minCostOtherValues");
 var minCostValue_1 = require("../entity/minCostValue");
 var minPath_1 = require("../entity/minPath");
+var minPathOtherValues_1 = require("../entity/minPathOtherValues");
 var minPathValue_1 = require("../entity/minPathValue");
 var minTime_1 = require("../entity/minTime");
+var minTimeOtherValues_1 = require("../entity/minTimeOtherValues");
 var minTimeValue_1 = require("../entity/minTimeValue");
 var getMinCost = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
-    var minCostVal, minCostPath, err_1;
+    var minCostVal, minCostPath, minCostOtherVal, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 return [4 /*yield*/, minCostValue_1.MinCostValue.getMinCostValue(from, to)];
             case 1:
                 minCostVal = _a.sent();
                 return [4 /*yield*/, minCost_1.MinCost.getMinCostPath(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
             case 2:
                 minCostPath = _a.sent();
+                return [4 /*yield*/, minCostOtherValues_1.MinCostOtherValues.getMinCostOtherVal(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
+            case 3:
+                minCostOtherVal = _a.sent();
                 return [2 /*return*/, {
                         min_value: minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue,
                         path: minCostPath,
+                        other_value: minCostOtherVal,
                     }];
-            case 3:
+            case 4:
                 err_1 = _a.sent();
                 throw err_1;
-            case 4: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.getMinCost = getMinCost;
 var getMinTime = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
-    var minTimeVal, minTimePath, err_2;
+    var minTimeVal, minTimePath, minTimeOtherVal, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
             case 1:
                 minTimeVal = _a.sent();
                 return [4 /*yield*/, minTime_1.MinTime.getMinTimePath(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
             case 2:
                 minTimePath = _a.sent();
+                return [4 /*yield*/, minTimeOtherValues_1.MinTimeOtherValues.getMinPathOtherVal(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
+            case 3:
+                minTimeOtherVal = _a.sent();
                 return [2 /*return*/, {
                         min_value: minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue,
                         path: minTimePath,
+                        other_value: minTimeOtherVal,
                     }];
-            case 3:
+            case 4:
                 err_2 = _a.sent();
                 throw err_2;
-            case 4: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.getMinTime = getMinTime;
 var getMinDistance = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
-    var minDistanceVal, minDistance, err_3;
+    var minDistanceVal, minDistance, minDistanceOtherVal, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 4, , 5]);
                 return [4 /*yield*/, minPathValue_1.MinPathValue.getMinPathValue(from, to)];
             case 1:
                 minDistanceVal = _a.sent();
                 return [4 /*yield*/, minPath_1.MinPath.getMinPath(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
             case 2:
                 minDistance = _a.sent();
+                return [4 /*yield*/, minPathOtherValues_1.MinPathOtherValues.getMinPathOtherVal(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
+            case 3:
+                minDistanceOtherVal = _a.sent();
                 return [2 /*return*/, {
                         min_value: minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue,
                         path: minDistance,
+                        other_value: minDistanceOtherVal,
                     }];
-            case 3:
+            case 4:
                 err_3 = _a.sent();
                 throw err_3;
-            case 4: return [2 /*return*/];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
