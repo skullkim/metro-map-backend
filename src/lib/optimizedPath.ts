@@ -6,6 +6,9 @@ import { MinTime } from '../entity/minTime';
 import { MinTimeValue } from '../entity/minTimeValue';
 
 import { MinPathStopover } from './type/searchPath';
+import { MinCostOtherValues } from '../entity/minCostOtherValues';
+import { MinPathOtherValues } from '../entity/minPathOtherValues';
+import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
 
 export const getMinCost = async (from: string, to: string) => {
   try {
@@ -16,9 +19,14 @@ export const getMinCost = async (from: string, to: string) => {
       minCostVal?.id
     );
 
+    const minCostOtherVal: MinCostOtherValues | undefined = await MinCostOtherValues.getMinCostOtherVal(
+      minCostVal?.id
+    );
+
     return {
       min_value: minCostVal?.minValue,
       path: minCostPath,
+      other_value: minCostOtherVal,
     };
   } catch (err) {
     throw err;
@@ -34,9 +42,14 @@ export const getMinTime = async (from: string, to: string) => {
       minTimeVal?.id
     );
 
+    const minTimeOtherVal: MinTimeOtherValues | undefined = await MinTimeOtherValues.getMinPathOtherVal(
+      minTimeVal?.id
+    );
+
     return {
       min_value: minTimeVal?.minValue,
       path: minTimePath,
+      other_value: minTimeOtherVal,
     };
   } catch (err) {
     throw err;
@@ -52,9 +65,14 @@ export const getMinDistance = async (from: string, to: string) => {
       minDistanceVal?.id
     );
 
+    const minDistanceOtherVal: MinPathOtherValues | undefined = await MinPathOtherValues.getMinPathOtherVal(
+      minDistanceVal?.id
+    );
+
     return {
       min_value: minDistanceVal?.minValue,
       path: minDistance,
+      other_value: minDistanceOtherVal,
     };
   } catch (err) {
     throw err;

@@ -29,4 +29,12 @@ export class MinTimeOtherValues extends BaseEntity {
   @OneToOne(() => MinTimeValue)
   @JoinColumn()
   minTimeValue!: string;
+
+  static getMinPathOtherVal(id: number = -1) {
+    if(id == -1) return;
+    return this.createQueryBuilder('minTimeOtherValues')
+      .innerJoin('minTimeOtherValues.minTimeValue', 'minTimeValue')
+      .where('minTimeValue.id = :id', {id})
+      .getOne();
+  }
 }

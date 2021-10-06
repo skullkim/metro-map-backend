@@ -29,4 +29,12 @@ export class MinCostOtherValues extends BaseEntity {
   @OneToOne(() => MinCostValue)
   @JoinColumn()
   minCostValue!: MinCostValue;
+
+  static getMinCostOtherVal(id: number = -1) {
+    if(id == -1) return;
+    return this.createQueryBuilder('minCostOtherValues')
+      .innerJoin('minCostOtherValues.minCostValue', 'minCostValue')
+      .where('minCostValue.id = :id', {id})
+      .getOne();
+  }
 }

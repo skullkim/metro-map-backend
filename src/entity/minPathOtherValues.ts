@@ -29,4 +29,12 @@ export class MinPathOtherValues extends BaseEntity {
   @OneToOne(() => MinPathValue)
   @JoinColumn()
   minPathValue!: MinPathValue;
+
+  static getMinPathOtherVal(id: number = -1) {
+    if(id == -1) return;
+    return this.createQueryBuilder('minPathOtherValues')
+      .innerJoin('minPathOtherValues.minPathValue', 'minPathValue')
+      .where('minPathValue.id = :id', {id})
+      .getOne();
+  }
 }
