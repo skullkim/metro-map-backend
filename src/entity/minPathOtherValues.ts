@@ -31,10 +31,10 @@ export class MinPathOtherValues extends BaseEntity {
   minPathValue!: MinPathValue;
 
   static getMinPathOtherVal(id: number = -1) {
-    if(id == -1) return;
+    if (id == -1) return;
     return this.createQueryBuilder('minPathOtherValues')
       .innerJoin('minPathOtherValues.minPathValue', 'minPathValue')
-      .where('minPathValue.id = :id', {id})
+      .where('minPathValue.id = :id', { id })
       .getOne();
   }
 }

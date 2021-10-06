@@ -31,10 +31,10 @@ export class MinCostOtherValues extends BaseEntity {
   minCostValue!: MinCostValue;
 
   static getMinCostOtherVal(id: number = -1) {
-    if(id == -1) return;
+    if (id == -1) return;
     return this.createQueryBuilder('minCostOtherValues')
       .innerJoin('minCostOtherValues.minCostValue', 'minCostValue')
-      .where('minCostValue.id = :id', {id})
+      .where('minCostValue.id = :id', { id })
       .getOne();
   }
 }

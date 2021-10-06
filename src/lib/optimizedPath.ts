@@ -1,14 +1,14 @@
 import { MinCost } from '../entity/minCost';
+import { MinCostOtherValues } from '../entity/minCostOtherValues';
 import { MinCostValue } from '../entity/minCostValue';
 import { MinPath } from '../entity/minPath';
+import { MinPathOtherValues } from '../entity/minPathOtherValues';
 import { MinPathValue } from '../entity/minPathValue';
 import { MinTime } from '../entity/minTime';
+import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
 import { MinTimeValue } from '../entity/minTimeValue';
 
 import { MinPathStopover } from './type/searchPath';
-import { MinCostOtherValues } from '../entity/minCostOtherValues';
-import { MinPathOtherValues } from '../entity/minPathOtherValues';
-import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
 
 export const getMinCost = async (from: string, to: string) => {
   try {
@@ -19,9 +19,8 @@ export const getMinCost = async (from: string, to: string) => {
       minCostVal?.id
     );
 
-    const minCostOtherVal: MinCostOtherValues | undefined = await MinCostOtherValues.getMinCostOtherVal(
-      minCostVal?.id
-    );
+    const minCostOtherVal: MinCostOtherValues | undefined =
+      await MinCostOtherValues.getMinCostOtherVal(minCostVal?.id);
 
     return {
       min_value: minCostVal?.minValue,
@@ -42,9 +41,8 @@ export const getMinTime = async (from: string, to: string) => {
       minTimeVal?.id
     );
 
-    const minTimeOtherVal: MinTimeOtherValues | undefined = await MinTimeOtherValues.getMinPathOtherVal(
-      minTimeVal?.id
-    );
+    const minTimeOtherVal: MinTimeOtherValues | undefined =
+      await MinTimeOtherValues.getMinPathOtherVal(minTimeVal?.id);
 
     return {
       min_value: minTimeVal?.minValue,
@@ -65,9 +63,8 @@ export const getMinDistance = async (from: string, to: string) => {
       minDistanceVal?.id
     );
 
-    const minDistanceOtherVal: MinPathOtherValues | undefined = await MinPathOtherValues.getMinPathOtherVal(
-      minDistanceVal?.id
-    );
+    const minDistanceOtherVal: MinPathOtherValues | undefined =
+      await MinPathOtherValues.getMinPathOtherVal(minDistanceVal?.id);
 
     return {
       min_value: minDistanceVal?.minValue,

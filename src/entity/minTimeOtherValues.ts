@@ -31,10 +31,10 @@ export class MinTimeOtherValues extends BaseEntity {
   minTimeValue!: string;
 
   static getMinPathOtherVal(id: number = -1) {
-    if(id == -1) return;
+    if (id == -1) return;
     return this.createQueryBuilder('minTimeOtherValues')
       .innerJoin('minTimeOtherValues.minTimeValue', 'minTimeValue')
-      .where('minTimeValue.id = :id', {id})
+      .where('minTimeValue.id = :id', { id })
       .getOne();
   }
 }
