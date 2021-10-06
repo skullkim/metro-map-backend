@@ -35,7 +35,7 @@ export const convertSecond = (second: string = '') => {
 
 export const addUnitToMoney = (money: string = '') => {
   return money + '원';
-}
+};
 
 export const convertDistance = (distance: string = '') => {
   return distance.length >= 4

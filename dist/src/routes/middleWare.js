@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateStation = void 0;
 var fail_1 = require("../lib/jsonResponse/fail");
+var searchPath_1 = require("../lib/type/searchPath");
 var station_1 = require("../lib/validation/station");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, startStation, arriveStation, stopoverStation, pathTarget, existPathTarget, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
@@ -48,27 +49,27 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
                 _a = req.query, startStation = _a.startStation, arriveStation = _a.arriveStation, stopoverStation = _a.stopoverStation;
                 pathTarget = req.params.pathTarget;
                 existPathTarget = (0, station_1.checkPathTarget)(pathTarget);
-                emptyStation = (0, station_1.checkEmpty)(startStation, station_1.StationKr.START_STATION) ||
-                    (0, station_1.checkEmpty)(arriveStation, station_1.StationKr.ARRIVE_STATION) ||
-                    (0, station_1.checkEmpty)(stopoverStation, station_1.StationKr.STOPOVER_STATION);
-                sameStation = (0, station_1.isSameStation)(startStation, arriveStation, station_1.StationKr.START_STATION, station_1.StationKr.ARRIVE_STATION) ||
-                    (0, station_1.isSameStation)(startStation, stopoverStation, station_1.StationKr.START_STATION, station_1.StationKr.STOPOVER_STATION) ||
-                    (0, station_1.isSameStation)(stopoverStation, arriveStation, station_1.StationKr.STOPOVER_STATION, station_1.StationKr.ARRIVE_STATION);
-                incorrectStationName = (0, station_1.involveChar)(startStation, station_1.StationKr.START_STATION) ||
-                    (0, station_1.involveChar)(arriveStation, station_1.StationKr.ARRIVE_STATION) ||
-                    (0, station_1.involveChar)(stopoverStation, station_1.StationKr.STOPOVER_STATION);
-                return [4 /*yield*/, (0, station_1.hasStation)(startStation, station_1.StationKr.START_STATION)];
+                emptyStation = (0, station_1.checkEmpty)(startStation, searchPath_1.StationKr.START_STATION) ||
+                    (0, station_1.checkEmpty)(arriveStation, searchPath_1.StationKr.ARRIVE_STATION) ||
+                    (0, station_1.checkEmpty)(stopoverStation, searchPath_1.StationKr.STOPOVER_STATION);
+                sameStation = (0, station_1.isSameStation)(startStation, arriveStation, searchPath_1.StationKr.START_STATION, searchPath_1.StationKr.ARRIVE_STATION) ||
+                    (0, station_1.isSameStation)(startStation, stopoverStation, searchPath_1.StationKr.START_STATION, searchPath_1.StationKr.STOPOVER_STATION) ||
+                    (0, station_1.isSameStation)(stopoverStation, arriveStation, searchPath_1.StationKr.STOPOVER_STATION, searchPath_1.StationKr.ARRIVE_STATION);
+                incorrectStationName = (0, station_1.involveChar)(startStation, searchPath_1.StationKr.START_STATION) ||
+                    (0, station_1.involveChar)(arriveStation, searchPath_1.StationKr.ARRIVE_STATION) ||
+                    (0, station_1.involveChar)(stopoverStation, searchPath_1.StationKr.STOPOVER_STATION);
+                return [4 /*yield*/, (0, station_1.hasStation)(startStation, searchPath_1.StationKr.START_STATION)];
             case 1:
                 _c = (_d.sent());
                 if (_c) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, station_1.hasStation)(arriveStation, station_1.StationKr.ARRIVE_STATION)];
+                return [4 /*yield*/, (0, station_1.hasStation)(arriveStation, searchPath_1.StationKr.ARRIVE_STATION)];
             case 2:
                 _c = (_d.sent());
                 _d.label = 3;
             case 3:
                 _b = _c;
                 if (_b) return [3 /*break*/, 5];
-                return [4 /*yield*/, (0, station_1.hasStation)(stopoverStation, station_1.StationKr.STOPOVER_STATION)];
+                return [4 /*yield*/, (0, station_1.hasStation)(stopoverStation, searchPath_1.StationKr.STOPOVER_STATION)];
             case 4:
                 _b = (_d.sent());
                 _d.label = 5;

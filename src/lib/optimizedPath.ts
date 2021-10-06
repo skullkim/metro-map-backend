@@ -8,8 +8,26 @@ import { MinTime } from '../entity/minTime';
 import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
 import { MinTimeValue } from '../entity/minTimeValue';
 
-import { addStringValue, addUnitToMoney, convertDistance, convertSecond } from './math';
+import {
+  addStringValue,
+  addUnitToMoney,
+  convertDistance,
+  convertSecond,
+} from './math';
 import { MinPathStopover, PathOtherValue, PathTarget } from './type/searchPath';
+
+export const addUnitToOtherValue = (otherValue?: PathOtherValue) => {
+  if (otherValue?.cost) {
+    otherValue.cost = addUnitToMoney(otherValue.cost);
+  }
+  if (otherValue?.distance) {
+    otherValue.distance = convertDistance(otherValue.distance);
+  }
+  if (otherValue?.time) {
+    otherValue.time = convertSecond(otherValue.time);
+  }
+  return otherValue;
+};
 
 export const getMinCost = async (from: string, to: string) => {
   try {
@@ -26,7 +44,7 @@ export const getMinCost = async (from: string, to: string) => {
     return {
       min_value: addUnitToMoney(minCostVal?.minValue),
       path: minCostPath,
-      other_value: minCostOtherVal,
+      other_value: addUnitToOtherValue(minCostOtherVal),
     };
   } catch (err) {
     throw err;
@@ -48,7 +66,7 @@ export const getMinTime = async (from: string, to: string) => {
     return {
       min_value: convertSecond(minTimeVal?.minValue),
       path: minTimePath,
-      other_value: minTimeOtherVal,
+      other_value: addUnitToOtherValue(minTimeOtherVal),
     };
   } catch (err) {
     throw err;
@@ -70,7 +88,7 @@ export const getMinDistance = async (from: string, to: string) => {
     return {
       min_value: convertDistance(minDistanceVal?.minValue),
       path: minDistance,
-      other_value: minDistanceOtherVal,
+      other_value: addUnitToOtherValue(minDistanceOtherVal),
     };
   } catch (err) {
     throw err;
@@ -87,11 +105,11 @@ export const combineOtherVal = (
 ) => {
   const result: PathOtherValue = {};
   if (pathOtherVal1?.cost && pathOtherVal1?.cost) {
-    const cost = addStringValue(pathOtherVal1?.cost, pathOtherVal2?.cost)
+    const cost = addStringValue(pathOtherVal1?.cost, pathOtherVal2?.cost);
     result.cost = addUnitToMoney(cost);
   }
   if (pathOtherVal1?.time && pathOtherVal2?.time) {
-    const time = addStringValue(pathOtherVal1?.time, pathOtherVal2?.time)
+    const time = addStringValue(pathOtherVal1?.time, pathOtherVal2?.time);
     result.time = convertSecond(time);
   }
   if (pathOtherVal1?.distance && pathOtherVal2?.distance) {
@@ -107,7 +125,7 @@ export const combineOtherVal = (
 export const combineMinPath = (
   path1: MinPathStopover,
   path2: MinPathStopover,
-  pathTarget: PathTarget,
+  pathTarget: PathTarget
 ) => {
   const result: MinPathStopover = {};
   const minValue = addStringValue(path1?.min_value, path2?.min_value);
@@ -115,7 +133,7 @@ export const combineMinPath = (
     path2?.path ?? []
   );
   result.other_value = combineOtherVal(path1?.other_value, path2?.other_value);
-  switch(pathTarget) {
+  switch (pathTarget) {
     case PathTarget.COST:
       result.min_value = addUnitToMoney(minValue);
       break;

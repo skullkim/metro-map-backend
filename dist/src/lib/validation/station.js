@@ -36,20 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.hasStation = exports.isSameStation = exports.checkPathTarget = exports.involveChar = exports.checkEmpty = exports.PathTarget = exports.StationKr = void 0;
+exports.hasStation = exports.isSameStation = exports.checkPathTarget = exports.involveChar = exports.checkEmpty = void 0;
 var stationFromTo_1 = require("../../entity/stationFromTo");
-var StationKr;
-(function (StationKr) {
-    StationKr["START_STATION"] = "\uCD9C\uBC1C\uC810";
-    StationKr["STOPOVER_STATION"] = "\uACBD\uC720\uC9C0";
-    StationKr["ARRIVE_STATION"] = "\uB3C4\uCC29\uC9C0";
-})(StationKr = exports.StationKr || (exports.StationKr = {}));
-var PathTarget;
-(function (PathTarget) {
-    PathTarget["TIME"] = "time";
-    PathTarget["DISTANCE"] = "distance";
-    PathTarget["COST"] = "cost";
-})(PathTarget = exports.PathTarget || (exports.PathTarget = {}));
+var searchPath_1 = require("../type/searchPath");
 var checkEmpty = function (station, stationName) {
     if (!station && station !== undefined) {
         return stationName + "\uC774(\uAC00) \uC874\uC7AC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4";
@@ -68,7 +57,7 @@ var involveChar = function (station, stationName) {
 };
 exports.involveChar = involveChar;
 var checkPathTarget = function (target) {
-    return !Object.values(PathTarget).includes(target)
+    return !Object.values(searchPath_1.PathTarget).includes(target)
         ? '길찾기 대상이 잘못되었습니다'
         : '';
 };
