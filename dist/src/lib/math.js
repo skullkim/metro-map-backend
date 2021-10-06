@@ -14,17 +14,21 @@ exports.addStringValue = addStringValue;
 var convertSecond = function (second) {
     if (second === void 0) { second = ''; }
     var minute = (0, convert_units_1.default)(parseInt(second)).from('s').to('min');
-    var tmpResult = (minute >= 60 ?
-        (0, convert_units_1.default)(minute).from('min').to('h') : minute)
-        .toString();
+    var tmpResult = (minute >= 60 ? (0, convert_units_1.default)(minute).from('min').to('h') : minute).toString();
     var isHour = minute >= 60;
     var result = '';
     if (tmpResult.includes('.')) {
         var resultArr = tmpResult.split('.');
         var pointUpper = isHour ? resultArr[0] + '시간' : resultArr[0] + '분';
-        var pointBelow = isHour ?
-            (0, convert_units_1.default)(Number("0." + resultArr[1])).from('h').to('min') + "\uBD84" :
-            (0, convert_units_1.default)(Number("0." + resultArr[1])).from('min').to('s') + "\uCD08";
+        var pointBelow = isHour
+            ? (0, convert_units_1.default)(Number("0." + resultArr[1]))
+                .from('h')
+                .to('min')
+                .toFixed(0) + "\uBD84"
+            : (0, convert_units_1.default)(Number("0." + resultArr[1]))
+                .from('min')
+                .to('s')
+                .toFixed(0) + "\uCD08";
         result = pointUpper + " " + pointBelow;
     }
     else {

@@ -8,7 +8,7 @@ import { MinTime } from '../entity/minTime';
 import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
 import { MinTimeValue } from '../entity/minTimeValue';
 
-import { addStringValue, convertSecond } from './math';
+import { addStringValue, convertDistance, convertSecond } from './math';
 import { MinPathStopover, PathOtherValue } from './type/searchPath';
 
 export const getMinCost = async (from: string, to: string) => {
@@ -68,7 +68,7 @@ export const getMinDistance = async (from: string, to: string) => {
       await MinPathOtherValues.getMinPathOtherVal(minDistanceVal?.id);
 
     return {
-      min_value: minDistanceVal?.minValue,
+      min_value: convertDistance(minDistanceVal?.minValue),
       path: minDistance,
       other_value: minDistanceOtherVal,
     };

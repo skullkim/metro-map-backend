@@ -74,7 +74,7 @@ var getMinCost = function (from, to) { return __awaiter(void 0, void 0, void 0, 
             case 3:
                 minCostOtherVal = _a.sent();
                 return [2 /*return*/, {
-                        min_value: minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue,
+                        min_value: (minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue) + "\uC6D0",
                         path: minCostPath,
                         other_value: minCostOtherVal,
                     }];
