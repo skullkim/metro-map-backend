@@ -1,16 +1,5 @@
 import { StationFromTo } from '../../entity/stationFromTo';
-
-export enum StationKr {
-  START_STATION = '출발점',
-  STOPOVER_STATION = '경유지',
-  ARRIVE_STATION = '도착지',
-}
-
-export enum PathTarget {
-  TIME = 'time',
-  DISTANCE = 'distance',
-  COST = 'cost',
-}
+import { PathTarget, StationKr } from '../type/searchPath';
 
 export const checkEmpty = (station: string, stationName: StationKr) => {
   if (!station && station !== undefined) {

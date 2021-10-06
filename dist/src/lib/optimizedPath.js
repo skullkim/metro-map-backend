@@ -74,7 +74,7 @@ var getMinCost = function (from, to) { return __awaiter(void 0, void 0, void 0, 
             case 3:
                 minCostOtherVal = _a.sent();
                 return [2 /*return*/, {
-                        min_value: (minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue) + "\uC6D0",
+                        min_value: (0, math_1.addUnitToMoney)(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue),
                         path: minCostPath,
                         other_value: minCostOtherVal,
                     }];
@@ -130,7 +130,7 @@ var getMinDistance = function (from, to) { return __awaiter(void 0, void 0, void
             case 3:
                 minDistanceOtherVal = _a.sent();
                 return [2 /*return*/, {
-                        min_value: minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue,
+                        min_value: (0, math_1.convertDistance)(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue),
                         path: minDistance,
                         other_value: minDistanceOtherVal,
                     }];
@@ -148,13 +148,16 @@ var invalidOption = function (err) {
 var combineOtherVal = function (pathOtherVal1, pathOtherVal2) {
     var result = {};
     if ((pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost) && (pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost)) {
-        result.cost = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost, pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.cost);
+        var cost = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.cost, pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.cost);
+        result.cost = (0, math_1.addUnitToMoney)(cost);
     }
     if ((pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.time) && (pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.time)) {
-        result.time = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.time, pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.time);
+        var time = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.time, pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.time);
+        result.time = (0, math_1.convertSecond)(time);
     }
     if ((pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.distance) && (pathOtherVal2 === null || pathOtherVal2 === void 0 ? void 0 : pathOtherVal2.distance)) {
-        result.distance = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.distance, pathOtherVal2.distance);
+        var distance = (0, math_1.addStringValue)(pathOtherVal1 === null || pathOtherVal1 === void 0 ? void 0 : pathOtherVal1.distance, pathOtherVal2.distance);
+        result.distance = (0, math_1.convertDistance)(distance);
     }
     return result;
 };

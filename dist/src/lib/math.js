@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.convertSecond = exports.addStringValue = void 0;
+exports.convertDistance = exports.addUnitToMoney = exports.convertSecond = exports.addStringValue = void 0;
 var convert_units_1 = __importDefault(require("convert-units"));
 var addStringValue = function (otherValue1, otherValue2) {
     if (otherValue1 === void 0) { otherValue1 = ''; }
@@ -37,4 +37,16 @@ var convertSecond = function (second) {
     return result;
 };
 exports.convertSecond = convertSecond;
+var addUnitToMoney = function (money) {
+    if (money === void 0) { money = ''; }
+    return money + '원';
+};
+exports.addUnitToMoney = addUnitToMoney;
+var convertDistance = function (distance) {
+    if (distance === void 0) { distance = ''; }
+    return distance.length >= 4
+        ? (0, convert_units_1.default)(parseInt(distance)).from('m').to('km').toString() + "km"
+        : distance + "m";
+};
+exports.convertDistance = convertDistance;
 //# sourceMappingURL=math.js.map

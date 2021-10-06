@@ -24,3 +24,14 @@ export interface PathOtherValue {
   time?: string;
   distance?: string;
 }
+export enum StationKr {
+  START_STATION = '출발점',
+  STOPOVER_STATION = '경유지',
+  ARRIVE_STATION = '도착지',
+}
+
+export enum PathTarget {
+  TIME = 'time',
+  DISTANCE = 'distance',
+  COST = 'cost',
+}

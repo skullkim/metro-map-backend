@@ -33,6 +33,10 @@ export const convertSecond = (second: string = '') => {
   return result;
 };
 
+export const addUnitToMoney = (money: string = '') => {
+  return money + '원';
+}
+
 export const convertDistance = (distance: string = '') => {
   return distance.length >= 4
     ? `${convert(parseInt(distance)).from('m').to('km').toString()}km`
