@@ -14,22 +14,18 @@ import {
   convertDistance,
   convertSecond,
 } from './math';
-import { MinPathResult, MinPathStopover, PathOtherValue, PathTarget } from './type/searchPath';
+import {
+  MinPathResult,
+  MinPathStopover,
+  PathOtherValue,
+  PathTarget,
+} from './type/searchPath';
 
-export const addUnitToOtherValue = (otherValue?: PathOtherValue) => {
-  if (otherValue?.cost) {
-    otherValue.cost = addUnitToMoney(otherValue.cost);
-  }
-  if (otherValue?.distance) {
-    otherValue.distance = convertDistance(otherValue.distance);
-  }
-  if (otherValue?.time) {
-    otherValue.time = convertSecond(otherValue.time);
-  }
-  return otherValue;
-};
-
-export const getMinCost = async (from: string, to: string, hasStopover: boolean = false) => {
+export const getMinCost = async (
+  from: string,
+  to: string,
+  hasStopover: boolean = false
+) => {
   try {
     const minCostVal: MinCostValue | undefined =
       await MinCostValue.getMinCostValue(from, to);
@@ -54,7 +50,11 @@ export const getMinCost = async (from: string, to: string, hasStopover: boolean 
   }
 };
 
-export const getMinTime = async (from: string, to: string, hasStopover: boolean = false) => {
+export const getMinTime = async (
+  from: string,
+  to: string,
+  hasStopover: boolean = false
+) => {
   try {
     const minTimeVal: MinTimeValue | undefined =
       await MinTimeValue.getMinTimeValue(from, to);
@@ -79,7 +79,11 @@ export const getMinTime = async (from: string, to: string, hasStopover: boolean 
   }
 };
 
-export const getMinDistance = async (from: string, to: string, hasStopover: boolean = false) => {
+export const getMinDistance = async (
+  from: string,
+  to: string,
+  hasStopover: boolean = false
+) => {
   try {
     const minDistanceVal: MinPathValue | undefined =
       await MinPathValue.getMinPathValue(from, to);
@@ -141,7 +145,10 @@ export const combineMinPath = (
   result.path = (path1?.path as Array<MinCost | MinTime | MinPath>).concat(
     path2?.path ?? []
   );
-  result = {...result, ...combineOtherVal(path1?.other_value, path2?.other_value)};
+  result = {
+    ...result,
+    ...combineOtherVal(path1?.other_value, path2?.other_value),
+  };
   switch (pathTarget) {
     case PathTarget.COST:
       result.cost = addUnitToMoney(minValue);
@@ -190,12 +197,20 @@ export const getOptimizedPathWithStopover = async (
     let stopOverTo: MinPathStopover = {};
     switch (target) {
       case PathTarget.COST:
-        fromStopover = { ...(await getMinCost(startStation, stopoverStation, true)) };
-        stopOverTo = { ...(await getMinCost(stopoverStation, arriveStation, true)) };
+        fromStopover = {
+          ...(await getMinCost(startStation, stopoverStation, true)),
+        };
+        stopOverTo = {
+          ...(await getMinCost(stopoverStation, arriveStation, true)),
+        };
         return combineMinPath(fromStopover, stopOverTo, PathTarget.COST);
       case PathTarget.TIME:
-        fromStopover = { ...(await getMinTime(startStation, stopoverStation, true)) };
-        stopOverTo = { ...(await getMinTime(stopoverStation, arriveStation, true)) };
+        fromStopover = {
+          ...(await getMinTime(startStation, stopoverStation, true)),
+        };
+        stopOverTo = {
+          ...(await getMinTime(stopoverStation, arriveStation, true)),
+        };
         return combineMinPath(fromStopover, stopOverTo, PathTarget.TIME);
       case PathTarget.DISTANCE:
         fromStopover = {

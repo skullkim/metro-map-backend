@@ -72,89 +72,107 @@ var addUnitToOtherValue = function (otherValue) {
     return otherValue;
 };
 exports.addUnitToOtherValue = addUnitToOtherValue;
-var getMinCost = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
-    var minCostVal, minCostPath, minCostOtherVal, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 4, , 5]);
-                return [4 /*yield*/, minCostValue_1.MinCostValue.getMinCostValue(from, to)];
-            case 1:
-                minCostVal = _a.sent();
-                return [4 /*yield*/, minCost_1.MinCost.getMinCostPath(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
-            case 2:
-                minCostPath = _a.sent();
-                return [4 /*yield*/, minCostOtherValues_1.MinCostOtherValues.getMinCostOtherVal(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
-            case 3:
-                minCostOtherVal = _a.sent();
-                return [2 /*return*/, {
-                        min_value: (0, math_1.addUnitToMoney)(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue),
-                        path: minCostPath,
-                        other_value: (0, exports.addUnitToOtherValue)(minCostOtherVal),
-                    }];
-            case 4:
-                err_1 = _a.sent();
-                throw err_1;
-            case 5: return [2 /*return*/];
-        }
+var getMinCost = function (from, to, hasStopover) {
+    if (hasStopover === void 0) { hasStopover = false; }
+    return __awaiter(void 0, void 0, void 0, function () {
+        var minCostVal, minCostPath, minCostOtherVal, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 4, , 5]);
+                    return [4 /*yield*/, minCostValue_1.MinCostValue.getMinCostValue(from, to)];
+                case 1:
+                    minCostVal = _a.sent();
+                    return [4 /*yield*/, minCost_1.MinCost.getMinCostPath(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
+                case 2:
+                    minCostPath = _a.sent();
+                    return [4 /*yield*/, minCostOtherValues_1.MinCostOtherValues.getMinCostOtherVal(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.id)];
+                case 3:
+                    minCostOtherVal = _a.sent();
+                    return [2 /*return*/, {
+                            cost: (0, math_1.addUnitToMoney)(minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue),
+                            distance: (0, math_1.convertDistance)(minCostOtherVal === null || minCostOtherVal === void 0 ? void 0 : minCostOtherVal.distance),
+                            time: (0, math_1.convertSecond)(minCostOtherVal === null || minCostOtherVal === void 0 ? void 0 : minCostOtherVal.time),
+                            path: minCostPath,
+                            min_value: !hasStopover ? '' : minCostVal === null || minCostVal === void 0 ? void 0 : minCostVal.minValue,
+                            other_value: !hasStopover ? {} : minCostOtherVal,
+                        }];
+                case 4:
+                    err_1 = _a.sent();
+                    throw err_1;
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); };
+};
 exports.getMinCost = getMinCost;
-var getMinTime = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
-    var minTimeVal, minTimePath, minTimeOtherVal, err_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 4, , 5]);
-                return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
-            case 1:
-                minTimeVal = _a.sent();
-                return [4 /*yield*/, minTime_1.MinTime.getMinTimePath(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
-            case 2:
-                minTimePath = _a.sent();
-                return [4 /*yield*/, minTimeOtherValues_1.MinTimeOtherValues.getMinPathOtherVal(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
-            case 3:
-                minTimeOtherVal = _a.sent();
-                return [2 /*return*/, {
-                        min_value: (0, math_1.convertSecond)(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue),
-                        path: minTimePath,
-                        other_value: (0, exports.addUnitToOtherValue)(minTimeOtherVal),
-                    }];
-            case 4:
-                err_2 = _a.sent();
-                throw err_2;
-            case 5: return [2 /*return*/];
-        }
+var getMinTime = function (from, to, hasStopover) {
+    if (hasStopover === void 0) { hasStopover = false; }
+    return __awaiter(void 0, void 0, void 0, function () {
+        var minTimeVal, minTimePath, minTimeOtherVal, err_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 4, , 5]);
+                    return [4 /*yield*/, minTimeValue_1.MinTimeValue.getMinTimeValue(from, to)];
+                case 1:
+                    minTimeVal = _a.sent();
+                    return [4 /*yield*/, minTime_1.MinTime.getMinTimePath(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
+                case 2:
+                    minTimePath = _a.sent();
+                    return [4 /*yield*/, minTimeOtherValues_1.MinTimeOtherValues.getMinPathOtherVal(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.id)];
+                case 3:
+                    minTimeOtherVal = _a.sent();
+                    return [2 /*return*/, {
+                            cost: (0, math_1.addUnitToMoney)(minTimeOtherVal === null || minTimeOtherVal === void 0 ? void 0 : minTimeOtherVal.cost),
+                            distance: (0, math_1.convertDistance)(minTimeOtherVal === null || minTimeOtherVal === void 0 ? void 0 : minTimeOtherVal.distance),
+                            time: (0, math_1.convertSecond)(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue),
+                            path: minTimePath,
+                            min_value: !hasStopover ? '' : minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue,
+                            other_value: !hasStopover ? {} : minTimeOtherVal,
+                        }];
+                case 4:
+                    err_2 = _a.sent();
+                    throw err_2;
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); };
+};
 exports.getMinTime = getMinTime;
-var getMinDistance = function (from, to) { return __awaiter(void 0, void 0, void 0, function () {
-    var minDistanceVal, minDistance, minDistanceOtherVal, err_3;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 4, , 5]);
-                return [4 /*yield*/, minPathValue_1.MinPathValue.getMinPathValue(from, to)];
-            case 1:
-                minDistanceVal = _a.sent();
-                return [4 /*yield*/, minPath_1.MinPath.getMinPath(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
-            case 2:
-                minDistance = _a.sent();
-                return [4 /*yield*/, minPathOtherValues_1.MinPathOtherValues.getMinPathOtherVal(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
-            case 3:
-                minDistanceOtherVal = _a.sent();
-                return [2 /*return*/, {
-                        min_value: (0, math_1.convertDistance)(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue),
-                        path: minDistance,
-                        other_value: (0, exports.addUnitToOtherValue)(minDistanceOtherVal),
-                    }];
-            case 4:
-                err_3 = _a.sent();
-                throw err_3;
-            case 5: return [2 /*return*/];
-        }
+var getMinDistance = function (from, to, hasStopover) {
+    if (hasStopover === void 0) { hasStopover = false; }
+    return __awaiter(void 0, void 0, void 0, function () {
+        var minDistanceVal, minDistance, minDistanceOtherVal, err_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 4, , 5]);
+                    return [4 /*yield*/, minPathValue_1.MinPathValue.getMinPathValue(from, to)];
+                case 1:
+                    minDistanceVal = _a.sent();
+                    return [4 /*yield*/, minPath_1.MinPath.getMinPath(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
+                case 2:
+                    minDistance = _a.sent();
+                    return [4 /*yield*/, minPathOtherValues_1.MinPathOtherValues.getMinPathOtherVal(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.id)];
+                case 3:
+                    minDistanceOtherVal = _a.sent();
+                    return [2 /*return*/, {
+                            cost: (0, math_1.addUnitToMoney)(minDistanceOtherVal === null || minDistanceOtherVal === void 0 ? void 0 : minDistanceOtherVal.cost),
+                            distance: (0, math_1.convertDistance)(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue),
+                            time: (0, math_1.convertSecond)(minDistanceOtherVal === null || minDistanceOtherVal === void 0 ? void 0 : minDistanceOtherVal.time),
+                            path: minDistance,
+                            min_value: !hasStopover ? '' : minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue,
+                            other_value: !hasStopover ? {} : minDistanceOtherVal,
+                        }];
+                case 4:
+                    err_3 = _a.sent();
+                    throw err_3;
+                case 5: return [2 /*return*/];
+            }
+        });
     });
-}); };
+};
 exports.getMinDistance = getMinDistance;
 var invalidOption = function (err) {
     throw new Error(err);
@@ -181,16 +199,16 @@ var combineMinPath = function (path1, path2, pathTarget) {
     var result = {};
     var minValue = (0, math_1.addStringValue)(path1 === null || path1 === void 0 ? void 0 : path1.min_value, path2 === null || path2 === void 0 ? void 0 : path2.min_value);
     result.path = (path1 === null || path1 === void 0 ? void 0 : path1.path).concat((_a = path2 === null || path2 === void 0 ? void 0 : path2.path) !== null && _a !== void 0 ? _a : []);
-    result.other_value = (0, exports.combineOtherVal)(path1 === null || path1 === void 0 ? void 0 : path1.other_value, path2 === null || path2 === void 0 ? void 0 : path2.other_value);
+    result = __assign(__assign({}, result), (0, exports.combineOtherVal)(path1 === null || path1 === void 0 ? void 0 : path1.other_value, path2 === null || path2 === void 0 ? void 0 : path2.other_value));
     switch (pathTarget) {
         case searchPath_1.PathTarget.COST:
-            result.min_value = (0, math_1.addUnitToMoney)(minValue);
+            result.cost = (0, math_1.addUnitToMoney)(minValue);
             break;
         case searchPath_1.PathTarget.TIME:
-            result.min_value = (0, math_1.convertSecond)(minValue);
+            result.time = (0, math_1.convertSecond)(minValue);
             break;
         case searchPath_1.PathTarget.DISTANCE:
-            result.min_value = (0, math_1.convertDistance)(minValue);
+            result.distance = (0, math_1.convertDistance)(minValue);
             break;
         default:
             return invalidOption('no target');
@@ -244,31 +262,31 @@ var getOptimizedPathWithStopover = function (startStation, stopoverStation, arri
                 return [3 /*break*/, 10];
             case 1:
                 _b = [{}];
-                return [4 /*yield*/, (0, exports.getMinCost)(startStation, stopoverStation)];
+                return [4 /*yield*/, (0, exports.getMinCost)(startStation, stopoverStation, true)];
             case 2:
                 fromStopover = __assign.apply(void 0, _b.concat([(_h.sent())]));
                 _c = [{}];
-                return [4 /*yield*/, (0, exports.getMinCost)(stopoverStation, arriveStation)];
+                return [4 /*yield*/, (0, exports.getMinCost)(stopoverStation, arriveStation, true)];
             case 3:
                 stopOverTo = __assign.apply(void 0, _c.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo, searchPath_1.PathTarget.COST)];
             case 4:
                 _d = [{}];
-                return [4 /*yield*/, (0, exports.getMinTime)(startStation, stopoverStation)];
+                return [4 /*yield*/, (0, exports.getMinTime)(startStation, stopoverStation, true)];
             case 5:
                 fromStopover = __assign.apply(void 0, _d.concat([(_h.sent())]));
                 _e = [{}];
-                return [4 /*yield*/, (0, exports.getMinTime)(stopoverStation, arriveStation)];
+                return [4 /*yield*/, (0, exports.getMinTime)(stopoverStation, arriveStation, true)];
             case 6:
                 stopOverTo = __assign.apply(void 0, _e.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo, searchPath_1.PathTarget.TIME)];
             case 7:
                 _f = [{}];
-                return [4 /*yield*/, (0, exports.getMinDistance)(startStation, stopoverStation)];
+                return [4 /*yield*/, (0, exports.getMinDistance)(startStation, stopoverStation, true)];
             case 8:
                 fromStopover = __assign.apply(void 0, _f.concat([(_h.sent())]));
                 _g = [{}];
-                return [4 /*yield*/, (0, exports.getMinDistance)(stopoverStation, arriveStation)];
+                return [4 /*yield*/, (0, exports.getMinDistance)(stopoverStation, arriveStation, true)];
             case 9:
                 stopOverTo = __assign.apply(void 0, _g.concat([(_h.sent())]));
                 return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo, searchPath_1.PathTarget.DISTANCE)];
