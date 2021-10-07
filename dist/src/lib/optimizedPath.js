@@ -118,7 +118,7 @@ var getMinTime = function (from, to) { return __awaiter(void 0, void 0, void 0, 
                 return [2 /*return*/, {
                         min_value: (0, math_1.convertSecond)(minTimeVal === null || minTimeVal === void 0 ? void 0 : minTimeVal.minValue),
                         path: minTimePath,
-                        other_value: minTimeOtherVal,
+                        other_value: (0, exports.addUnitToOtherValue)(minTimeOtherVal),
                     }];
             case 4:
                 err_2 = _a.sent();
@@ -146,7 +146,7 @@ var getMinDistance = function (from, to) { return __awaiter(void 0, void 0, void
                 return [2 /*return*/, {
                         min_value: (0, math_1.convertDistance)(minDistanceVal === null || minDistanceVal === void 0 ? void 0 : minDistanceVal.minValue),
                         path: minDistance,
-                        other_value: minDistanceOtherVal,
+                        other_value: (0, exports.addUnitToOtherValue)(minDistanceOtherVal),
                     }];
             case 4:
                 err_3 = _a.sent();

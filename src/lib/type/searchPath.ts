@@ -18,6 +18,13 @@ export interface MinPathStopover {
   other_value?: object;
 }
 
+export interface MinPathResult {
+  cost?: string;
+  distance?: string;
+  time?: string;
+  path?: Array<MinCost | MinTime | MinPath>;
+}
+
 export interface PathOtherValue {
   id?: number;
   cost?: string;

@@ -14,7 +14,7 @@ import {
   convertDistance,
   convertSecond,
 } from './math';
-import { MinPathStopover, PathOtherValue, PathTarget } from './type/searchPath';
+import { MinPathResult, MinPathStopover, PathOtherValue, PathTarget } from './type/searchPath';
 
 export const addUnitToOtherValue = (otherValue?: PathOtherValue) => {
   if (otherValue?.cost) {
@@ -29,7 +29,7 @@ export const addUnitToOtherValue = (otherValue?: PathOtherValue) => {
   return otherValue;
 };
 
-export const getMinCost = async (from: string, to: string) => {
+export const getMinCost = async (from: string, to: string, hasStopover: boolean = false) => {
   try {
     const minCostVal: MinCostValue | undefined =
       await MinCostValue.getMinCostValue(from, to);
@@ -42,16 +42,19 @@ export const getMinCost = async (from: string, to: string) => {
       await MinCostOtherValues.getMinCostOtherVal(minCostVal?.id);
 
     return {
-      min_value: addUnitToMoney(minCostVal?.minValue),
+      cost: addUnitToMoney(minCostVal?.minValue),
+      distance: convertDistance(minCostOtherVal?.distance),
+      time: convertSecond(minCostOtherVal?.time),
       path: minCostPath,
-      other_value: addUnitToOtherValue(minCostOtherVal),
+      min_value: !hasStopover ? '' : minCostVal?.minValue,
+      other_value: !hasStopover ? {} : minCostOtherVal,
     };
   } catch (err) {
     throw err;
   }
 };
 
-export const getMinTime = async (from: string, to: string) => {
+export const getMinTime = async (from: string, to: string, hasStopover: boolean = false) => {
   try {
     const minTimeVal: MinTimeValue | undefined =
       await MinTimeValue.getMinTimeValue(from, to);
@@ -64,16 +67,19 @@ export const getMinTime = async (from: string, to: string) => {
       await MinTimeOtherValues.getMinPathOtherVal(minTimeVal?.id);
 
     return {
-      min_value: convertSecond(minTimeVal?.minValue),
+      cost: addUnitToMoney(minTimeOtherVal?.cost),
+      distance: convertDistance(minTimeOtherVal?.distance),
+      time: convertSecond(minTimeVal?.minValue),
       path: minTimePath,
-      other_value: addUnitToOtherValue(minTimeOtherVal),
+      min_value: !hasStopover ? '' : minTimeVal?.minValue,
+      other_value: !hasStopover ? {} : minTimeOtherVal,
     };
   } catch (err) {
     throw err;
   }
 };
 
-export const getMinDistance = async (from: string, to: string) => {
+export const getMinDistance = async (from: string, to: string, hasStopover: boolean = false) => {
   try {
     const minDistanceVal: MinPathValue | undefined =
       await MinPathValue.getMinPathValue(from, to);
@@ -86,9 +92,12 @@ export const getMinDistance = async (from: string, to: string) => {
       await MinPathOtherValues.getMinPathOtherVal(minDistanceVal?.id);
 
     return {
-      min_value: convertDistance(minDistanceVal?.minValue),
+      cost: addUnitToMoney(minDistanceOtherVal?.cost),
+      distance: convertDistance(minDistanceVal?.minValue),
+      time: convertSecond(minDistanceOtherVal?.time),
       path: minDistance,
-      other_value: addUnitToOtherValue(minDistanceOtherVal),
+      min_value: !hasStopover ? '' : minDistanceVal?.minValue,
+      other_value: !hasStopover ? {} : minDistanceOtherVal,
     };
   } catch (err) {
     throw err;
@@ -103,7 +112,7 @@ export const combineOtherVal = (
   pathOtherVal1?: PathOtherValue,
   pathOtherVal2?: PathOtherValue
 ) => {
-  const result: PathOtherValue = {};
+  const result: MinPathResult = {};
   if (pathOtherVal1?.cost && pathOtherVal1?.cost) {
     const cost = addStringValue(pathOtherVal1?.cost, pathOtherVal2?.cost);
     result.cost = addUnitToMoney(cost);
@@ -127,21 +136,21 @@ export const combineMinPath = (
   path2: MinPathStopover,
   pathTarget: PathTarget
 ) => {
-  const result: MinPathStopover = {};
+  let result: MinPathResult = {};
   const minValue = addStringValue(path1?.min_value, path2?.min_value);
   result.path = (path1?.path as Array<MinCost | MinTime | MinPath>).concat(
     path2?.path ?? []
   );
-  result.other_value = combineOtherVal(path1?.other_value, path2?.other_value);
+  result = {...result, ...combineOtherVal(path1?.other_value, path2?.other_value)};
   switch (pathTarget) {
     case PathTarget.COST:
-      result.min_value = addUnitToMoney(minValue);
+      result.cost = addUnitToMoney(minValue);
       break;
     case PathTarget.TIME:
-      result.min_value = convertSecond(minValue);
+      result.time = convertSecond(minValue);
       break;
     case PathTarget.DISTANCE:
-      result.min_value = convertDistance(minValue);
+      result.distance = convertDistance(minValue);
       break;
     default:
       return invalidOption('no target');
@@ -181,19 +190,19 @@ export const getOptimizedPathWithStopover = async (
     let stopOverTo: MinPathStopover = {};
     switch (target) {
       case PathTarget.COST:
-        fromStopover = { ...(await getMinCost(startStation, stopoverStation)) };
-        stopOverTo = { ...(await getMinCost(stopoverStation, arriveStation)) };
+        fromStopover = { ...(await getMinCost(startStation, stopoverStation, true)) };
+        stopOverTo = { ...(await getMinCost(stopoverStation, arriveStation, true)) };
         return combineMinPath(fromStopover, stopOverTo, PathTarget.COST);
       case PathTarget.TIME:
-        fromStopover = { ...(await getMinTime(startStation, stopoverStation)) };
-        stopOverTo = { ...(await getMinTime(stopoverStation, arriveStation)) };
+        fromStopover = { ...(await getMinTime(startStation, stopoverStation, true)) };
+        stopOverTo = { ...(await getMinTime(stopoverStation, arriveStation, true)) };
         return combineMinPath(fromStopover, stopOverTo, PathTarget.TIME);
       case PathTarget.DISTANCE:
         fromStopover = {
-          ...(await getMinDistance(startStation, stopoverStation)),
+          ...(await getMinDistance(startStation, stopoverStation, true)),
         };
         stopOverTo = {
-          ...(await getMinDistance(stopoverStation, arriveStation)),
+          ...(await getMinDistance(stopoverStation, arriveStation, true)),
         };
         return combineMinPath(fromStopover, stopOverTo, PathTarget.DISTANCE);
       default:
