@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.combineOtherVal = exports.getMinDistance = exports.getMinTime = exports.getMinCost = exports.addUnitToOtherValue = void 0;
+exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.combineOtherVal = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
 var minCost_1 = require("../entity/minCost");
 var minCostOtherValues_1 = require("../entity/minCostOtherValues");
 var minCostValue_1 = require("../entity/minCostValue");
@@ -59,19 +59,6 @@ var minTimeOtherValues_1 = require("../entity/minTimeOtherValues");
 var minTimeValue_1 = require("../entity/minTimeValue");
 var math_1 = require("./math");
 var searchPath_1 = require("./type/searchPath");
-var addUnitToOtherValue = function (otherValue) {
-    if (otherValue === null || otherValue === void 0 ? void 0 : otherValue.cost) {
-        otherValue.cost = (0, math_1.addUnitToMoney)(otherValue.cost);
-    }
-    if (otherValue === null || otherValue === void 0 ? void 0 : otherValue.distance) {
-        otherValue.distance = (0, math_1.convertDistance)(otherValue.distance);
-    }
-    if (otherValue === null || otherValue === void 0 ? void 0 : otherValue.time) {
-        otherValue.time = (0, math_1.convertSecond)(otherValue.time);
-    }
-    return otherValue;
-};
-exports.addUnitToOtherValue = addUnitToOtherValue;
 var getMinCost = function (from, to, hasStopover) {
     if (hasStopover === void 0) { hasStopover = false; }
     return __awaiter(void 0, void 0, void 0, function () {
