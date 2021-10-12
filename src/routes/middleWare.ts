@@ -9,6 +9,8 @@ import {
   involveChar,
   isSameStation,
 } from '../lib/validation/station';
+import { isValidPassword } from '../lib/validation/auth';
+import { ErrorMessage } from '../lib/type/auth';
 
 export const validateStation = async (
   req: Request,
@@ -74,3 +76,12 @@ export const validateStation = async (
     next(err);
   }
 };
+
+export const validatePassword = (req: Request, res: Response, next: NextFunction) => {
+  const {password}: {password: string} = req.body;
+  if(!isValidPassword(password)) {
+    res.status(400);
+    return res.json(jsonErrorResponse(req, {message: ErrorMessage.InvalidPassword}));
+  }
+  next();
+}

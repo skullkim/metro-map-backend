@@ -36,10 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateStation = void 0;
+exports.validatePassword = exports.validateStation = void 0;
 var fail_1 = require("../lib/jsonResponse/fail");
 var searchPath_1 = require("../lib/type/searchPath");
 var station_1 = require("../lib/validation/station");
+var auth_1 = require("../lib/validation/auth");
+var auth_2 = require("../lib/type/auth");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, startStation, arriveStation, stopoverStation, pathTarget, existPathTarget, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
     return __generator(this, function (_d) {
@@ -95,4 +97,13 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
     });
 }); };
 exports.validateStation = validateStation;
+var validatePassword = function (req, res, next) {
+    var password = req.body.password;
+    if (!(0, auth_1.isValidPassword)(password)) {
+        res.status(400);
+        return res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_2.ErrorMessage.InvalidPassword }));
+    }
+    next();
+};
+exports.validatePassword = validatePassword;
 //# sourceMappingURL=middleWare.js.map

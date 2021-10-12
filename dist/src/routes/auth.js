@@ -41,12 +41,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var express_1 = __importDefault(require("express"));
-var auth_1 = require("../lib/type/auth");
 var user_1 = require("../entity/user");
 var fail_1 = require("../lib/jsonResponse/fail");
 var success_1 = require("../lib/jsonResponse/success");
+var auth_1 = require("../lib/type/auth");
+var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
-router.post('/signup', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/signup', middleWare_1.validatePassword, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, exUser, bcryptPassword, newUser, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -58,7 +59,7 @@ router.post('/signup', function (req, res, next) { return __awaiter(void 0, void
                 exUser = _b.sent();
                 if (exUser) {
                     res.status(400);
-                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: "" + auth_1.ERROR_MESSAGE.SAME_EMAIL }))];
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: "" + auth_1.ErrorMessage.SameEmail }))];
                 }
                 return [4 /*yield*/, bcrypt_1.default.hash(password, 12)];
             case 2:

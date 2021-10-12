@@ -5,11 +5,13 @@ import { User } from '../entity/user';
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { jsonResponse } from '../lib/jsonResponse/success';
 import { ErrorMessage, SignupData } from '../lib/type/auth';
+import { validatePassword } from './middleWare';
 
 const router = express.Router();
 
 router.post(
   '/signup',
+  validatePassword,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password }: SignupData = req.body;

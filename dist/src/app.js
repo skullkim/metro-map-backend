@@ -9,8 +9,8 @@ var dotenv_1 = __importDefault(require("dotenv"));
 var express_1 = __importDefault(require("express"));
 var morgan_1 = __importDefault(require("morgan"));
 var typeorm_1 = require("typeorm");
-var path_1 = __importDefault(require("./routes/path"));
 var auth_1 = __importDefault(require("./routes/auth"));
+var path_1 = __importDefault(require("./routes/path"));
 (0, typeorm_1.createConnection)().then(function () {
     var app = (0, express_1.default)();
     dotenv_1.default.config();
