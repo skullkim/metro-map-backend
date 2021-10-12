@@ -233,13 +233,14 @@ var getOptimizedPath = function (startStation, arriveStation, target) { return _
 }); };
 exports.getOptimizedPath = getOptimizedPath;
 var getOptimizedPathWithStopover = function (startStation, stopoverStation, arriveStation, target) { return __awaiter(void 0, void 0, void 0, function () {
-    var fromStopover, stopOverTo, _a, _b, _c, _d, _e, _f, _g, err_5;
-    return __generator(this, function (_h) {
-        switch (_h.label) {
+    var fromStopover, stopOverTo_1, _a, _b, _c, _d, _e, _f, _g, err_5;
+    var _h, _j, _k;
+    return __generator(this, function (_l) {
+        switch (_l.label) {
             case 0:
-                _h.trys.push([0, 12, , 13]);
+                _l.trys.push([0, 12, , 13]);
                 fromStopover = {};
-                stopOverTo = {};
+                stopOverTo_1 = {};
                 _a = target;
                 switch (_a) {
                     case searchPath_1.PathTarget.COST: return [3 /*break*/, 1];
@@ -251,36 +252,48 @@ var getOptimizedPathWithStopover = function (startStation, stopoverStation, arri
                 _b = [{}];
                 return [4 /*yield*/, (0, exports.getMinCost)(startStation, stopoverStation, true)];
             case 2:
-                fromStopover = __assign.apply(void 0, _b.concat([(_h.sent())]));
+                fromStopover = __assign.apply(void 0, _b.concat([(_l.sent())]));
                 _c = [{}];
                 return [4 /*yield*/, (0, exports.getMinCost)(stopoverStation, arriveStation, true)];
             case 3:
-                stopOverTo = __assign.apply(void 0, _c.concat([(_h.sent())]));
-                return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo, searchPath_1.PathTarget.COST)];
+                stopOverTo_1 = __assign.apply(void 0, _c.concat([(_l.sent())]));
+                stopOverTo_1.path = (_h = stopOverTo_1.path) === null || _h === void 0 ? void 0 : _h.filter(function (_a) {
+                    var station = _a.station;
+                    return station !== stopOverTo_1.path[0].station;
+                });
+                return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo_1, searchPath_1.PathTarget.COST)];
             case 4:
                 _d = [{}];
                 return [4 /*yield*/, (0, exports.getMinTime)(startStation, stopoverStation, true)];
             case 5:
-                fromStopover = __assign.apply(void 0, _d.concat([(_h.sent())]));
+                fromStopover = __assign.apply(void 0, _d.concat([(_l.sent())]));
                 _e = [{}];
                 return [4 /*yield*/, (0, exports.getMinTime)(stopoverStation, arriveStation, true)];
             case 6:
-                stopOverTo = __assign.apply(void 0, _e.concat([(_h.sent())]));
-                return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo, searchPath_1.PathTarget.TIME)];
+                stopOverTo_1 = __assign.apply(void 0, _e.concat([(_l.sent())]));
+                stopOverTo_1.path = (_j = stopOverTo_1.path) === null || _j === void 0 ? void 0 : _j.filter(function (_a) {
+                    var station = _a.station;
+                    return station !== stopOverTo_1.path[0].station;
+                });
+                return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo_1, searchPath_1.PathTarget.TIME)];
             case 7:
                 _f = [{}];
                 return [4 /*yield*/, (0, exports.getMinDistance)(startStation, stopoverStation, true)];
             case 8:
-                fromStopover = __assign.apply(void 0, _f.concat([(_h.sent())]));
+                fromStopover = __assign.apply(void 0, _f.concat([(_l.sent())]));
                 _g = [{}];
                 return [4 /*yield*/, (0, exports.getMinDistance)(stopoverStation, arriveStation, true)];
             case 9:
-                stopOverTo = __assign.apply(void 0, _g.concat([(_h.sent())]));
-                return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo, searchPath_1.PathTarget.DISTANCE)];
+                stopOverTo_1 = __assign.apply(void 0, _g.concat([(_l.sent())]));
+                stopOverTo_1.path = (_k = stopOverTo_1.path) === null || _k === void 0 ? void 0 : _k.filter(function (_a) {
+                    var station = _a.station;
+                    return station !== stopOverTo_1.path[0].station;
+                });
+                return [2 /*return*/, (0, exports.combineMinPath)(fromStopover, stopOverTo_1, searchPath_1.PathTarget.DISTANCE)];
             case 10: return [2 /*return*/, invalidOption('no target')];
             case 11: return [3 /*break*/, 13];
             case 12:
-                err_5 = _h.sent();
+                err_5 = _l.sent();
                 throw err_5;
             case 13: return [2 /*return*/];
         }
