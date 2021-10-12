@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import { createConnection } from 'typeorm';
 
 import { ReqError, HttpException } from './lib/type/Error';
+import authRouter from './routes/auth';
 import pathRouter from './routes/path';
 
 createConnection().then(() => {
@@ -40,6 +41,7 @@ createConnection().then(() => {
   });
 
   app.use('/path', pathRouter);
+  app.use('/authentication', authRouter);
 
   app.use((req: Request, response: Response, next: NextFunction) => {
     const error: ReqError = new Error(
