@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import express, { Request, Response, NextFunction } from 'express';
 
 import { User } from '../entity/user';
+import sendEmailToValidate from '../lib/emailAuth';
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { jsonResponse } from '../lib/jsonResponse/success';
 import { ErrorMessage, SignupData } from '../lib/type/auth';
@@ -36,5 +37,10 @@ router.post(
     }
   }
 );
+
+router.get('/', (req: Request, res: Response, next: NextFunction) => {
+  sendEmailToValidate('aaa');
+  res.end();
+});
 
 export default router;

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { ErrorMessage } from '../lib/type/auth';
+import { ErrorMessage, SignupData } from '../lib/type/auth';
 import { MinPathTarget, SearchPath, StationKr } from '../lib/type/searchPath';
-import { isValidPassword } from '../lib/validation/auth';
+import { isValidEmail, isValidPassword } from '../lib/validation/auth';
 import {
   checkEmpty,
   checkPathTarget,
@@ -82,11 +82,16 @@ export const validatePassword = (
   res: Response,
   next: NextFunction
 ) => {
-  const { password }: { password: string } = req.body;
+  const { email, password }: SignupData = req.body;
   if (!isValidPassword(password)) {
     res.status(400);
     return res.json(
       jsonErrorResponse(req, { message: ErrorMessage.InvalidPassword })
+    );
+  } else if (!isValidEmail(email)) {
+    res.status(400);
+    return res.json(
+      jsonErrorResponse(req, { message: ErrorMessage.InvalidEmail })
     );
   }
   next();
