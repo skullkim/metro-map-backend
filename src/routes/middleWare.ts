@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
+import { ErrorMessage } from '../lib/type/auth';
 import { MinPathTarget, SearchPath, StationKr } from '../lib/type/searchPath';
+import { isValidPassword } from '../lib/validation/auth';
 import {
   checkEmpty,
   checkPathTarget,
@@ -9,8 +11,6 @@ import {
   involveChar,
   isSameStation,
 } from '../lib/validation/station';
-import { isValidPassword } from '../lib/validation/auth';
-import { ErrorMessage } from '../lib/type/auth';
 
 export const validateStation = async (
   req: Request,
@@ -77,11 +77,17 @@ export const validateStation = async (
   }
 };
 
-export const validatePassword = (req: Request, res: Response, next: NextFunction) => {
-  const {password}: {password: string} = req.body;
-  if(!isValidPassword(password)) {
+export const validatePassword = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { password }: { password: string } = req.body;
+  if (!isValidPassword(password)) {
     res.status(400);
-    return res.json(jsonErrorResponse(req, {message: ErrorMessage.InvalidPassword}));
+    return res.json(
+      jsonErrorResponse(req, { message: ErrorMessage.InvalidPassword })
+    );
   }
   next();
-}
+};
