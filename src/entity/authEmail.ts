@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
   Column,
@@ -9,7 +10,7 @@ import {
 import { User } from './user';
 
 @Entity()
-export class AuthEmail {
+export class AuthEmail extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -20,5 +21,13 @@ export class AuthEmail {
 
   @OneToOne(() => User)
   @JoinColumn()
-  userId!: User;
+  user!: User;
+
+  static setRandomKey(user: User | undefined, randomKey: string) {
+    return this.createQueryBuilder('authEmail')
+      .insert()
+      .into(AuthEmail)
+      .values({ user, randomKey })
+      .execute();
+  }
 }

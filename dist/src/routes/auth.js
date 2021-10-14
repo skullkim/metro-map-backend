@@ -42,43 +42,52 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var express_1 = __importDefault(require("express"));
 var user_1 = require("../entity/user");
+var emailAuth_1 = __importDefault(require("../lib/emailAuth"));
 var fail_1 = require("../lib/jsonResponse/fail");
 var success_1 = require("../lib/jsonResponse/success");
 var auth_1 = require("../lib/type/auth");
 var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
 router.post('/signup', middleWare_1.validatePassword, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, password, exUser, bcryptPassword, newUser, err_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, email, password, exUser, bcryptPassword, newUser, _b, err_1;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _b.trys.push([0, 4, , 5]);
+                _c.trys.push([0, 5, , 6]);
                 _a = req.body, email = _a.email, password = _a.password;
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 1:
-                exUser = _b.sent();
+                exUser = _c.sent();
                 if (exUser) {
                     res.status(400);
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: "" + auth_1.ErrorMessage.SameEmail }))];
                 }
                 return [4 /*yield*/, bcrypt_1.default.hash(password, 12)];
             case 2:
-                bcryptPassword = _b.sent();
+                bcryptPassword = _c.sent();
                 return [4 /*yield*/, user_1.User.createUser(email, bcryptPassword)];
             case 3:
-                newUser = _b.sent();
+                newUser = _c.sent();
+                _b = emailAuth_1.default;
+                return [4 /*yield*/, user_1.User.getUser(email)];
+            case 4:
+                _b.apply(void 0, [_c.sent()]);
                 if (newUser) {
                     res.status(201);
                     return [2 /*return*/, res.json((0, success_1.jsonResponse)(req, { message: 'success' }, 201))];
                 }
-                return [3 /*break*/, 5];
-            case 4:
-                err_1 = _b.sent();
+                return [3 /*break*/, 6];
+            case 5:
+                err_1 = _c.sent();
                 next(err_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); });
+// router.get('/', (req: Request, res: Response, next: NextFunction) => {
+//   sendEmailToValidate('aaa');
+//   res.end();
+// });
 exports.default = router;
 //# sourceMappingURL=auth.js.map

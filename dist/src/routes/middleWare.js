@@ -98,10 +98,14 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
 }); };
 exports.validateStation = validateStation;
 var validatePassword = function (req, res, next) {
-    var password = req.body.password;
+    var _a = req.body, email = _a.email, password = _a.password;
     if (!(0, auth_2.isValidPassword)(password)) {
         res.status(400);
         return res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidPassword }));
+    }
+    else if (!(0, auth_2.isValidEmail)(email)) {
+        res.status(400);
+        return res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidEmail }));
     }
     next();
 };

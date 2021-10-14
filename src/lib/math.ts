@@ -42,3 +42,11 @@ export const convertDistance = (distance: string = '') => {
     ? `${convert(parseInt(distance)).from('m').to('km').toString()}km`
     : `${distance}m`;
 };
+
+export const getTimeAsSecond = () => {
+  const now = new Date();
+  const hour: number = convert(now.getHours()).from('h').to('s');
+  const minute: number = convert(now.getMinutes()).from('min').to('s');
+  const nowAsSecond: string = (hour + minute + now.getSeconds()).toString();
+  return nowAsSecond;
+};
