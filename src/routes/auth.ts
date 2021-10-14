@@ -28,7 +28,7 @@ router.post(
 
       const bcryptPassword: string = await bcrypt.hash(password, 12);
       const newUser = await User.createUser(email, bcryptPassword);
-      sendEmailToValidate(await User.getUser(email));
+      await sendEmailToValidate(await User.getUser(email));
       if (newUser) {
         res.status(201);
         return res.json(jsonResponse(req, { message: 'success' }, 201));

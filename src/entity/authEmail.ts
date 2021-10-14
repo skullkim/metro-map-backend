@@ -30,4 +30,12 @@ export class AuthEmail extends BaseEntity {
       .values({ user, randomKey })
       .execute();
   }
+
+  static deleteRandomKey(id: number) {
+    return this.createQueryBuilder('authEmail')
+      .delete()
+      .from(AuthEmail)
+      .where('id = :id', { id })
+      .execute();
+  }
 }

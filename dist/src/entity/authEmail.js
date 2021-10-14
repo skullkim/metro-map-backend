@@ -37,7 +37,15 @@ var AuthEmail = /** @class */ (function (_super) {
         return this.createQueryBuilder('authEmail')
             .insert()
             .into(AuthEmail_1)
-            .values({ user: user_1.User, randomKey: randomKey });
+            .values({ user: user, randomKey: randomKey })
+            .execute();
+    };
+    AuthEmail.deleteRandomKey = function (user) {
+        return this.createQueryBuilder('authEmail')
+            .delete()
+            .from(AuthEmail_1)
+            .where('user = :user', { user: user })
+            .execute();
     };
     var AuthEmail_1;
     __decorate([

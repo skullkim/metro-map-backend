@@ -53,7 +53,7 @@ router.post('/signup', middleWare_1.validatePassword, function (req, res, next) 
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _c.trys.push([0, 5, , 6]);
+                _c.trys.push([0, 6, , 7]);
                 _a = req.body, email = _a.email, password = _a.password;
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 1:
@@ -70,18 +70,19 @@ router.post('/signup', middleWare_1.validatePassword, function (req, res, next) 
                 newUser = _c.sent();
                 _b = emailAuth_1.default;
                 return [4 /*yield*/, user_1.User.getUser(email)];
-            case 4:
-                _b.apply(void 0, [_c.sent()]);
+            case 4: return [4 /*yield*/, _b.apply(void 0, [_c.sent()])];
+            case 5:
+                _c.sent();
                 if (newUser) {
                     res.status(201);
                     return [2 /*return*/, res.json((0, success_1.jsonResponse)(req, { message: 'success' }, 201))];
                 }
-                return [3 /*break*/, 6];
-            case 5:
+                return [3 /*break*/, 7];
+            case 6:
                 err_1 = _c.sent();
                 next(err_1);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); });
