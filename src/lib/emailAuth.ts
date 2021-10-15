@@ -6,7 +6,6 @@ import smtpTransport from 'nodemailer-smtp-transport';
 import { AuthEmail } from '../entity/authEmail';
 import { User } from '../entity/user';
 
-import { getTimeAsSecond } from './math';
 import { EmailContext } from './type/auth';
 
 dotenv.config();
@@ -16,8 +15,7 @@ const getEmailContext = async (
 ): Promise<EmailContext> => {
   try {
     const randomString: string = Math.random().toString(36).substr(2, 11);
-    const nowTimeAsSecond: string = getTimeAsSecond();
-    const url = `${process.env.CLIENT_ORIGIN}/authentication/signup?key=${randomString}&signupTime=${nowTimeAsSecond}`;
+    const url = `${process.env.CLIENT_ORIGIN}/authentication/signup/email?key=${randomString}&id=${user?.id}`;
     const {
       raw: { insertId },
     } = await AuthEmail.setRandomKey(user, randomString);

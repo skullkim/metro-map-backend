@@ -40,11 +40,11 @@ var AuthEmail = /** @class */ (function (_super) {
             .values({ user: user, randomKey: randomKey })
             .execute();
     };
-    AuthEmail.deleteRandomKey = function (user) {
+    AuthEmail.deleteRandomKey = function (id) {
         return this.createQueryBuilder('authEmail')
             .delete()
             .from(AuthEmail_1)
-            .where('user = :user', { user: user })
+            .where('id = :id', { id: id })
             .execute();
     };
     var AuthEmail_1;

@@ -39,15 +39,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var node_cron_1 = __importDefault(require("node-cron"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var node_cron_1 = __importDefault(require("node-cron"));
 var nodemailer_1 = __importDefault(require("nodemailer"));
 var nodemailer_smtp_transport_1 = __importDefault(require("nodemailer-smtp-transport"));
 var authEmail_1 = require("../entity/authEmail");
 var math_1 = require("./math");
 dotenv_1.default.config();
 var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0, function () {
-    var randomString, nowTimeAsSecond, url, err_1;
+    var randomString, nowTimeAsSecond, url, insertId, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -57,8 +57,11 @@ var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0,
                 url = process.env.CLIENT_ORIGIN + "/authentication/signup?key=" + randomString + "&signupTime=" + nowTimeAsSecond;
                 return [4 /*yield*/, authEmail_1.AuthEmail.setRandomKey(user, randomString)];
             case 1:
-                _a.sent();
-                return [2 /*return*/, "\n    <h3>\uC548\uB155\uD558\uC138\uC694 \uD68C\uC6D0\uB2D8. \uD68C\uC6D0\uAC00\uC785 \uC644\uB8CC\uB97C \uC704\uD574 \uB2E4\uC74C \uB9C1\uD06C\uB97C \uD074\uB9AD\uD574 \uC8FC\uC138\uC694</h3>\n    <br />\n    <a \n      style='\n        justify-content: center;\n        align-items: center;\n        text-decoration: none;\n        color: white;\n        background-color: #2867B2;\n        padding: 15px 94px;\n        border: 1px solid #2867B2;\n        border-radius: 15px;\n        font-size: 15px\n      ' \n      href='" + url + "'\n    >\n    \uD68C\uC6D0\uAC00\uC785 \uC644\uB8CC\uD558\uAE30\n    </a>\n  "];
+                insertId = (_a.sent()).raw.insertId;
+                return [2 /*return*/, {
+                        emailContext: "\n    <h3>\uC548\uB155\uD558\uC138\uC694 \uD68C\uC6D0\uB2D8. \uD68C\uC6D0\uAC00\uC785 \uC644\uB8CC\uB97C \uC704\uD574 \uB2E4\uC74C \uB9C1\uD06C\uB97C \uD074\uB9AD\uD574 \uC8FC\uC138\uC694</h3>\n    <br />\n    <a \n      style='\n        justify-content: center;\n        align-items: center;\n        text-decoration: none;\n        color: white;\n        background-color: #2867B2;\n        padding: 15px 94px;\n        border: 1px solid #2867B2;\n        border-radius: 15px;\n        font-size: 15px\n      ' \n      href='" + url + "'\n    >\n    \uD68C\uC6D0\uAC00\uC785 \uC644\uB8CC\uD558\uAE30\n    </a>\n  ",
+                        authEmailId: insertId,
+                    }];
             case 2:
                 err_1 = _a.sent();
                 throw err_1;
@@ -67,10 +70,9 @@ var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 var sendEmailToValidate = function (user) { return __awaiter(void 0, void 0, void 0, function () {
-    var emailTransport, mailOption, _a, err_2;
-    var _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var emailTransport, _a, emailContext, authEmailId_1, mailOption, err_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
                 emailTransport = nodemailer_1.default.createTransport((0, nodemailer_smtp_transport_1.default)({
                     service: "" + process.env.EMAIL_SERVICE,
@@ -80,25 +82,24 @@ var sendEmailToValidate = function (user) { return __awaiter(void 0, void 0, voi
                         pass: "" + process.env.EMAIL_PASSWORD,
                     },
                 }));
-                _c.label = 1;
+                _b.label = 1;
             case 1:
-                _c.trys.push([1, 3, , 4]);
-                _b = {
-                    from: "" + process.env.EMAIL,
-                    to: "" + user.email,
-                    subject: '이메일 인증'
-                };
-                _a = "";
+                _b.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, getEmailContext(user)];
             case 2:
-                mailOption = (_b.html = _a + (_c.sent()),
-                    _b);
+                _a = _b.sent(), emailContext = _a.emailContext, authEmailId_1 = _a.authEmailId;
+                mailOption = {
+                    from: "" + process.env.EMAIL,
+                    to: "" + user.email,
+                    subject: '이메일 인증',
+                    html: "" + emailContext,
+                };
                 emailTransport.sendMail(mailOption, function (err, res) {
                     emailTransport.close();
-                    node_cron_1.default.schedule('10 * * * * *', function () { return __awaiter(void 0, void 0, void 0, function () {
+                    node_cron_1.default.schedule('* * 1 * * *', function () { return __awaiter(void 0, void 0, void 0, function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, authEmail_1.AuthEmail.deleteRandomKey(user)];
+                                case 0: return [4 /*yield*/, authEmail_1.AuthEmail.deleteRandomKey(authEmailId_1)];
                                 case 1:
                                     _a.sent();
                                     return [2 /*return*/];
@@ -109,7 +110,7 @@ var sendEmailToValidate = function (user) { return __awaiter(void 0, void 0, voi
                 });
                 return [3 /*break*/, 4];
             case 3:
-                err_2 = _c.sent();
+                err_2 = _b.sent();
                 return [2 /*return*/, err_2];
             case 4: return [2 /*return*/];
         }
