@@ -77,13 +77,13 @@ export const validateStation = async (
   }
 };
 
-export const validatePassword = (
+export const validateUserInfo = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { email, password }: SignupData = req.body;
-  if (!isValidPassword(password)) {
+  if (isValidPassword(password)) {
     res.status(400);
     return res.json(
       jsonErrorResponse(req, { message: ErrorMessage.InvalidPassword })

@@ -44,17 +44,15 @@ var node_cron_1 = __importDefault(require("node-cron"));
 var nodemailer_1 = __importDefault(require("nodemailer"));
 var nodemailer_smtp_transport_1 = __importDefault(require("nodemailer-smtp-transport"));
 var authEmail_1 = require("../entity/authEmail");
-var math_1 = require("./math");
 dotenv_1.default.config();
 var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0, function () {
-    var randomString, nowTimeAsSecond, url, insertId, err_1;
+    var randomString, url, insertId, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 randomString = Math.random().toString(36).substr(2, 11);
-                nowTimeAsSecond = (0, math_1.getTimeAsSecond)();
-                url = process.env.CLIENT_ORIGIN + "/authentication/signup?key=" + randomString + "&signupTime=" + nowTimeAsSecond;
+                url = process.env.CLIENT_ORIGIN + "/signup/email?key=" + randomString + "&id=" + (user === null || user === void 0 ? void 0 : user.id);
                 return [4 /*yield*/, authEmail_1.AuthEmail.setRandomKey(user, randomString)];
             case 1:
                 insertId = (_a.sent()).raw.insertId;

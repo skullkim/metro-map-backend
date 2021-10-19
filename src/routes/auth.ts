@@ -8,13 +8,13 @@ import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { jsonResponse } from '../lib/jsonResponse/success';
 import { ErrorMessage, SignupData, SuccessMessage } from '../lib/type/auth';
 
-import { validatePassword } from './middleWare';
+import { validateUserInfo } from './middleWare';
 
 const router = express.Router();
 
 router.post(
   '/signup',
-  validatePassword,
+  validateUserInfo,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password }: SignupData = req.body;

@@ -40,6 +40,13 @@ var AuthEmail = /** @class */ (function (_super) {
             .values({ user: user, randomKey: randomKey })
             .execute();
     };
+    AuthEmail.isValidKey = function (key, userId) {
+        return this.createQueryBuilder('authEmail')
+            .innerJoin('authEmail.user', 'user')
+            .where('user.id = :userId', { userId: userId })
+            .andWhere('randomKey = :key', { key: key })
+            .getOne();
+    };
     AuthEmail.deleteRandomKey = function (id) {
         return this.createQueryBuilder('authEmail')
             .delete()

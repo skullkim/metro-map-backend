@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var express_1 = __importDefault(require("express"));
+var authEmail_1 = require("../entity/authEmail");
 var user_1 = require("../entity/user");
 var emailAuth_1 = __importDefault(require("../lib/emailAuth"));
 var fail_1 = require("../lib/jsonResponse/fail");
@@ -75,7 +76,7 @@ router.post('/signup', middleWare_1.validatePassword, function (req, res, next) 
                 _c.sent();
                 if (newUser) {
                     res.status(201);
-                    return [2 /*return*/, res.json((0, success_1.jsonResponse)(req, { message: 'success' }, 201))];
+                    return [2 /*return*/, res.json((0, success_1.jsonResponse)(req, { message: "" + auth_1.SuccessMessage.VerifyEmail }, 201))];
                 }
                 return [3 /*break*/, 7];
             case 6:
@@ -86,9 +87,36 @@ router.post('/signup', middleWare_1.validatePassword, function (req, res, next) 
         }
     });
 }); });
-// router.get('/', (req: Request, res: Response, next: NextFunction) => {
-//   sendEmailToValidate('aaa');
-//   res.end();
-// });
+router.get('/signup/email', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, key, id, randomKey, err_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 4, , 5]);
+                _a = req.query, key = _a.key, id = _a.id;
+                return [4 /*yield*/, authEmail_1.AuthEmail.isValidKey(key, Number(id))];
+            case 1:
+                randomKey = _b.sent();
+                if (!randomKey) {
+                    res.status(403);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: "" + auth_1.ErrorMessage.EmailValidationTimeOut }, 403))];
+                }
+                return [4 /*yield*/, user_1.User.userCheckedEmail(Number(id))];
+            case 2:
+                _b.sent();
+                return [4 /*yield*/, authEmail_1.AuthEmail.deleteRandomKey(randomKey.id)];
+            case 3:
+                _b.sent();
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, { message: "" + auth_1.SuccessMessage.VerifyEmailComplete }));
+                return [3 /*break*/, 5];
+            case 4:
+                err_2 = _b.sent();
+                next(err_2);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = router;
 //# sourceMappingURL=auth.js.map

@@ -15,7 +15,7 @@ const getEmailContext = async (
 ): Promise<EmailContext> => {
   try {
     const randomString: string = Math.random().toString(36).substr(2, 11);
-    const url = `${process.env.CLIENT_ORIGIN}/authentication/signup/email?key=${randomString}&id=${user?.id}`;
+    const url = `${process.env.CLIENT_ORIGIN}/signup/email?key=${randomString}&id=${user?.id}`;
     const {
       raw: { insertId },
     } = await AuthEmail.setRandomKey(user, randomString);

@@ -46,6 +46,13 @@ var User = /** @class */ (function (_super) {
             .values([{ email: email, password: password, checkedEmail: false }])
             .execute();
     };
+    User.userCheckedEmail = function (id) {
+        return this.createQueryBuilder('user')
+            .update(User_1)
+            .set({ checkedEmail: true })
+            .where('id = :id', { id: id })
+            .execute();
+    };
     var User_1;
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
