@@ -8,7 +8,7 @@ import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { jsonResponse } from '../lib/jsonResponse/success';
 import { ErrorMessage, SignupData, SuccessMessage } from '../lib/type/auth';
 
-import { validateUserInfo } from './middleWare';
+import { validateEmail, validateUserInfo } from './middleWare';
 
 const router = express.Router();
 
@@ -66,6 +66,23 @@ router.get(
       res.status(200);
       res.json(
         jsonResponse(req, { message: `${SuccessMessage.VerifyEmailComplete}` })
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.post(
+  '/signup/email/reauthorization',
+  validateEmail,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const exUser: User = res.locals.exUser;
+      await sendEmailToValidate(exUser);
+      res.status(200);
+      res.json(
+        jsonResponse(req, { message: SuccessMessage.RecertificationEmail })
       );
     } catch (err) {
       next(err);

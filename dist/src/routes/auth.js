@@ -49,7 +49,7 @@ var success_1 = require("../lib/jsonResponse/success");
 var auth_1 = require("../lib/type/auth");
 var middleWare_1 = require("./middleWare");
 var router = express_1.default.Router();
-router.post('/signup', middleWare_1.validatePassword, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/signup', middleWare_1.validateUserInfo, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, exUser, bcryptPassword, newUser, _b, err_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
