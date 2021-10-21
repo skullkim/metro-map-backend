@@ -3,9 +3,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+import passport from 'passport';
 import { createConnection } from 'typeorm';
 
 import { ReqError, HttpException } from './lib/type/Error';
+import passportConfig from './passport';
 import authRouter from './routes/auth';
 import pathRouter from './routes/path';
 
@@ -39,6 +41,8 @@ createConnection().then(() => {
     res.setHeader('Cache-Control', 'no-store');
     next();
   });
+  app.use(passport.initialize());
+  passportConfig();
 
   app.use('/path', pathRouter);
   app.use('/authentication', authRouter);

@@ -1,12 +1,21 @@
 import bcrypt from 'bcrypt';
 import express, { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import passport from 'passport';
 
 import { AuthEmail } from '../entity/authEmail';
+import { Token } from '../entity/token';
 import { User } from '../entity/user';
 import sendEmailToValidate from '../lib/emailAuth';
 import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { jsonResponse } from '../lib/jsonResponse/success';
-import { ErrorMessage, SignupData, SuccessMessage } from '../lib/type/auth';
+import { generateAccessToken } from '../lib/token';
+import {
+  ErrorMessage,
+  SignupData,
+  SuccessMessage,
+  UserAccessToken,
+} from '../lib/type/auth';
 
 import { validateEmail, validateUserInfo } from './middleWare';
 
@@ -80,6 +89,7 @@ router.post(
     try {
       const exUser: User = res.locals.exUser;
       await sendEmailToValidate(exUser);
+
       res.status(200);
       res.json(
         jsonResponse(req, { message: SuccessMessage.RecertificationEmail })
@@ -87,6 +97,49 @@ router.post(
     } catch (err) {
       next(err);
     }
+  }
+);
+
+router.post(
+  '/signin',
+  validateUserInfo,
+  async (req: Request, res: Response, next: NextFunction) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        res.status(
+          info.message === ErrorMessage.DidNotVerifyEmailYet ? 401 : 400
+        );
+        return res.json(jsonErrorResponse(req, info));
+      }
+
+      req.login(user, { session: false }, async (loginError) => {
+        if (loginError) {
+          next(loginError);
+        }
+
+        const { id, email }: User = user;
+        const tokenData: UserAccessToken = { id, email };
+
+        const accessToken = generateAccessToken(tokenData);
+        const refreshToken = jwt.sign(
+          tokenData,
+          `${process.env.JWT_REFRESH_SECRET}`
+        );
+
+        await Token.setRefreshToken(user, refreshToken);
+
+        res.cookie('subwayRefreshToken', refreshToken, {
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
+        });
+        res.json(jsonResponse(req, { user_id: user.id, accessToken }));
+      });
+    })(req, res, next);
   }
 );
 

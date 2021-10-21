@@ -48,6 +48,8 @@ var fail_1 = require("../lib/jsonResponse/fail");
 var success_1 = require("../lib/jsonResponse/success");
 var auth_1 = require("../lib/type/auth");
 var middleWare_1 = require("./middleWare");
+var passport_1 = __importDefault(require("passport"));
+var token_1 = require("../lib/token");
 var router = express_1.default.Router();
 router.post('/signup', middleWare_1.validateUserInfo, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, exUser, bcryptPassword, newUser, _b, err_1;
@@ -137,6 +139,32 @@ router.post('/signup/email/reauthorization', middleWare_1.validateEmail, functio
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
+    });
+}); });
+router.post('/signin', middleWare_1.validateUserInfo, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        passport_1.default.authenticate('local', { session: false }, function (err, user, info) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                res.status(info.message === auth_1.ErrorMessage.DidNotVerifyEmailYet ? 401 : 400);
+                return res.json((0, fail_1.jsonErrorResponse)(req, info));
+            }
+            var id = user.id, email = user.email;
+            var tokenData = { id: id, email: email };
+            req.login(user, { session: false }, function (loginError) { return __awaiter(void 0, void 0, void 0, function () {
+                var accessToken;
+                return __generator(this, function (_a) {
+                    if (loginError) {
+                        next(loginError);
+                        accessToken = (0, token_1.generateAccessToken)(tokenData);
+                    }
+                    return [2 /*return*/];
+                });
+            }); });
+        })(req, res, next);
+        return [2 /*return*/];
     });
 }); });
 exports.default = router;

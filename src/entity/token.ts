@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
   Column,
@@ -9,7 +10,7 @@ import {
 import { User } from './user';
 
 @Entity()
-export class Token {
+export class Token extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -20,5 +21,13 @@ export class Token {
 
   @OneToOne(() => User)
   @JoinColumn()
-  userId!: User;
+  user!: User;
+
+  static setRefreshToken(user: User | undefined, refreshToken: string) {
+    return this.createQueryBuilder('token')
+      .insert()
+      .into(Token)
+      .values({ user, refreshToken })
+      .execute();
+  }
 }

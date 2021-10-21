@@ -9,8 +9,10 @@ var dotenv_1 = __importDefault(require("dotenv"));
 var express_1 = __importDefault(require("express"));
 var morgan_1 = __importDefault(require("morgan"));
 var typeorm_1 = require("typeorm");
+var passport_1 = __importDefault(require("passport"));
 var auth_1 = __importDefault(require("./routes/auth"));
 var path_1 = __importDefault(require("./routes/path"));
+var passport_2 = __importDefault(require("./passport"));
 (0, typeorm_1.createConnection)().then(function () {
     var app = (0, express_1.default)();
     dotenv_1.default.config();
@@ -33,6 +35,8 @@ var path_1 = __importDefault(require("./routes/path"));
         res.setHeader('Cache-Control', 'no-store');
         next();
     });
+    app.use(passport_1.default.initialize());
+    (0, passport_2.default)();
     app.use('/path', path_1.default);
     app.use('/authentication', auth_1.default);
     app.use(function (req, response, next) {

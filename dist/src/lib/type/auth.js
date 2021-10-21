@@ -8,6 +8,9 @@ var ErrorMessage;
     ErrorMessage["InvalidEmail"] = "\uC720\uD6A8\uD558\uC9C0 \uC54A\uC740 \uC774\uBA54\uC77C\uC785\uB2C8\uB2E4";
     ErrorMessage["EmailValidationTimeOut"] = "\uC778\uC99D\uBA54\uC77C \uC720\uD6A8\uC2DC\uAC04\uC774 \uC9C0\uB0AC\uC2B5\uB2C8\uB2E4. \uB2E4\uC2DC \uC778\uC99D \uC694\uCCAD\uC744 \uD574\uC8FC\uC138\uC694";
     ErrorMessage["EmailAlreadyVerified"] = "\uC774\uBBF8 \uC778\uC99D\uD55C \uC774\uBA54\uC77C \uC785\uB2C8\uB2E4";
+    ErrorMessage["DidNotSignUpYet"] = "\uD68C\uC6D0\uAC00\uC785\uC744 \uD558\uC9C0 \uC54A\uC740 \uACC4\uC815\uC785\uB2C8\uB2E4";
+    ErrorMessage["WrongPassword"] = "\uBE44\uBC00\uBC88\uD638\uAC00 \uD2C0\uB838\uC2B5\uB2C8\uB2E4";
+    ErrorMessage["DidNotVerifyEmailYet"] = "\uC544\uC9C1 \uC774\uBA54\uC77C \uC778\uC99D\uC744 \uD558\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4";
 })(ErrorMessage = exports.ErrorMessage || (exports.ErrorMessage = {}));
 var SuccessMessage;
 (function (SuccessMessage) {

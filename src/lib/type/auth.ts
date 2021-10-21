@@ -9,6 +9,9 @@ export enum ErrorMessage {
   InvalidEmail = '유효하지 않은 이메일입니다',
   EmailValidationTimeOut = '인증메일 유효시간이 지났습니다. 다시 인증 요청을 해주세요',
   EmailAlreadyVerified = '이미 인증한 이메일 입니다',
+  DidNotSignUpYet = '회원가입을 하지 않은 계정입니다',
+  WrongPassword = '비밀번호가 틀렸습니다',
+  DidNotVerifyEmailYet = '아직 이메일 인증을 하지 않았습니다',
 }
 
 export enum SuccessMessage {
@@ -20,4 +23,9 @@ export enum SuccessMessage {
 export interface EmailContext {
   emailContext: string;
   authEmailId: number;
+}
+
+export interface UserAccessToken {
+  id: number;
+  email: string;
 }
