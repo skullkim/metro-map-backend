@@ -36,7 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateUserInfo = exports.validateStation = void 0;
+exports.validateEmail = exports.validateUserInfo = exports.validateStation = void 0;
+var user_1 = require("../entity/user");
 var fail_1 = require("../lib/jsonResponse/fail");
 var auth_1 = require("../lib/type/auth");
 var searchPath_1 = require("../lib/type/searchPath");
@@ -99,7 +100,7 @@ var validateStation = function (req, res, next) { return __awaiter(void 0, void 
 exports.validateStation = validateStation;
 var validateUserInfo = function (req, res, next) {
     var _a = req.body, email = _a.email, password = _a.password;
-    if ((0, auth_2.isValidPassword)(password)) {
+    if (!(0, auth_2.isValidPassword)(password)) {
         res.status(400);
         return res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidPassword }));
     }
@@ -110,4 +111,34 @@ var validateUserInfo = function (req, res, next) {
     next();
 };
 exports.validateUserInfo = validateUserInfo;
+var validateEmail = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var email, exUser, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                email = req.body.email;
+                return [4 /*yield*/, user_1.User.getUser(email)];
+            case 1:
+                exUser = _a.sent();
+                if (!(0, auth_2.isValidEmail)(email) || !exUser) {
+                    res.status(400);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidEmail }))];
+                }
+                else if (exUser && exUser.checkedEmail) {
+                    res.status(409);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.EmailAlreadyVerified }, 409))];
+                }
+                res.locals.exUser = exUser;
+                next();
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                next(err_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.validateEmail = validateEmail;
 //# sourceMappingURL=middleWare.js.map

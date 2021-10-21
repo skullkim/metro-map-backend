@@ -17,6 +17,11 @@ var results = [
         statusText: 'Forbidden',
         description: 'The request wat forwarded to the server, but declined because of permissions',
     },
+    {
+        status: 409,
+        statusText: 'Conflict',
+        description: 'The request could not be completed due to a conflict with the current state of the resource.',
+    },
 ];
 var jsonErrorResponse = function (req, error, status) {
     if (status === void 0) { status = 400; }

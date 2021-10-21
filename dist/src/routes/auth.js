@@ -118,5 +118,26 @@ router.get('/signup/email', function (req, res, next) { return __awaiter(void 0,
         }
     });
 }); });
+router.post('/signup/email/reauthorization', middleWare_1.validateEmail, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var exUser, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                exUser = res.locals.exUser;
+                return [4 /*yield*/, (0, emailAuth_1.default)(exUser)];
+            case 1:
+                _a.sent();
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, { message: auth_1.SuccessMessage.RecertificationEmail }));
+                return [3 /*break*/, 3];
+            case 2:
+                err_3 = _a.sent();
+                next(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = router;
 //# sourceMappingURL=auth.js.map
