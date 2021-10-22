@@ -53,14 +53,16 @@ module.exports = function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, user_1.User.getUser(email)];
                 case 1:
                     exUser = _a.sent();
                     if (!exUser) {
                         return [2 /*return*/, done(null, false, { message: auth_1.ErrorMessage.DidNotSignUpYet })];
                     }
-                    isValidPassword = bcrypt_1.default.compare(password, exUser.password);
+                    return [4 /*yield*/, bcrypt_1.default.compare(password, exUser.password)];
+                case 2:
+                    isValidPassword = _a.sent();
                     if (!isValidPassword) {
                         return [2 /*return*/, done(null, false, { message: auth_1.ErrorMessage.WrongPassword })];
                     }
@@ -70,12 +72,12 @@ module.exports = function () {
                             })];
                     }
                     done(null, exUser);
-                    return [3 /*break*/, 3];
-                case 2:
+                    return [3 /*break*/, 4];
+                case 3:
                     err_1 = _a.sent();
                     done(err_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); }));
