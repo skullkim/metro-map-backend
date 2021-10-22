@@ -110,10 +110,10 @@ router.post(
       }
 
       if (!user) {
-        res.status(
-          info.message === ErrorMessage.DidNotVerifyEmailYet ? 401 : 400
-        );
-        return res.json(jsonErrorResponse(req, info));
+        const status: number =
+          info.message === ErrorMessage.DidNotVerifyEmailYet ? 401 : 400;
+        res.status(status);
+        return res.json(jsonErrorResponse(req, info, status));
       }
 
       req.login(user, { session: false }, async (loginError) => {

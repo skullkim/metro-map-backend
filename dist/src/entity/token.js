@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12,9 +27,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Token = void 0;
 var typeorm_1 = require("typeorm");
 var user_1 = require("./user");
-var Token = /** @class */ (function () {
+var Token = /** @class */ (function (_super) {
+    __extends(Token, _super);
     function Token() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
+    Token_1 = Token;
+    Token.setRefreshToken = function (user, refreshToken) {
+        return this.createQueryBuilder('token')
+            .insert()
+            .into(Token_1)
+            .values({ user: user, refreshToken: refreshToken })
+            .execute();
+    };
+    var Token_1;
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
@@ -29,11 +55,11 @@ var Token = /** @class */ (function () {
         (0, typeorm_1.OneToOne)(function () { return user_1.User; }),
         (0, typeorm_1.JoinColumn)(),
         __metadata("design:type", user_1.User)
-    ], Token.prototype, "userId", void 0);
-    Token = __decorate([
+    ], Token.prototype, "user", void 0);
+    Token = Token_1 = __decorate([
         (0, typeorm_1.Entity)()
     ], Token);
     return Token;
-}());
+}(typeorm_1.BaseEntity));
 exports.Token = Token;
 //# sourceMappingURL=token.js.map

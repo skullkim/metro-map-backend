@@ -41,15 +41,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var express_1 = __importDefault(require("express"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var passport_1 = __importDefault(require("passport"));
 var authEmail_1 = require("../entity/authEmail");
+var token_1 = require("../entity/token");
 var user_1 = require("../entity/user");
 var emailAuth_1 = __importDefault(require("../lib/emailAuth"));
 var fail_1 = require("../lib/jsonResponse/fail");
 var success_1 = require("../lib/jsonResponse/success");
+var token_2 = require("../lib/token");
 var auth_1 = require("../lib/type/auth");
 var middleWare_1 = require("./middleWare");
-var passport_1 = __importDefault(require("passport"));
-var token_1 = require("../lib/token");
 var router = express_1.default.Router();
 router.post('/signup', middleWare_1.validateUserInfo, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, exUser, bcryptPassword, newUser, _b, err_1;
@@ -148,19 +150,33 @@ router.post('/signin', middleWare_1.validateUserInfo, function (req, res, next) 
                 return next(err);
             }
             if (!user) {
-                res.status(info.message === auth_1.ErrorMessage.DidNotVerifyEmailYet ? 401 : 400);
-                return res.json((0, fail_1.jsonErrorResponse)(req, info));
+                var status_1 = info.message === auth_1.ErrorMessage.DidNotVerifyEmailYet ? 401 : 400;
+                res.status(status_1);
+                return res.json((0, fail_1.jsonErrorResponse)(req, info, status_1));
             }
-            var id = user.id, email = user.email;
-            var tokenData = { id: id, email: email };
             req.login(user, { session: false }, function (loginError) { return __awaiter(void 0, void 0, void 0, function () {
-                var accessToken;
+                var id, email, tokenData, accessToken, refreshToken;
                 return __generator(this, function (_a) {
-                    if (loginError) {
-                        next(loginError);
-                        accessToken = (0, token_1.generateAccessToken)(tokenData);
+                    switch (_a.label) {
+                        case 0:
+                            if (loginError) {
+                                next(loginError);
+                            }
+                            id = user.id, email = user.email;
+                            tokenData = { id: id, email: email };
+                            accessToken = (0, token_2.generateAccessToken)(tokenData);
+                            refreshToken = jsonwebtoken_1.default.sign(tokenData, "" + process.env.JWT_REFRESH_SECRET);
+                            return [4 /*yield*/, token_1.Token.setRefreshToken(user, refreshToken)];
+                        case 1:
+                            _a.sent();
+                            res.cookie('subwayRefreshToken', refreshToken, {
+                                httpOnly: true,
+                                sameSite: 'none',
+                                secure: true,
+                            });
+                            res.json((0, success_1.jsonResponse)(req, { user_id: user.id, accessToken: accessToken }));
+                            return [2 /*return*/];
                     }
-                    return [2 /*return*/];
                 });
             }); });
         })(req, res, next);

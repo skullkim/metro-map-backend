@@ -39,8 +39,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var passport_1 = __importDefault(require("passport"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
+var passport_1 = __importDefault(require("passport"));
 var passport_local_1 = require("passport-local");
 var user_1 = require("../entity/user");
 var auth_1 = require("../lib/type/auth");
@@ -65,7 +65,9 @@ module.exports = function () {
                         return [2 /*return*/, done(null, false, { message: auth_1.ErrorMessage.WrongPassword })];
                     }
                     if (!exUser.checkedEmail) {
-                        return [2 /*return*/, done(null, false, { message: auth_1.ErrorMessage.DidNotVerifyEmailYet })];
+                        return [2 /*return*/, done(null, false, {
+                                message: auth_1.ErrorMessage.DidNotVerifyEmailYet,
+                            })];
                     }
                     done(null, exUser);
                     return [3 /*break*/, 3];

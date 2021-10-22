@@ -19,7 +19,10 @@ module.exports = () => {
             return done(null, false, { message: ErrorMessage.DidNotSignUpYet });
           }
 
-          const isValidPassword = bcrypt.compare(password, exUser.password);
+          const isValidPassword = await bcrypt.compare(
+            password,
+            exUser.password
+          );
           if (!isValidPassword) {
             return done(null, false, { message: ErrorMessage.WrongPassword });
           }
