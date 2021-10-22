@@ -30,4 +30,12 @@ export class Token extends BaseEntity {
       .values({ user, refreshToken })
       .execute();
   }
+
+  static deleteRefreshToken(refreshToken: string) {
+    return this.createQueryBuilder('token')
+      .delete()
+      .from(Token)
+      .where('refreshToken = :refreshToken', { refreshToken })
+      .execute();
+  }
 }

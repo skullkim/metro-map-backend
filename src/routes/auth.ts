@@ -17,7 +17,7 @@ import {
   UserAccessToken,
 } from '../lib/type/auth';
 
-import { validateEmail, validateUserInfo } from './middleWare';
+import { validateEmail, validateUserInfo, verifyToken } from './middleWare';
 
 const router = express.Router();
 
@@ -132,7 +132,7 @@ router.post(
 
         await Token.setRefreshToken(user, refreshToken);
 
-        res.cookie('subwayRefreshToken', refreshToken, {
+        res.cookie(`${process.env.JWT_REFRESH_TOKEN}`, refreshToken, {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
@@ -140,6 +140,24 @@ router.post(
         res.json(jsonResponse(req, { user_id: user.id, accessToken }));
       });
     })(req, res, next);
+  }
+);
+
+router.post(
+  '/logout',
+  verifyToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      req.logOut();
+      res.clearCookie(`${process.env.JWT_REFRESH_TOKEN}`);
+      await Token.deleteRefreshToken(
+        req.cookies[`${process.env.JWT_REFRESH_TOKEN}`]
+      );
+      res.status(204);
+      res.json(jsonResponse(req, {}, 204));
+    } catch (err) {
+      next(err);
+    }
   }
 );
 
