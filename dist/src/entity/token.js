@@ -40,6 +40,13 @@ var Token = /** @class */ (function (_super) {
             .values({ user: user, refreshToken: refreshToken })
             .execute();
     };
+    Token.deleteRefreshToken = function (refreshToken) {
+        return this.createQueryBuilder('token')
+            .delete()
+            .from(Token_1)
+            .where('refreshToken = :refreshToken', { refreshToken: refreshToken })
+            .execute();
+    };
     var Token_1;
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),

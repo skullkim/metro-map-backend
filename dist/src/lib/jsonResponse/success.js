@@ -12,6 +12,11 @@ var results = [
         statusText: 'Created',
         description: 'Server successfully generates information from client request',
     },
+    {
+        status: 204,
+        statusText: 'No Content',
+        description: 'erver has successfully fulfilled the request and that there is no additional content to send in the response payload body.',
+    },
 ];
 var jsonResponse = function (req, data, status) {
     if (status === void 0) { status = 200; }

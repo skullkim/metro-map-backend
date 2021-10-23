@@ -35,8 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateEmail = exports.validateUserInfo = exports.validateStation = void 0;
+exports.verifyToken = exports.validateEmail = exports.validateUserInfo = exports.validateStation = void 0;
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var user_1 = require("../entity/user");
 var fail_1 = require("../lib/jsonResponse/fail");
 var auth_1 = require("../lib/type/auth");
@@ -141,4 +145,38 @@ var validateEmail = function (req, res, next) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.validateEmail = validateEmail;
+var verifyToken = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var authorization, _a, err_3;
+    var _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _c.trys.push([0, 3, , 4]);
+                authorization = (_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(' ');
+                if (authorization && authorization[0] !== 'Bearer') {
+                    res.status(401);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: 'Authentication error' }, 401))];
+                }
+                if (!authorization) return [3 /*break*/, 2];
+                _a = res.locals;
+                return [4 /*yield*/, jsonwebtoken_1.default.verify(authorization[1], "" + process.env.JWT_ACCESS_SECRET)];
+            case 1:
+                _a.userData = _c.sent();
+                _c.label = 2;
+            case 2:
+                next();
+                return [3 /*break*/, 4];
+            case 3:
+                err_3 = _c.sent();
+                if (err_3.name === 'TokenExpiredError') {
+                    res.status(403);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403))];
+                }
+                res.status(401);
+                return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: 'invalid token' }, 401))];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.verifyToken = verifyToken;
 //# sourceMappingURL=middleWare.js.map

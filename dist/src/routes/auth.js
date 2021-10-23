@@ -169,7 +169,7 @@ router.post('/signin', middleWare_1.validateUserInfo, function (req, res, next) 
                             return [4 /*yield*/, token_1.Token.setRefreshToken(user, refreshToken)];
                         case 1:
                             _a.sent();
-                            res.cookie('subwayRefreshToken', refreshToken, {
+                            res.cookie("" + process.env.JWT_REFRESH_TOKEN, refreshToken, {
                                 httpOnly: true,
                                 sameSite: 'none',
                                 secure: true,
@@ -181,6 +181,28 @@ router.post('/signin', middleWare_1.validateUserInfo, function (req, res, next) 
             }); });
         })(req, res, next);
         return [2 /*return*/];
+    });
+}); });
+router.post('/logout', middleWare_1.verifyToken, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var err_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                req.logOut();
+                res.clearCookie("" + process.env.JWT_REFRESH_TOKEN);
+                return [4 /*yield*/, token_1.Token.deleteRefreshToken(req.cookies["" + process.env.JWT_REFRESH_TOKEN])];
+            case 1:
+                _a.sent();
+                res.status(204);
+                res.json((0, success_1.jsonResponse)(req, {}, 204));
+                return [3 /*break*/, 3];
+            case 2:
+                err_4 = _a.sent();
+                next(err_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
 }); });
 exports.default = router;
