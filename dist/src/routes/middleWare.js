@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = exports.validateEmail = exports.validateUserInfo = exports.validateStation = void 0;
+exports.verifyRefreshToken = exports.verifyToken = exports.validateEmail = exports.validateUserInfo = exports.validateStation = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var user_1 = require("../entity/user");
 var fail_1 = require("../lib/jsonResponse/fail");
@@ -179,4 +179,12 @@ var verifyToken = function (req, res, next) { return __awaiter(void 0, void 0, v
     });
 }); };
 exports.verifyToken = verifyToken;
+var verifyRefreshToken = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var refreshToken;
+    return __generator(this, function (_a) {
+        refreshToken = req.cookies;
+        return [2 /*return*/];
+    });
+}); };
+exports.verifyRefreshToken = verifyRefreshToken;
 //# sourceMappingURL=middleWare.js.map

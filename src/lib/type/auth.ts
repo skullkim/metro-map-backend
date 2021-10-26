@@ -29,3 +29,9 @@ export interface UserAccessToken {
   id: number;
   email: string;
 }
+
+export interface RefreshToken {
+  id: number;
+  email: string;
+  iat: number;
+}

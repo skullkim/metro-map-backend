@@ -205,5 +205,15 @@ router.post('/logout', middleWare_1.verifyToken, function (req, res, next) { ret
         }
     });
 }); });
+router.get('/refresh-token', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        try {
+        }
+        catch (err) {
+            next(err);
+        }
+        return [2 /*return*/];
+    });
+}); });
 exports.default = router;
 //# sourceMappingURL=auth.js.map
