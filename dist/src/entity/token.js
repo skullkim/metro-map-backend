@@ -40,6 +40,11 @@ var Token = /** @class */ (function (_super) {
             .values({ user: user, refreshToken: refreshToken })
             .execute();
     };
+    Token.getRefreshToken = function (refreshToken) {
+        return this.createQueryBuilder('token')
+            .where('Token.refreshToken = :refreshToken', { refreshToken: refreshToken })
+            .getOne();
+    };
     Token.deleteRefreshToken = function (refreshToken) {
         return this.createQueryBuilder('token')
             .delete()

@@ -141,7 +141,7 @@ export const verifyToken = async (
     if (authorization && authorization[0] !== 'Bearer') {
       res.status(401);
       return res.json(
-        jsonErrorResponse(req, { message: 'Authentication error' }, 401)
+        jsonErrorResponse(req, { message: ErrorMessage.TokenAuth }, 401)
       );
     }
     if (authorization) {
@@ -155,26 +155,36 @@ export const verifyToken = async (
     if (err.name === 'TokenExpiredError') {
       res.status(403);
       return res.json(
-        jsonErrorResponse(req, { message: 'token expired' }, 403)
+        jsonErrorResponse(req, { message: ErrorMessage.TokenExpired }, 403)
       );
     }
     res.status(401);
-    return res.json(jsonErrorResponse(req, { message: 'invalid token' }, 401));
+    return res.json(
+      jsonErrorResponse(req, { message: ErrorMessage.InvalidToken }, 401)
+    );
   }
 };
 
-export const verifyRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
+export const verifyRefreshToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const refreshToken = req.cookies[`${process.env.JWT_REFRESH_TOKEN}`];
-  if(!refreshToken) {
+  if (!refreshToken) {
     res.status(401);
-    return res.json(jsonErrorResponse(req, {message: 'invalidToken'}, 401));
+    return res.json(
+      jsonErrorResponse(req, { message: ErrorMessage.InvalidToken }, 401)
+    );
   }
 
   const dbRefreshToken = await Token.getRefreshToken(refreshToken);
-  if(!dbRefreshToken) {
+  if (!dbRefreshToken) {
     res.status(403);
-    return res.json(jsonErrorResponse(req, {message: 'token expired'}, 403));
+    return res.json(
+      jsonErrorResponse(req, { message: ErrorMessage.TokenExpired }, 403)
+    );
   }
   res.locals.refreshToken = refreshToken;
   next();
-}
+};

@@ -35,6 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -205,15 +216,18 @@ router.post('/logout', middleWare_1.verifyToken, function (req, res, next) { ret
         }
     });
 }); });
-router.get('/refresh-token', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        try {
+router.get('/refresh-token', middleWare_1.verifyRefreshToken, function (req, res, next) {
+    var refreshToken = res.locals.refreshToken;
+    jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
+        var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
+        if (err) {
+            res.status(403);
+            return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
         }
-        catch (err) {
-            next(err);
-        }
-        return [2 /*return*/];
+        var accessToken = (0, token_2.generateAccessToken)(userInfo);
+        res.status(201);
+        res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
     });
-}); });
+});
 exports.default = router;
 //# sourceMappingURL=auth.js.map

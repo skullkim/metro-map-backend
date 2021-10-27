@@ -57,8 +57,8 @@
       }
     ],
     "no-console": "error",
-    "no-unused-vars": ["error", {"argsIgnorePattern": "next"}],
-    "@typescript-eslint/no-unused-vars": ["error", {"argsIgnorePattern": "next"}]
+    "no-unused-vars": ["error", {"argsIgnorePattern": "next", "varsIgnorePattern": "iat"}],
+    "@typescript-eslint/no-unused-vars": ["error", {"argsIgnorePattern": "next", "varsIgnorePattern": "iat"}]
 
   },
   "settings": {

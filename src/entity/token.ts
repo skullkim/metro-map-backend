@@ -33,7 +33,7 @@ export class Token extends BaseEntity {
 
   static getRefreshToken(refreshToken: string) {
     return this.createQueryBuilder('token')
-      .where('Token.refreshToken = :refreshToken', {refreshToken})
+      .where('Token.refreshToken = :refreshToken', { refreshToken })
       .getOne();
   }
 

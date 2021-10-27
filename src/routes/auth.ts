@@ -11,13 +11,19 @@ import { jsonErrorResponse } from '../lib/jsonResponse/fail';
 import { jsonResponse } from '../lib/jsonResponse/success';
 import { generateAccessToken } from '../lib/token';
 import {
-  ErrorMessage, RefreshToken,
+  ErrorMessage,
+  RefreshToken,
   SignupData,
   SuccessMessage,
-  UserAccessToken
+  UserAccessToken,
 } from '../lib/type/auth';
 
-import { validateEmail, validateUserInfo, verifyRefreshToken, verifyToken } from './middleWare';
+import {
+  validateEmail,
+  validateUserInfo,
+  verifyRefreshToken,
+  verifyToken,
+} from './middleWare';
 
 const router = express.Router();
 
@@ -161,18 +167,28 @@ router.post(
   }
 );
 
-router.get('/refresh-token', verifyRefreshToken, (req: Request, res: Response, next: NextFunction) => {
-  const {refreshToken} = res.locals;
-  jwt.verify(refreshToken, `${process.env.JWT_REFRESH_SECRET}`, (err: any, user: any) => {
-    const {iat, ...userInfo} = user as RefreshToken;
-    if(err) {
-      res.status(403);
-      return res.json(jsonErrorResponse(req, {message: 'token expired'}, 403));
-    }
-    const accessToken = generateAccessToken(userInfo);
-    res.status(201);
-    res.json(jsonResponse(req, {accessToken: accessToken}, 201));
-  });
-});
+router.get(
+  '/refresh-token',
+  verifyRefreshToken,
+  (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken } = res.locals;
+    jwt.verify(
+      refreshToken,
+      `${process.env.JWT_REFRESH_SECRET}`,
+      (err: any, user: any) => {
+        const { iat, ...userInfo } = user as RefreshToken;
+        if (err) {
+          res.status(403);
+          return res.json(
+            jsonErrorResponse(req, { message: 'token expired' }, 403)
+          );
+        }
+        const accessToken = generateAccessToken(userInfo);
+        res.status(201);
+        res.json(jsonResponse(req, { accessToken: accessToken }, 201));
+      }
+    );
+  }
+);
 
 export default router;

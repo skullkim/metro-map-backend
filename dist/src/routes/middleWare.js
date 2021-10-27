@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyRefreshToken = exports.verifyToken = exports.validateEmail = exports.validateUserInfo = exports.validateStation = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var token_1 = require("../entity/token");
 var user_1 = require("../entity/user");
 var fail_1 = require("../lib/jsonResponse/fail");
 var auth_1 = require("../lib/type/auth");
@@ -155,7 +156,7 @@ var verifyToken = function (req, res, next) { return __awaiter(void 0, void 0, v
                 authorization = (_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(' ');
                 if (authorization && authorization[0] !== 'Bearer') {
                     res.status(401);
-                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: 'Authentication error' }, 401))];
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.TokenAuth }, 401))];
                 }
                 if (!authorization) return [3 /*break*/, 2];
                 _a = res.locals;
@@ -170,20 +171,36 @@ var verifyToken = function (req, res, next) { return __awaiter(void 0, void 0, v
                 err_3 = _c.sent();
                 if (err_3.name === 'TokenExpiredError') {
                     res.status(403);
-                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403))];
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.TokenExpired }, 403))];
                 }
                 res.status(401);
-                return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: 'invalid token' }, 401))];
+                return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidToken }, 401))];
             case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.verifyToken = verifyToken;
 var verifyRefreshToken = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var refreshToken;
+    var refreshToken, dbRefreshToken;
     return __generator(this, function (_a) {
-        refreshToken = req.cookies;
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                refreshToken = req.cookies["" + process.env.JWT_REFRESH_TOKEN];
+                if (!refreshToken) {
+                    res.status(401);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidToken }, 401))];
+                }
+                return [4 /*yield*/, token_1.Token.getRefreshToken(refreshToken)];
+            case 1:
+                dbRefreshToken = _a.sent();
+                if (!dbRefreshToken) {
+                    res.status(403);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.TokenExpired }, 403))];
+                }
+                res.locals.refreshToken = refreshToken;
+                next();
+                return [2 /*return*/];
+        }
     });
 }); };
 exports.verifyRefreshToken = verifyRefreshToken;

@@ -12,6 +12,9 @@ export enum ErrorMessage {
   DidNotSignUpYet = '회원가입을 하지 않은 계정입니다',
   WrongPassword = '비밀번호가 틀렸습니다',
   DidNotVerifyEmailYet = '아직 이메일 인증을 하지 않았습니다',
+  TokenAuth = 'Authentication error',
+  TokenExpired = 'token expired',
+  InvalidToken = 'invalidToken',
 }
 
 export enum SuccessMessage {
