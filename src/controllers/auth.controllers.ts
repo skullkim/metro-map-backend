@@ -147,10 +147,7 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const generateRefreshToken = (
-  req: Request,
-  res: Response,
-) => {
+const generateRefreshToken = (req: Request, res: Response) => {
   const { refreshToken } = res.locals;
   jwt.verify(
     refreshToken,

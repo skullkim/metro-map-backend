@@ -1,8 +1,7 @@
 import express, { Router } from 'express';
 
 import pathControllers from '../controllers/path.controllers';
-
-import { validateStation } from './middleWare';
+import validateStation from '../middleWares/validateStation';
 
 const router: Router = express.Router();
 

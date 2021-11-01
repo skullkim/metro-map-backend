@@ -35,21 +35,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var auth_1 = require("../lib/type/auth");
-var user_1 = require("../entity/user");
-var fail_1 = require("../lib/jsonResponse/fail");
 var bcrypt_1 = __importDefault(require("bcrypt"));
-var emailAuth_1 = __importDefault(require("../lib/emailAuth"));
-var success_1 = require("../lib/jsonResponse/success");
-var authEmail_1 = require("../entity/authEmail");
-var passport_1 = __importDefault(require("passport"));
-var token_1 = require("../lib/token");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var token_2 = require("../entity/token");
+var passport_1 = __importDefault(require("passport"));
+var authEmail_1 = require("../entity/authEmail");
+var token_1 = require("../entity/token");
+var user_1 = require("../entity/user");
+var emailAuth_1 = __importDefault(require("../lib/emailAuth"));
+var fail_1 = require("../lib/jsonResponse/fail");
+var success_1 = require("../lib/jsonResponse/success");
+var token_2 = require("../lib/token");
+var auth_1 = require("../lib/type/auth");
 var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, exUser, bcryptPassword, newUser, _b, err_1;
     return __generator(this, function (_c) {
@@ -161,9 +172,9 @@ var signin = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                             }
                             id = user.id, email = user.email;
                             tokenData = { id: id, email: email };
-                            accessToken = (0, token_1.generateAccessToken)(tokenData);
+                            accessToken = (0, token_2.generateAccessToken)(tokenData);
                             refreshToken = jsonwebtoken_1.default.sign(tokenData, "" + process.env.JWT_REFRESH_SECRET);
-                            return [4 /*yield*/, token_2.Token.setRefreshToken(user, refreshToken)];
+                            return [4 /*yield*/, token_1.Token.setRefreshToken(user, refreshToken)];
                         case 1:
                             _a.sent();
                             res.cookie("" + process.env.JWT_REFRESH_TOKEN, refreshToken, {
@@ -180,10 +191,47 @@ var signin = function (req, res, next) { return __awaiter(void 0, void 0, void 0
         return [2 /*return*/];
     });
 }); };
+var logout = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var err_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                req.logOut();
+                res.clearCookie("" + process.env.JWT_REFRESH_TOKEN);
+                return [4 /*yield*/, token_1.Token.deleteRefreshToken(req.cookies["" + process.env.JWT_REFRESH_TOKEN])];
+            case 1:
+                _a.sent();
+                res.status(204);
+                res.json((0, success_1.jsonResponse)(req, {}, 204));
+                return [3 /*break*/, 3];
+            case 2:
+                err_4 = _a.sent();
+                next(err_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var generateRefreshToken = function (req, res) {
+    var refreshToken = res.locals.refreshToken;
+    jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
+        var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
+        if (err) {
+            res.status(403);
+            return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
+        }
+        var accessToken = (0, token_2.generateAccessToken)(userInfo);
+        res.status(201);
+        res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
+    });
+};
 exports.default = {
     signup: signup,
     verifySignupEmail: verifySignupEmail,
     resendSignupEmail: resendSignupEmail,
     signin: signin,
+    logout: logout,
+    generateRefreshToken: generateRefreshToken,
 };
 //# sourceMappingURL=auth.controllers.js.map
