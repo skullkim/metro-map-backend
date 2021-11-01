@@ -35,68 +35,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var auth_controllers_1 = __importDefault(require("../controllers/auth.controllers"));
-var token_1 = require("../entity/token");
-var fail_1 = require("../lib/jsonResponse/fail");
 var success_1 = require("../lib/jsonResponse/success");
-var token_2 = require("../lib/token");
-var middleWare_1 = require("./middleWare");
-var router = express_1.default.Router();
-router.post('/signup', middleWare_1.validateUserInfo, auth_controllers_1.default.signup);
-router.get('/signup/email', auth_controllers_1.default.verifySignupEmail);
-router.post('/signup/email/reauthorization', middleWare_1.validateEmail, auth_controllers_1.default.resendSignupEmail);
-router.post('/signin', middleWare_1.validateUserInfo, auth_controllers_1.default.signin);
-router.post('/logout', middleWare_1.verifyToken, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+var optimizedPath_1 = require("../lib/optimizedPath");
+var optimizedPath = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, startStation, arriveStation, pathTarget, resJson, err_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                req.logOut();
-                res.clearCookie("" + process.env.JWT_REFRESH_TOKEN);
-                return [4 /*yield*/, token_1.Token.deleteRefreshToken(req.cookies["" + process.env.JWT_REFRESH_TOKEN])];
+                _b.trys.push([0, 2, , 3]);
+                _a = req.query, startStation = _a.startStation, arriveStation = _a.arriveStation;
+                pathTarget = req.params.pathTarget;
+                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPath)(startStation, arriveStation, pathTarget)];
             case 1:
-                _a.sent();
-                res.status(204);
-                res.json((0, success_1.jsonResponse)(req, {}, 204));
+                resJson = _b.sent();
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, resJson));
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _a.sent();
+                err_1 = _b.sent();
                 next(err_1);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
-}); });
-router.get('/refresh-token', middleWare_1.verifyRefreshToken, function (req, res, next) {
-    var refreshToken = res.locals.refreshToken;
-    jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
-        var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
-        if (err) {
-            res.status(403);
-            return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
+}); };
+var optimizedPathStopover = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, startStation, stopoverStation, arriveStation, pathTarget, jsonRes, err_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.query, startStation = _a.startStation, stopoverStation = _a.stopoverStation, arriveStation = _a.arriveStation;
+                pathTarget = req.params.pathTarget;
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(startStation, stopoverStation, arriveStation, pathTarget)];
+            case 2:
+                jsonRes = _b.sent();
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, jsonRes));
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _b.sent();
+                next(err_2);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
-        var accessToken = (0, token_2.generateAccessToken)(userInfo);
-        res.status(201);
-        res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
     });
-});
-exports.default = router;
-//# sourceMappingURL=auth.js.map
+}); };
+exports.default = {
+    optimizedPath: optimizedPath,
+    optimizedPathStopover: optimizedPathStopover,
+};
+//# sourceMappingURL=path.controllers.js.map
