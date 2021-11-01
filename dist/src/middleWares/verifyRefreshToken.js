@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var fail_1 = require("../lib/jsonResponse/fail");
-var auth_1 = require("../lib/type/auth");
 var token_1 = require("../entity/token");
+var fail_1 = require("../utils/jsonResponse/fail");
+var auth_1 = require("../utils/type/auth");
 var verifyRefreshToken = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var refreshToken, dbRefreshToken;
     return __generator(this, function (_a) {

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { Token } from '../entity/token';
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { ErrorMessage } from '../lib/type/auth';
+import { jsonErrorResponse } from '../utils/jsonResponse/fail';
+import { ErrorMessage } from '../utils/type/auth';
 
 const verifyRefreshToken = async (
   req: Request,

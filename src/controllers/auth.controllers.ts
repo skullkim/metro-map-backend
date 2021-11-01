@@ -6,17 +6,17 @@ import passport from 'passport';
 import { AuthEmail } from '../entity/authEmail';
 import { Token } from '../entity/token';
 import { User } from '../entity/user';
-import sendEmailToValidate from '../lib/emailAuth';
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { jsonResponse } from '../lib/jsonResponse/success';
-import { generateAccessToken } from '../lib/token';
+import sendEmailToValidate from '../utils/emailAuth';
+import { jsonErrorResponse } from '../utils/jsonResponse/fail';
+import { jsonResponse } from '../utils/jsonResponse/success';
+import { generateAccessToken } from '../utils/token';
 import {
   ErrorMessage,
   RefreshToken,
   SignupData,
   SuccessMessage,
   UserAccessToken,
-} from '../lib/type/auth';
+} from '../utils/type/auth';
 
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { ErrorMessage, SignupData } from '../lib/type/auth';
-import { isValidEmail, isValidPassword } from '../lib/validation/auth';
+import { jsonErrorResponse } from '../utils/jsonResponse/fail';
+import { ErrorMessage, SignupData } from '../utils/type/auth';
+import { isValidEmail, isValidPassword } from '../utils/validation/auth';
 
 const validateUserInfo = (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: SignupData = req.body;

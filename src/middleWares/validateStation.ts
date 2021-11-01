@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { MinPathTarget, SearchPath, StationKr } from '../lib/type/searchPath';
+import { jsonErrorResponse } from '../utils/jsonResponse/fail';
+import { MinPathTarget, SearchPath, StationKr } from '../utils/type/searchPath';
 import {
   checkEmpty,
   checkPathTarget,
   hasStation,
   involveChar,
   isSameStation,
-} from '../lib/validation/station';
+} from '../utils/validation/station';
 
 const validateStation = async (
   req: Request,

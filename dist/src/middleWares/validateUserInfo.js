@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var auth_1 = require("../lib/type/auth");
-var auth_2 = require("../lib/validation/auth");
-var fail_1 = require("../lib/jsonResponse/fail");
+var fail_1 = require("../utils/jsonResponse/fail");
+var auth_1 = require("../utils/type/auth");
+var auth_2 = require("../utils/validation/auth");
 var validateUserInfo = function (req, res, next) {
     var _a = req.body, email = _a.email, password = _a.password;
     if (!(0, auth_2.isValidPassword)(password)) {

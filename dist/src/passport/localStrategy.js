@@ -43,7 +43,7 @@ var bcrypt_1 = __importDefault(require("bcrypt"));
 var passport_1 = __importDefault(require("passport"));
 var passport_local_1 = require("passport-local");
 var user_1 = require("../entity/user");
-var auth_1 = require("../lib/type/auth");
+var auth_1 = require("../utils/type/auth");
 module.exports = function () {
     passport_1.default.use(new passport_local_1.Strategy({
         usernameField: 'email',

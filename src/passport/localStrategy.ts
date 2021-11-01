@@ -3,7 +3,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 
 import { User } from '../entity/user';
-import { ErrorMessage } from '../lib/type/auth';
+import { ErrorMessage } from '../utils/type/auth';
 
 module.exports = () => {
   passport.use(

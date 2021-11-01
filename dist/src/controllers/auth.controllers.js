@@ -56,11 +56,11 @@ var passport_1 = __importDefault(require("passport"));
 var authEmail_1 = require("../entity/authEmail");
 var token_1 = require("../entity/token");
 var user_1 = require("../entity/user");
-var emailAuth_1 = __importDefault(require("../lib/emailAuth"));
-var fail_1 = require("../lib/jsonResponse/fail");
-var success_1 = require("../lib/jsonResponse/success");
-var token_2 = require("../lib/token");
-var auth_1 = require("../lib/type/auth");
+var emailAuth_1 = __importDefault(require("../utils/emailAuth"));
+var fail_1 = require("../utils/jsonResponse/fail");
+var success_1 = require("../utils/jsonResponse/success");
+var token_2 = require("../utils/token");
+var auth_1 = require("../utils/type/auth");
 var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, email, password, exUser, bcryptPassword, newUser, _b, err_1;
     return __generator(this, function (_c) {

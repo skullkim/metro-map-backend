@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var searchPath_1 = require("../lib/type/searchPath");
-var station_1 = require("../lib/validation/station");
-var fail_1 = require("../lib/jsonResponse/fail");
+var fail_1 = require("../utils/jsonResponse/fail");
+var searchPath_1 = require("../utils/type/searchPath");
+var station_1 = require("../utils/validation/station");
 var validateStation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, startStation, arriveStation, stopoverStation, pathTarget, existPathTarget, emptyStation, sameStation, incorrectStationName, existStation, _b, _c, errorMessage, err_1;
     return __generator(this, function (_d) {

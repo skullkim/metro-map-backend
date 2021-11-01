@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { User } from '../entity/user';
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { ErrorMessage } from '../lib/type/auth';
-import { isValidEmail } from '../lib/validation/auth';
+import { jsonErrorResponse } from '../utils/jsonResponse/fail';
+import { ErrorMessage } from '../utils/type/auth';
+import { isValidEmail } from '../utils/validation/auth';
 
 const validateEmail = async (
   req: Request,

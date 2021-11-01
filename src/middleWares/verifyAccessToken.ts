@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { jsonErrorResponse } from '../lib/jsonResponse/fail';
-import { ErrorMessage } from '../lib/type/auth';
+import { jsonErrorResponse } from '../utils/jsonResponse/fail';
+import { ErrorMessage } from '../utils/type/auth';
 
 const verifyAccessToken = async (
   req: Request,

@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var success_1 = require("../lib/jsonResponse/success");
-var optimizedPath_1 = require("../lib/optimizedPath");
+var success_1 = require("../utils/jsonResponse/success");
+var optimizedPath_1 = require("../utils/optimizedPath");
 var optimizedPath = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, startStation, arriveStation, pathTarget, resJson, err_1;
     return __generator(this, function (_b) {

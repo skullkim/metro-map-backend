@@ -6,10 +6,10 @@ import morgan from 'morgan';
 import passport from 'passport';
 import { createConnection } from 'typeorm';
 
-import { ReqError, HttpException } from './lib/type/Error';
 import passportConfig from './passport';
 import authRouter from './routes/auth';
 import pathRouter from './routes/path';
+import { ReqError, HttpException } from './utils/type/Error';
 
 createConnection().then(() => {
   const app: express.Application = express();

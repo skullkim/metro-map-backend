@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { jsonResponse } from '../lib/jsonResponse/success';
+import { jsonResponse } from '../utils/jsonResponse/success';
 import {
   getOptimizedPath,
   getOptimizedPathWithStopover,
-} from '../lib/optimizedPath';
-import { MinPathTarget, SearchPath } from '../lib/type/searchPath';
+} from '../utils/optimizedPath';
+import { MinPathTarget, SearchPath } from '../utils/type/searchPath';
 
 const optimizedPath = async (
   req: Request,
