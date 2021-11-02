@@ -12,6 +12,10 @@ const verifyAccessTokenMiddleware = async (
   try {
     const authorization: string[] | undefined =
       req.headers.authorization?.split(' ');
+    const { baseUrl }: { baseUrl: string } = req;
+    if (baseUrl === '/path' && !!(authorization && !authorization[0])) {
+      return next();
+    }
     if (authorization && authorization[0] !== 'Bearer') {
       res.status(401);
       return res.json(

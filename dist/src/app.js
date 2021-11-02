@@ -10,9 +10,10 @@ var express_1 = __importDefault(require("express"));
 var morgan_1 = __importDefault(require("morgan"));
 var passport_1 = __importDefault(require("passport"));
 var typeorm_1 = require("typeorm");
-var passport_2 = __importDefault(require("./passport"));
-var auth_1 = __importDefault(require("./routes/auth"));
-var path_1 = __importDefault(require("./routes/path"));
+var passport_2 = __importDefault(require("./config/passport"));
+var auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+var path_routes_1 = __importDefault(require("./routes/path.routes"));
+var user_routes_1 = __importDefault(require("./routes/user.routes"));
 (0, typeorm_1.createConnection)().then(function () {
     var app = (0, express_1.default)();
     dotenv_1.default.config();
@@ -37,16 +38,15 @@ var path_1 = __importDefault(require("./routes/path"));
     });
     app.use(passport_1.default.initialize());
     (0, passport_2.default)();
-    app.use('/path', path_1.default);
-    app.use('/authentication', auth_1.default);
+    app.use('/path', path_routes_1.default);
+    app.use('/authentication', auth_routes_1.default);
+    app.use('/search-history', user_routes_1.default);
     app.use(function (req, response, next) {
         var error = new Error(req.method + " " + req.originalUrl + " router doesn't exist");
         error.status = 400;
         next(error);
     });
-    app.use(
-    // eslint-disable-next-line no-unused-vars
-    function (err, req, res, next) {
+    app.use(function (err, req, res, next) {
         res.locals.message = err.message;
         res.locals.error = process.env.NODE_DEV !== 'production' ? err : {};
         res.send(res.locals.message);

@@ -48,15 +48,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOptimizedPathWithStopover = exports.getOptimizedPath = exports.combineMinPath = exports.combineOtherVal = exports.getMinDistance = exports.getMinTime = exports.getMinCost = void 0;
-var minCost_1 = require("../entity/minCost");
-var minCostOtherValues_1 = require("../entity/minCostOtherValues");
-var minCostValue_1 = require("../entity/minCostValue");
-var minPath_1 = require("../entity/minPath");
-var minPathOtherValues_1 = require("../entity/minPathOtherValues");
-var minPathValue_1 = require("../entity/minPathValue");
-var minTime_1 = require("../entity/minTime");
-var minTimeOtherValues_1 = require("../entity/minTimeOtherValues");
-var minTimeValue_1 = require("../entity/minTimeValue");
+var minCost_1 = require("../models/minCost");
+var minCostOtherValues_1 = require("../models/minCostOtherValues");
+var minCostValue_1 = require("../models/minCostValue");
+var minPath_1 = require("../models/minPath");
+var minPathOtherValues_1 = require("../models/minPathOtherValues");
+var minPathValue_1 = require("../models/minPathValue");
+var minTime_1 = require("../models/minTime");
+var minTimeOtherValues_1 = require("../models/minTimeOtherValues");
+var minTimeValue_1 = require("../models/minTimeValue");
 var math_1 = require("./math");
 var searchPath_1 = require("./type/searchPath");
 var getMinCost = function (from, to, hasStopover) {

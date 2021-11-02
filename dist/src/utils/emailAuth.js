@@ -39,17 +39,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+var util_1 = require("util");
 var dotenv_1 = __importDefault(require("dotenv"));
+var handlebars_1 = __importDefault(require("handlebars"));
 var node_cron_1 = __importDefault(require("node-cron"));
 var nodemailer_1 = __importDefault(require("nodemailer"));
 var nodemailer_smtp_transport_1 = __importDefault(require("nodemailer-smtp-transport"));
-var fs_1 = __importDefault(require("fs"));
-var util_1 = require("util");
-var handlebars_1 = __importDefault(require("handlebars"));
-var authEmail_1 = require("../entity/authEmail");
+var authEmail_1 = require("../models/authEmail");
 dotenv_1.default.config();
 var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0, function () {
-    var randomString, url, insertId, readFile, emailContext, template, emailToSend, err_1;
+    var randomString, url, insertId, readFile, filePath, emailContext, template, emailToSend, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -60,10 +61,10 @@ var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0,
             case 1:
                 insertId = (_a.sent()).raw.insertId;
                 readFile = (0, util_1.promisify)(fs_1.default.readFile);
-                return [4 /*yield*/, readFile('../templates/signupEmailAuth.html', 'utf-8')];
+                filePath = path_1.default.join(__dirname, '../templates/signupEmailAuth.html');
+                return [4 /*yield*/, readFile(filePath, 'utf-8')];
             case 2:
                 emailContext = _a.sent();
-                console.log('emailContext', emailContext);
                 template = handlebars_1.default.compile(emailContext);
                 emailToSend = template({ url: url });
                 return [2 /*return*/, {
@@ -96,7 +97,6 @@ var sendEmailToValidate = function (user) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, getEmailContext(user)];
             case 2:
                 _a = _b.sent(), emailContext = _a.emailContext, authEmailId_1 = _a.authEmailId;
-                console.log('email', emailContext);
                 mailOption = {
                     from: "" + process.env.EMAIL,
                     to: "" + user.email,

@@ -53,9 +53,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var passport_1 = __importDefault(require("passport"));
-var authEmail_1 = require("../entity/authEmail");
-var token_1 = require("../entity/token");
-var user_1 = require("../entity/user");
+var authEmail_1 = require("../models/authEmail");
+var token_1 = require("../models/token");
+var user_1 = require("../models/user");
 var emailAuth_1 = __importDefault(require("../utils/emailAuth"));
 var fail_1 = require("../utils/jsonResponse/fail");
 var success_1 = require("../utils/jsonResponse/success");
@@ -68,7 +68,6 @@ var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0
             case 0:
                 _c.trys.push([0, 6, , 7]);
                 _a = req.body, email = _a.email, password = _a.password;
-                console.log('hi');
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 1:
                 exUser = _c.sent();
@@ -82,7 +81,6 @@ var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, user_1.User.createUser(email, bcryptPassword)];
             case 3:
                 newUser = _c.sent();
-                console.log('send email');
                 _b = emailAuth_1.default;
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 4: return [4 /*yield*/, _b.apply(void 0, [_c.sent()])];

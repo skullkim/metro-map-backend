@@ -17,6 +17,12 @@ export class CurrentSearched extends BaseEntity {
     length: 10,
     nullable: false,
   })
+  target!: string;
+
+  @Column({
+    length: 10,
+    nullable: false,
+  })
   from!: string;
 
   @Column({
@@ -43,6 +49,7 @@ export class CurrentSearched extends BaseEntity {
     from: string,
     to: string,
     stopover: string,
+    target: string,
     user: User
   ) {
     try {
@@ -53,7 +60,7 @@ export class CurrentSearched extends BaseEntity {
       return await this.createQueryBuilder('currentSearched')
         .insert()
         .into(CurrentSearched)
-        .values({ from, to, stopover, user })
+        .values({ from, to, stopover, target, user })
         .execute();
     } catch (err) {
       return err;

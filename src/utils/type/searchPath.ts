@@ -42,3 +42,10 @@ export enum PathTarget {
   DISTANCE = 'distance',
   COST = 'cost',
 }
+
+export interface PathInfo {
+  startStation: string;
+  arriveStation: string;
+  stopoverStation: string;
+  pathTarget: string;
+}

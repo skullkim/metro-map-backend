@@ -36,58 +36,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.hasStation = exports.isSameStation = exports.checkPathTarget = exports.involveChar = exports.checkEmpty = void 0;
-var stationFromTo_1 = require("../../models/stationFromTo");
-var searchPath_1 = require("../type/searchPath");
-var checkEmpty = function (station, stationName) {
-    if (!station && station !== undefined) {
-        return stationName + "\uC774(\uAC00) \uC874\uC7AC\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4";
-    }
-    return '';
-};
-exports.checkEmpty = checkEmpty;
-var involveChar = function (station, stationName) {
-    if (station === undefined)
-        return;
-    var numRegx = /^[0-9]*$/;
-    if (station.length >= 5 || !station.match(numRegx)) {
-        return "\uC874\uC7AC\uD558\uC9C0 \uC54A\uB294 " + stationName + " \uC785\uB2C8\uB2E4";
-    }
-    return '';
-};
-exports.involveChar = involveChar;
-var checkPathTarget = function (target) {
-    return !Object.values(searchPath_1.PathTarget).includes(target)
-        ? '길찾기 대상이 잘못되었습니다'
-        : '';
-};
-exports.checkPathTarget = checkPathTarget;
-var isSameStation = function (station1, station2, stationName1, stationName2) {
-    if (station1 === undefined || station2 === undefined)
-        return;
-    return station1 == station2
-        ? stationName1 + " \uC640 " + stationName2 + "\uAC00 \uAC19\uC744 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4"
-        : '';
-};
-exports.isSameStation = isSameStation;
-var hasStation = function (station, stationName) { return __awaiter(void 0, void 0, void 0, function () {
-    var target, err_1;
+exports.setSearchHistory = void 0;
+var currentSearched_1 = require("../models/currentSearched");
+var user_1 = require("../models/user");
+var setSearchHistory = function (userEmail, pathInfo) { return __awaiter(void 0, void 0, void 0, function () {
+    var startStation, arriveStation, stopoverStation, pathTarget, user;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                if (station === undefined)
-                    return [2 /*return*/];
-                return [4 /*yield*/, stationFromTo_1.StationFromTo.hasStation(station)];
+                startStation = pathInfo.startStation, arriveStation = pathInfo.arriveStation, stopoverStation = pathInfo.stopoverStation, pathTarget = pathInfo.pathTarget;
+                return [4 /*yield*/, user_1.User.getUser(userEmail)];
             case 1:
-                target = _a.sent();
-                return [2 /*return*/, !target ? "\uC874\uC7AC\uD558\uC9C0 \uC54A\uB294 " + stationName + "\uC785\uB2C8\uB2E4" : ''];
+                user = _a.sent();
+                return [4 /*yield*/, currentSearched_1.CurrentSearched.setSearchHistory(pathTarget, startStation, arriveStation, stopoverStation, user)];
             case 2:
-                err_1 = _a.sent();
-                throw err_1;
-            case 3: return [2 /*return*/];
+                _a.sent();
+                return [2 /*return*/];
         }
     });
 }); };
-exports.hasStation = hasStation;
-//# sourceMappingURL=station.js.map
+exports.setSearchHistory = setSearchHistory;
+//# sourceMappingURL=searchHistory.js.map
