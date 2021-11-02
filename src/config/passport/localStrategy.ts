@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 
-import { User } from '../../entity/user';
+import { User } from '../../models/user';
 import { ErrorMessage } from '../../utils/type/auth';
 
 module.exports = () => {

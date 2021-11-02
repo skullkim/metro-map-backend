@@ -1,4 +1,4 @@
-import { StationFromTo } from '../../entity/stationFromTo';
+import { StationFromTo } from '../../models/stationFromTo';
 import { PathTarget, StationKr } from '../type/searchPath';
 
 export const checkEmpty = (station: string, stationName: StationKr) => {

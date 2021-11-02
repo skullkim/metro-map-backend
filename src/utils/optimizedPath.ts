@@ -1,12 +1,12 @@
-import { MinCost } from '../entity/minCost';
-import { MinCostOtherValues } from '../entity/minCostOtherValues';
-import { MinCostValue } from '../entity/minCostValue';
-import { MinPath } from '../entity/minPath';
-import { MinPathOtherValues } from '../entity/minPathOtherValues';
-import { MinPathValue } from '../entity/minPathValue';
-import { MinTime } from '../entity/minTime';
-import { MinTimeOtherValues } from '../entity/minTimeOtherValues';
-import { MinTimeValue } from '../entity/minTimeValue';
+import { MinCost } from '../models/minCost';
+import { MinCostOtherValues } from '../models/minCostOtherValues';
+import { MinCostValue } from '../models/minCostValue';
+import { MinPath } from '../models/minPath';
+import { MinPathOtherValues } from '../models/minPathOtherValues';
+import { MinPathValue } from '../models/minPathValue';
+import { MinTime } from '../models/minTime';
+import { MinTimeOtherValues } from '../models/minTimeOtherValues';
+import { MinTimeValue } from '../models/minTimeValue';
 
 import {
   addStringValue,

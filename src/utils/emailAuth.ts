@@ -8,8 +8,8 @@ import cron from 'node-cron';
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 
-import { AuthEmail } from '../entity/authEmail';
-import { User } from '../entity/user';
+import { AuthEmail } from '../models/authEmail';
+import { User } from '../models/user';
 
 import { EmailContext } from './type/auth';
 

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { Token } from '../entity/token';
+import { Token } from '../models/token';
 import { jsonErrorResponse } from '../utils/jsonResponse/fail';
 import { ErrorMessage } from '../utils/type/auth';
 

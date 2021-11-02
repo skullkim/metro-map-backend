@@ -3,9 +3,9 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 
-import { AuthEmail } from '../entity/authEmail';
-import { Token } from '../entity/token';
-import { User } from '../entity/user';
+import { AuthEmail } from '../models/authEmail';
+import { Token } from '../models/token';
+import { User } from '../models/user';
 import sendEmailToValidate from '../utils/emailAuth';
 import { jsonErrorResponse } from '../utils/jsonResponse/fail';
 import { jsonResponse } from '../utils/jsonResponse/success';

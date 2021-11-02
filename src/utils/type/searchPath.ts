@@ -1,6 +1,6 @@
-import { MinCost } from '../../entity/minCost';
-import { MinPath } from '../../entity/minPath';
-import { MinTime } from '../../entity/minTime';
+import { MinCost } from '../../models/minCost';
+import { MinPath } from '../../models/minPath';
+import { MinTime } from '../../models/minTime';
 
 export interface SearchPath {
   startStation: string;
