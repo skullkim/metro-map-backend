@@ -4,7 +4,11 @@ import { jsonErrorResponse } from '../utils/jsonResponse/fail';
 import { ErrorMessage, SignupData } from '../utils/type/auth';
 import { isValidEmail, isValidPassword } from '../utils/validation/auth';
 
-const validateUserInfo = (req: Request, res: Response, next: NextFunction) => {
+const validateUserInfoMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { email, password }: SignupData = req.body;
   if (!isValidPassword(password)) {
     res.status(400);
@@ -20,4 +24,4 @@ const validateUserInfo = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export default validateUserInfo;
+export default validateUserInfoMiddleware;

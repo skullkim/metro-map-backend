@@ -21,7 +21,6 @@ import {
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password }: SignupData = req.body;
-
     const exUser = await User.getUser(email);
     if (exUser) {
       res.status(400);

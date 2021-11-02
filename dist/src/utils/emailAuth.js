@@ -43,27 +43,37 @@ var dotenv_1 = __importDefault(require("dotenv"));
 var node_cron_1 = __importDefault(require("node-cron"));
 var nodemailer_1 = __importDefault(require("nodemailer"));
 var nodemailer_smtp_transport_1 = __importDefault(require("nodemailer-smtp-transport"));
+var fs_1 = __importDefault(require("fs"));
+var util_1 = require("util");
+var handlebars_1 = __importDefault(require("handlebars"));
 var authEmail_1 = require("../entity/authEmail");
 dotenv_1.default.config();
 var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0, function () {
-    var randomString, url, insertId, err_1;
+    var randomString, url, insertId, readFile, emailContext, template, emailToSend, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 3, , 4]);
                 randomString = Math.random().toString(36).substr(2, 11);
                 url = process.env.CLIENT_ORIGIN + "/signup/email?key=" + randomString + "&id=" + (user === null || user === void 0 ? void 0 : user.id);
                 return [4 /*yield*/, authEmail_1.AuthEmail.setRandomKey(user, randomString)];
             case 1:
                 insertId = (_a.sent()).raw.insertId;
+                readFile = (0, util_1.promisify)(fs_1.default.readFile);
+                return [4 /*yield*/, readFile('../templates/signupEmailAuth.html', 'utf-8')];
+            case 2:
+                emailContext = _a.sent();
+                console.log('emailContext', emailContext);
+                template = handlebars_1.default.compile(emailContext);
+                emailToSend = template({ url: url });
                 return [2 /*return*/, {
-                        emailContext: "\n    <h3>\uC548\uB155\uD558\uC138\uC694 \uD68C\uC6D0\uB2D8. \uD68C\uC6D0\uAC00\uC785 \uC644\uB8CC\uB97C \uC704\uD574 \uB2E4\uC74C \uB9C1\uD06C\uB97C \uD074\uB9AD\uD574 \uC8FC\uC138\uC694</h3>\n    <br />\n    <a \n      style='\n        justify-content: center;\n        align-items: center;\n        text-decoration: none;\n        color: white;\n        background-color: #2867B2;\n        padding: 15px 94px;\n        border: 1px solid #2867B2;\n        border-radius: 15px;\n        font-size: 15px\n      ' \n      href='" + url + "'\n    >\n    \uD68C\uC6D0\uAC00\uC785 \uC644\uB8CC\uD558\uAE30\n    </a>\n  ",
+                        emailContext: emailToSend,
                         authEmailId: insertId,
                     }];
-            case 2:
+            case 3:
                 err_1 = _a.sent();
                 throw err_1;
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -86,6 +96,7 @@ var sendEmailToValidate = function (user) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, getEmailContext(user)];
             case 2:
                 _a = _b.sent(), emailContext = _a.emailContext, authEmailId_1 = _a.authEmailId;
+                console.log('email', emailContext);
                 mailOption = {
                     from: "" + process.env.EMAIL,
                     to: "" + user.email,

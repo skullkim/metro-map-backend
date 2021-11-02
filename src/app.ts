@@ -7,8 +7,8 @@ import passport from 'passport';
 import { createConnection } from 'typeorm';
 
 import passportConfig from './passport';
-import authRouter from './routes/auth';
-import pathRouter from './routes/path';
+import authRouter from './routes/auth.routes';
+import pathRouter from './routes/path.routes';
 import { ReqError, HttpException } from './utils/type/Error';
 
 createConnection().then(() => {

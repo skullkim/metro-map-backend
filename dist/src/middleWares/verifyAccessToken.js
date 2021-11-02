@@ -76,4 +76,4 @@ var verifyAccessToken = function (req, res, next) { return __awaiter(void 0, voi
     });
 }); };
 exports.default = verifyAccessToken;
-//# sourceMappingURL=verifyAccessToken.js.map
+//# sourceMappingURL=verifyAccessTokenMiddleware.js.map

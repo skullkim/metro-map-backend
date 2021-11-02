@@ -68,6 +68,7 @@ var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0
             case 0:
                 _c.trys.push([0, 6, , 7]);
                 _a = req.body, email = _a.email, password = _a.password;
+                console.log('hi');
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 1:
                 exUser = _c.sent();
@@ -81,6 +82,7 @@ var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, user_1.User.createUser(email, bcryptPassword)];
             case 3:
                 newUser = _c.sent();
+                console.log('send email');
                 _b = emailAuth_1.default;
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 4: return [4 /*yield*/, _b.apply(void 0, [_c.sent()])];

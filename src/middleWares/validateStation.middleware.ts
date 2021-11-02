@@ -10,7 +10,7 @@ import {
   isSameStation,
 } from '../utils/validation/station';
 
-const validateStation = async (
+const validateStationMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -75,4 +75,4 @@ const validateStation = async (
   }
 };
 
-export default validateStation;
+export default validateStationMiddleware;

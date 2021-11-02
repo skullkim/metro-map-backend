@@ -16,4 +16,4 @@ var validateUserInfo = function (req, res, next) {
     next();
 };
 exports.default = validateUserInfo;
-//# sourceMappingURL=validateUserInfo.js.map
+//# sourceMappingURL=validateUserInfoMiddleware.js.map

@@ -1,4 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+import { promisify } from 'util';
+
 import dotenv from 'dotenv';
+import handlebars from 'handlebars';
 import cron from 'node-cron';
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
@@ -16,30 +21,20 @@ const getEmailContext = async (
   try {
     const randomString: string = Math.random().toString(36).substr(2, 11);
     const url = `${process.env.CLIENT_ORIGIN}/signup/email?key=${randomString}&id=${user?.id}`;
+
     const {
       raw: { insertId },
     } = await AuthEmail.setRandomKey(user, randomString);
+
+    const readFile = promisify(fs.readFile);
+    const filePath = path.join(__dirname, '../templates/signupEmailAuth.html');
+    const emailContext = await readFile(filePath, 'utf-8');
+
+    const template = handlebars.compile(emailContext);
+    const emailToSend = template({ url });
+
     return {
-      emailContext: `
-    <h3>안녕하세요 회원님. 회원가입 완료를 위해 다음 링크를 클릭해 주세요</h3>
-    <br />
-    <a 
-      style='
-        justify-content: center;
-        align-items: center;
-        text-decoration: none;
-        color: white;
-        background-color: #2867B2;
-        padding: 15px 94px;
-        border: 1px solid #2867B2;
-        border-radius: 15px;
-        font-size: 15px
-      ' 
-      href='${url}'
-    >
-    회원가입 완료하기
-    </a>
-  `,
+      emailContext: emailToSend,
       authEmailId: insertId,
     };
   } catch (err) {
@@ -62,6 +57,7 @@ const sendEmailToValidate = async (user: User | undefined) => {
     const { emailContext, authEmailId }: EmailContext = await getEmailContext(
       user
     );
+
     const mailOption = {
       from: `${process.env.EMAIL}`,
       to: `${user!.email}`,
@@ -71,9 +67,11 @@ const sendEmailToValidate = async (user: User | undefined) => {
 
     emailTransport.sendMail(mailOption, (err, res) => {
       emailTransport.close();
+
       cron.schedule('* * 1 * * *', async () => {
         await AuthEmail.deleteRandomKey(authEmailId);
       });
+
       return err ? err : res;
     });
   } catch (err) {

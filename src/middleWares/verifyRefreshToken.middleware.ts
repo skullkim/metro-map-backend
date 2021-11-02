@@ -4,7 +4,7 @@ import { Token } from '../entity/token';
 import { jsonErrorResponse } from '../utils/jsonResponse/fail';
 import { ErrorMessage } from '../utils/type/auth';
 
-const verifyRefreshToken = async (
+const verifyRefreshTokenMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -28,4 +28,4 @@ const verifyRefreshToken = async (
   next();
 };
 
-export default verifyRefreshToken;
+export default verifyRefreshTokenMiddleware;

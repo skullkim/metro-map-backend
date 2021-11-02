@@ -5,7 +5,7 @@ import { jsonErrorResponse } from '../utils/jsonResponse/fail';
 import { ErrorMessage } from '../utils/type/auth';
 import { isValidEmail } from '../utils/validation/auth';
 
-const validateEmail = async (
+const validateEmailMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -35,4 +35,4 @@ const validateEmail = async (
   }
 };
 
-export default validateEmail;
+export default validateEmailMiddleware;

@@ -70,4 +70,4 @@ var validateEmail = function (req, res, next) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.default = validateEmail;
-//# sourceMappingURL=validateEmail.js.map
+//# sourceMappingURL=validateEmailMiddleware.js.map

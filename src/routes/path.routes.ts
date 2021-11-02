@@ -1,15 +1,19 @@
 import express, { Router } from 'express';
 
 import pathControllers from '../controllers/path.controllers';
-import validateStation from '../middleWares/validateStation';
+import validateStationMiddleware from '../middleWares/validateStation.middleware';
 
 const router: Router = express.Router();
 
-router.get('/:pathTarget', validateStation, pathControllers.optimizedPath);
+router.get(
+  '/:pathTarget',
+  validateStationMiddleware,
+  pathControllers.optimizedPath
+);
 
 router.get(
   '/stopover/:pathTarget',
-  validateStation,
+  validateStationMiddleware,
   pathControllers.optimizedPathStopover
 );
 

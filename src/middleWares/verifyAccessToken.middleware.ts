@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { jsonErrorResponse } from '../utils/jsonResponse/fail';
 import { ErrorMessage } from '../utils/type/auth';
 
-const verifyAccessToken = async (
+const verifyAccessTokenMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -39,4 +39,4 @@ const verifyAccessToken = async (
   }
 };
 
-export default verifyAccessToken;
+export default verifyAccessTokenMiddleware;
