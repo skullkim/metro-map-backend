@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 
-import { StationFromTo } from './stationFromTo';
 import { User } from './user';
 
 @Entity()
@@ -8,8 +7,25 @@ export class CurrentSearched {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => StationFromTo, (stationFromTo) => stationFromTo.searched)
-  fromTo!: StationFromTo;
+  @Column({
+    length: 10,
+    nullable: false,
+  })
+  from!: string;
+
+  @Column({
+    length: 10,
+    nullable: false,
+  })
+  to!: string;
+
+  @Column({
+    length: 10,
+  })
+  stopover!: string;
+
+  @Column()
+  bookmark!: boolean;
 
   @ManyToOne(() => User, (user) => user.targetUser)
   user!: User;
