@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  BaseEntity,
+} from 'typeorm';
 
 import { User } from './user';
 
@@ -21,6 +27,7 @@ export class CurrentSearched extends BaseEntity {
 
   @Column({
     length: 10,
+    nullable: true,
   })
   stopover!: string;
 
@@ -32,39 +39,44 @@ export class CurrentSearched extends BaseEntity {
   @ManyToOne(() => User, (user) => user.targetUser)
   user!: User;
 
-  static async setSearchHistory(from: string, to: string, stopover: string, user: User) {
+  static async setSearchHistory(
+    from: string,
+    to: string,
+    stopover: string,
+    user: User
+  ) {
     try {
       const prevHistory = await CurrentSearched.getUserSearchHistory(user.id);
-      if(prevHistory.length > 6) {
+      if (prevHistory.length > 6) {
         await CurrentSearched.deleteSearchHistory(prevHistory[0].id);
       }
-      return this.createQueryBuilder('currentSearched')
+      return await this.createQueryBuilder('currentSearched')
         .insert()
         .into(CurrentSearched)
-        .values({from, to, stopover, user})
+        .values({ from, to, stopover, user })
         .execute();
-    }
-    catch(err) {
+    } catch (err) {
       return err;
     }
   }
 
   static getBookMark(id: number) {
     return this.createQueryBuilder('currentSearched')
-      .where('currentSearched.id = :id', {id})
+      .where('currentSearched.id = :id', { id })
       .getOne();
   }
 
   static async checkBookmark(id: number) {
     try {
-      const prevBookmark: boolean | undefined = (await CurrentSearched.getBookMark(id))?.bookmark;
-      return this.createQueryBuilder('currentSearched')
+      const prevBookmark: boolean | undefined = (
+        await CurrentSearched.getBookMark(id)
+      )?.bookmark;
+      return await this.createQueryBuilder('currentSearched')
         .update(CurrentSearched)
-        .set({bookmark: !prevBookmark})
-        .where('id = :id', {id})
+        .set({ bookmark: !prevBookmark })
+        .where('id = :id', { id })
         .execute();
-    }
-    catch(err) {
+    } catch (err) {
       return err;
     }
   }
@@ -72,7 +84,7 @@ export class CurrentSearched extends BaseEntity {
   static getUserSearchHistory(userId: number) {
     return this.createQueryBuilder('currentSearched')
       .innerJoin('currentSearched.user', 'user')
-      .where('user.id = :userId', {userId})
+      .where('user.id = :userId', { userId })
       .orderBy('currentSearched.id', 'ASC')
       .getMany();
   }
@@ -81,7 +93,7 @@ export class CurrentSearched extends BaseEntity {
     return this.createQueryBuilder('currentSearched')
       .delete()
       .from(CurrentSearched)
-      .where('id = :id', {id})
+      .where('id = :id', { id })
       .execute();
   }
 }
