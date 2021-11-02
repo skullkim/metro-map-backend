@@ -71,29 +71,42 @@ var CurrentSearched = /** @class */ (function (_super) {
     CurrentSearched_1 = CurrentSearched;
     CurrentSearched.setSearchHistory = function (from, to, stopover, target, user) {
         return __awaiter(this, void 0, void 0, function () {
-            var prevHistory, err_1;
+            var prevHistory, hasSameHistory, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 5, , 6]);
+                        _a.trys.push([0, 6, , 7]);
                         return [4 /*yield*/, CurrentSearched_1.getUserSearchHistory(user.id)];
                     case 1:
                         prevHistory = _a.sent();
+                        hasSameHistory = prevHistory.filter(function (_a) {
+                            var fStation = _a.from, tStation = _a.to, sStation = _a.stopover, pathTarget = _a.target, userInfo = _a.user;
+                            return (from === fStation &&
+                                to === tStation &&
+                                stopover === sStation &&
+                                target === pathTarget &&
+                                user.id === userInfo.id);
+                        });
                         if (!(prevHistory.length > 6)) return [3 /*break*/, 3];
                         return [4 /*yield*/, CurrentSearched_1.deleteSearchHistory(prevHistory[0].id)];
                     case 2:
                         _a.sent();
-                        _a.label = 3;
-                    case 3: return [4 /*yield*/, this.createQueryBuilder('currentSearched')
+                        return [3 /*break*/, 4];
+                    case 3:
+                        if (hasSameHistory.length) {
+                            return [2 /*return*/];
+                        }
+                        _a.label = 4;
+                    case 4: return [4 /*yield*/, this.createQueryBuilder('currentSearched')
                             .insert()
                             .into(CurrentSearched_1)
-                            .values({ target: target, from: from, to: to, stopover: stopover, user: user })
+                            .values({ from: from, to: to, stopover: stopover, target: target, user: user })
                             .execute()];
-                    case 4: return [2 /*return*/, _a.sent()];
-                    case 5:
+                    case 5: return [2 /*return*/, _a.sent()];
+                    case 6:
                         err_1 = _a.sent();
                         return [2 /*return*/, err_1];
-                    case 6: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });

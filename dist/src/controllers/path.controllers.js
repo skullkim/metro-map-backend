@@ -74,26 +74,38 @@ var optimizedPath = function (req, res, next) { return __awaiter(void 0, void 0,
     });
 }); };
 var optimizedPathStopover = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, startStation, stopoverStation, arriveStation, pathTarget, jsonRes, err_2;
+    var _a, startStation, stopoverStation, arriveStation, pathTarget, userData, pathInfo, jsonRes, err_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.query, startStation = _a.startStation, stopoverStation = _a.stopoverStation, arriveStation = _a.arriveStation;
                 pathTarget = req.params.pathTarget;
+                userData = res.locals.userData;
                 _b.label = 1;
             case 1:
-                _b.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(startStation, stopoverStation, arriveStation, pathTarget)];
+                _b.trys.push([1, 5, , 6]);
+                if (!userData) return [3 /*break*/, 3];
+                pathInfo = {
+                    startStation: startStation,
+                    arriveStation: arriveStation,
+                    stopoverStation: stopoverStation,
+                    pathTarget: pathTarget,
+                };
+                return [4 /*yield*/, (0, searchHistory_1.setSearchHistory)(userData.email, pathInfo)];
             case 2:
+                _b.sent();
+                _b.label = 3;
+            case 3: return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(startStation, stopoverStation, arriveStation, pathTarget)];
+            case 4:
                 jsonRes = _b.sent();
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, jsonRes));
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 6];
+            case 5:
                 err_2 = _b.sent();
                 next(err_2);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

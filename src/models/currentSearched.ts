@@ -54,9 +54,30 @@ export class CurrentSearched extends BaseEntity {
   ) {
     try {
       const prevHistory = await CurrentSearched.getUserSearchHistory(user.id);
+      const hasSameHistory: CurrentSearched[] = prevHistory.filter(
+        ({
+          from: fStation,
+          to: tStation,
+          stopover: sStation,
+          target: pathTarget,
+          user: userInfo,
+        }: CurrentSearched) => {
+          return (
+            from === fStation &&
+            to === tStation &&
+            stopover === sStation &&
+            target === pathTarget &&
+            user.id === userInfo.id
+          );
+        }
+      );
+
       if (prevHistory.length > 6) {
         await CurrentSearched.deleteSearchHistory(prevHistory[0].id);
+      } else if (hasSameHistory.length) {
+        return;
       }
+
       return await this.createQueryBuilder('currentSearched')
         .insert()
         .into(CurrentSearched)

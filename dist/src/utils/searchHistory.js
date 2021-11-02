@@ -48,7 +48,7 @@ var setSearchHistory = function (userEmail, pathInfo) { return __awaiter(void 0,
                 return [4 /*yield*/, user_1.User.getUser(userEmail)];
             case 1:
                 user = _a.sent();
-                return [4 /*yield*/, currentSearched_1.CurrentSearched.setSearchHistory(pathTarget, startStation, arriveStation, stopoverStation, user)];
+                return [4 /*yield*/, currentSearched_1.CurrentSearched.setSearchHistory(startStation, arriveStation, stopoverStation, pathTarget, user)];
             case 2:
                 _a.sent();
                 return [2 /*return*/];
