@@ -32,6 +32,15 @@ var MinCostOtherValues = /** @class */ (function (_super) {
     function MinCostOtherValues() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    MinCostOtherValues.getMinCostOtherVal = function (id) {
+        if (id === void 0) { id = -1; }
+        if (id == -1)
+            return;
+        return this.createQueryBuilder('minCostOtherValues')
+            .innerJoin('minCostOtherValues.minCostValue', 'minCostValue')
+            .where('minCostValue.id = :id', { id: id })
+            .getOne();
+    };
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)

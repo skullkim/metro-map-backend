@@ -3,10 +3,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
+import passport from 'passport';
 import { createConnection } from 'typeorm';
 
-import { ReqError, HttpException } from './lib/type/Error';
-import pathRouter from './routes/path';
+import passportConfig from './config/passport';
+import authRouter from './routes/auth.routes';
+import pathRouter from './routes/path.routes';
+import { ReqError, HttpException } from './utils/type/Error';
 
 createConnection().then(() => {
   const app: express.Application = express();
@@ -38,8 +41,11 @@ createConnection().then(() => {
     res.setHeader('Cache-Control', 'no-store');
     next();
   });
+  app.use(passport.initialize());
+  passportConfig();
 
   app.use('/path', pathRouter);
+  app.use('/authentication', authRouter);
 
   app.use((req: Request, response: Response, next: NextFunction) => {
     const error: ReqError = new Error(
@@ -50,7 +56,6 @@ createConnection().then(() => {
   });
 
   app.use(
-    // eslint-disable-next-line no-unused-vars
     (err: HttpException, req: Request, res: Response, next: NextFunction) => {
       res.locals.message = err.message;
       res.locals.error = process.env.NODE_DEV !== 'production' ? err : {};
