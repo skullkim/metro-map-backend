@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var currentSearched_1 = require("../models/currentSearched");
-var success_1 = require("../utils/jsonResponse/success");
 var stationBookMark_1 = require("../models/stationBookMark");
+var success_1 = require("../utils/jsonResponse/success");
 var getUserSearchHistories = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var userId, searchHistory, err_1;
     return __generator(this, function (_a) {
@@ -81,7 +81,7 @@ var setUserPathBookmark = function (req, res, next) { return __awaiter(void 0, v
             case 3:
                 _c.sent();
                 return [3 /*break*/, 6];
-            case 4: return [4 /*yield*/, stationBookMark_1.StationBookMark.deleteBookMark(email, from, to, stopover)];
+            case 4: return [4 /*yield*/, stationBookMark_1.StationBookMark.deleteBookMark(id, from, to, stopover)];
             case 5:
                 _c.sent();
                 _c.label = 6;

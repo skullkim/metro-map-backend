@@ -80,30 +80,6 @@ var StationBookMark = /** @class */ (function (_super) {
     };
     StationBookMark.setBookMark = function (userEmail, from, to, stopover) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b;
-            var _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0:
-                        _b = (_a = this.createQueryBuilder('stationBookMark')
-                            .insert()
-                            .into(StationBookMark_1))
-                            .values;
-                        _c = {
-                            from: from,
-                            to: to,
-                            stopover: stopover
-                        };
-                        return [4 /*yield*/, user_1.User.getUser(userEmail)];
-                    case 1: return [2 /*return*/, _b.apply(_a, [(_c.user = _d.sent(),
-                                _c)])
-                            .execute()];
-                }
-            });
-        });
-    };
-    StationBookMark.deleteBookMark = function (userEmail, from, to, stopover) {
-        return __awaiter(this, void 0, void 0, function () {
             var user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -111,14 +87,30 @@ var StationBookMark = /** @class */ (function (_super) {
                     case 1:
                         user = _a.sent();
                         return [2 /*return*/, this.createQueryBuilder('stationBookMark')
-                                .delete()
-                                .from(StationBookMark_1)
-                                .where('stationBookMark.user = :user', { user: user })
-                                .andWhere('stationBookMark.from = :from', { from: from })
-                                .andWhere('stationBookMark.to = :to', { to: to })
-                                .andWhere('stationBookMark.stopover = :stopover', { stopover: stopover })
+                                .insert()
+                                .into(StationBookMark_1)
+                                .values({
+                                from: from,
+                                to: to,
+                                stopover: stopover,
+                                user: user,
+                            })
                                 .execute()];
                 }
+            });
+        });
+    };
+    StationBookMark.deleteBookMark = function (userId, from, to, stopover) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.createQueryBuilder('stationBookMark')
+                        .delete()
+                        .from(StationBookMark_1)
+                        .where('user.id = :userId', { userId: userId })
+                        .andWhere('from = :from', { from: from })
+                        .andWhere('to = :to', { to: to })
+                        .andWhere('stopover = :stopover', { stopover: stopover })
+                        .execute()];
             });
         });
     };
