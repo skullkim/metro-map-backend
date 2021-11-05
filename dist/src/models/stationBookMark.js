@@ -78,6 +78,12 @@ var StationBookMark = /** @class */ (function (_super) {
             .andWhere('stationBookMark.stopover = :stopover', { stopover: stopover })
             .getOne();
     };
+    StationBookMark.getBookMarks = function (userId) {
+        return this.createQueryBuilder('stationBookMark')
+            .innerJoin('stationBookMark.user', 'user')
+            .where('user.id = userId', { userId: userId })
+            .getMany();
+    };
     StationBookMark.setBookMark = function (userEmail, from, to, stopover) {
         return __awaiter(this, void 0, void 0, function () {
             var user;

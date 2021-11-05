@@ -13,7 +13,8 @@ var typeorm_1 = require("typeorm");
 var passport_2 = __importDefault(require("./config/passport"));
 var auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 var path_routes_1 = __importDefault(require("./routes/path.routes"));
-var user_routes_1 = __importDefault(require("./routes/user.routes"));
+var searchHistory_routes_1 = __importDefault(require("./routes/searchHistory.routes"));
+var bookmark_routes_1 = __importDefault(require("./routes/bookmark.routes"));
 (0, typeorm_1.createConnection)().then(function () {
     var app = (0, express_1.default)();
     dotenv_1.default.config();
@@ -40,7 +41,8 @@ var user_routes_1 = __importDefault(require("./routes/user.routes"));
     (0, passport_2.default)();
     app.use('/path', path_routes_1.default);
     app.use('/authentication', auth_routes_1.default);
-    app.use('/search-history', user_routes_1.default);
+    app.use('/search-history', searchHistory_routes_1.default);
+    app.use('/bookmark', bookmark_routes_1.default);
     app.use(function (req, response, next) {
         var error = new Error(req.method + " " + req.originalUrl + " router doesn't exist");
         error.status = 400;

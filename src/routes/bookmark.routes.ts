@@ -1,6 +1,6 @@
 import express from 'express';
 
-import userController from '../controllers/user.controllers';
+import bookMarkController from '../controllers/bookmark.controllers';
 import verifyAccessTokenMiddleware from '../middleWares/verifyAccessToken.middleware';
 
 const router = express.Router();
@@ -8,13 +8,7 @@ const router = express.Router();
 router.get(
   '/user/:userId',
   verifyAccessTokenMiddleware,
-  userController.getUserSearchHistories
-);
-
-router.put(
-  '/bookmark/:bookmarkId',
-  verifyAccessTokenMiddleware,
-  userController.setUserPathBookmark
+  bookMarkController.getUserBookMarks
 );
 
 export default router;
