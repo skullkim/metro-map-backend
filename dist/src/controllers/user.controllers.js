@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var currentSearched_1 = require("../models/currentSearched");
 var success_1 = require("../utils/jsonResponse/success");
+var stationBookMark_1 = require("../models/stationBookMark");
 var getUserSearchHistories = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var userId, searchHistory, err_1;
     return __generator(this, function (_a) {
@@ -60,7 +61,43 @@ var getUserSearchHistories = function (req, res, next) { return __awaiter(void 0
         }
     });
 }); };
+var setUserPathBookmark = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var bookmarkId, _a, id, email, _b, from, to, stopover, exBookmark, err_2;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                _c.trys.push([0, 7, , 8]);
+                bookmarkId = req.params.bookmarkId;
+                _a = res.locals.userData, id = _a.id, email = _a.email;
+                _b = req.body.pathInfo, from = _b.from, to = _b.to, stopover = _b.stopover;
+                return [4 /*yield*/, currentSearched_1.CurrentSearched.checkBookmark(bookmarkId)];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, stationBookMark_1.StationBookMark.getBookMark(id, from, to, stopover)];
+            case 2:
+                exBookmark = _c.sent();
+                if (!!exBookmark) return [3 /*break*/, 4];
+                return [4 /*yield*/, stationBookMark_1.StationBookMark.setBookMark(email, from, to, stopover)];
+            case 3:
+                _c.sent();
+                return [3 /*break*/, 6];
+            case 4: return [4 /*yield*/, stationBookMark_1.StationBookMark.deleteBookMark(email, from, to, stopover)];
+            case 5:
+                _c.sent();
+                _c.label = 6;
+            case 6:
+                res.status(204);
+                return [2 /*return*/, res.json((0, success_1.jsonResponse)(req, {}, 204))];
+            case 7:
+                err_2 = _c.sent();
+                next(err_2);
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
+        }
+    });
+}); };
 exports.default = {
     getUserSearchHistories: getUserSearchHistories,
+    setUserPathBookmark: setUserPathBookmark,
 };
 //# sourceMappingURL=user.controllers.js.map

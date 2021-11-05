@@ -179,8 +179,8 @@ var signin = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                             _a.sent();
                             res.cookie("" + process.env.JWT_REFRESH_TOKEN, refreshToken, {
                                 httpOnly: true,
-                                sameSite: 'none',
                                 secure: true,
+                                sameSite: 'none',
                             });
                             res.json((0, success_1.jsonResponse)(req, { user_id: user.id, accessToken: accessToken }));
                             return [2 /*return*/];
@@ -213,19 +213,23 @@ var logout = function (req, res, next) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
-var generateRefreshToken = function (req, res) {
-    var refreshToken = res.locals.refreshToken;
-    jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
-        var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
-        if (err) {
-            res.status(403);
-            return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
-        }
-        var accessToken = (0, token_2.generateAccessToken)(userInfo);
-        res.status(201);
-        res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
+var generateRefreshToken = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var refreshToken;
+    return __generator(this, function (_a) {
+        refreshToken = res.locals.refreshToken;
+        jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
+            var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
+            if (err) {
+                res.status(403);
+                return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
+            }
+            var accessToken = (0, token_2.generateAccessToken)(userInfo);
+            res.status(201);
+            res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
+        });
+        return [2 /*return*/];
     });
-};
+}); };
 exports.default = {
     signup: signup,
     verifySignupEmail: verifySignupEmail,

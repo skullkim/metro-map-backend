@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 
 import userController from '../controllers/user.controllers';
 import verifyAccessTokenMiddleware from '../middleWares/verifyAccessToken.middleware';
@@ -11,10 +11,10 @@ router.get(
   userController.getUserSearchHistories
 );
 
-router.get('/a', (req: Request, res: Response, next: NextFunction) => {
-  const authorization: string[] | undefined =
-    req.headers.authorization?.split(' ');
-  res.send(!!(authorization && !authorization[0]));
-});
+router.put(
+  '/bookmark/:bookmarkId',
+  verifyAccessTokenMiddleware,
+  userController.setUserPathBookmark
+);
 
 export default router;

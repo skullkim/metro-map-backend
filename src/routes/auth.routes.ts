@@ -22,7 +22,7 @@ router.post('/signin', validateUserInfoMiddleware, authController.signin);
 
 router.post('/logout', verifyAccessTokenMiddleware, authController.logout);
 
-router.get(
+router.post(
   '/refresh-token',
   verifyRefreshTokenMiddleware,
   authController.generateRefreshToken

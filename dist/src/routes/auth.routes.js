@@ -15,6 +15,6 @@ router.get('/signup/email', auth_controllers_1.default.verifySignupEmail);
 router.post('/signup/email/reauthorization', validateEmail_middleware_1.default, auth_controllers_1.default.resendSignupEmail);
 router.post('/signin', validateUserInfo_middleware_1.default, auth_controllers_1.default.signin);
 router.post('/logout', verifyAccessToken_middleware_1.default, auth_controllers_1.default.logout);
-router.get('/refresh-token', verifyRefreshToken_middleware_1.default, auth_controllers_1.default.generateRefreshToken);
+router.post('/refresh-token', verifyRefreshToken_middleware_1.default, auth_controllers_1.default.generateRefreshToken);
 exports.default = router;
 //# sourceMappingURL=auth.routes.js.map
