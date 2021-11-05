@@ -53,9 +53,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var passport_1 = __importDefault(require("passport"));
-var authEmail_1 = require("../entity/authEmail");
-var token_1 = require("../entity/token");
-var user_1 = require("../entity/user");
+var authEmail_1 = require("../models/authEmail");
+var token_1 = require("../models/token");
+var user_1 = require("../models/user");
 var emailAuth_1 = __importDefault(require("../utils/emailAuth"));
 var fail_1 = require("../utils/jsonResponse/fail");
 var success_1 = require("../utils/jsonResponse/success");
@@ -68,7 +68,6 @@ var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0
             case 0:
                 _c.trys.push([0, 6, , 7]);
                 _a = req.body, email = _a.email, password = _a.password;
-                console.log('hi');
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 1:
                 exUser = _c.sent();
@@ -82,7 +81,6 @@ var signup = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, user_1.User.createUser(email, bcryptPassword)];
             case 3:
                 newUser = _c.sent();
-                console.log('send email');
                 _b = emailAuth_1.default;
                 return [4 /*yield*/, user_1.User.getUser(email)];
             case 4: return [4 /*yield*/, _b.apply(void 0, [_c.sent()])];
@@ -181,8 +179,8 @@ var signin = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                             _a.sent();
                             res.cookie("" + process.env.JWT_REFRESH_TOKEN, refreshToken, {
                                 httpOnly: true,
-                                sameSite: 'none',
                                 secure: true,
+                                sameSite: 'none',
                             });
                             res.json((0, success_1.jsonResponse)(req, { user_id: user.id, accessToken: accessToken }));
                             return [2 /*return*/];
@@ -215,19 +213,23 @@ var logout = function (req, res, next) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
-var generateRefreshToken = function (req, res) {
-    var refreshToken = res.locals.refreshToken;
-    jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
-        var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
-        if (err) {
-            res.status(403);
-            return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
-        }
-        var accessToken = (0, token_2.generateAccessToken)(userInfo);
-        res.status(201);
-        res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
+var generateRefreshToken = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var refreshToken;
+    return __generator(this, function (_a) {
+        refreshToken = res.locals.refreshToken;
+        jsonwebtoken_1.default.verify(refreshToken, "" + process.env.JWT_REFRESH_SECRET, function (err, user) {
+            var _a = user, iat = _a.iat, userInfo = __rest(_a, ["iat"]);
+            if (err) {
+                res.status(403);
+                return res.json((0, fail_1.jsonErrorResponse)(req, { message: 'token expired' }, 403));
+            }
+            var accessToken = (0, token_2.generateAccessToken)(userInfo);
+            res.status(201);
+            res.json((0, success_1.jsonResponse)(req, { accessToken: accessToken }, 201));
+        });
+        return [2 /*return*/];
     });
-};
+}); };
 exports.default = {
     signup: signup,
     verifySignupEmail: verifySignupEmail,

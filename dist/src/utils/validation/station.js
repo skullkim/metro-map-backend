@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.hasStation = exports.isSameStation = exports.checkPathTarget = exports.involveChar = exports.checkEmpty = void 0;
-var stationFromTo_1 = require("../../entity/stationFromTo");
+var stationFromTo_1 = require("../../models/stationFromTo");
 var searchPath_1 = require("../type/searchPath");
 var checkEmpty = function (station, stationName) {
     if (!station && station !== undefined) {

@@ -1,12 +1,4 @@
-import {
-  BaseEntity,
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from 'typeorm';
-
-import { CurrentSearched } from './currentSearched';
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class StationFromTo extends BaseEntity {
@@ -24,9 +16,6 @@ export class StationFromTo extends BaseEntity {
     nullable: false,
   })
   to!: string;
-
-  @OneToMany(() => CurrentSearched, (currentSearched) => currentSearched.fromTo)
-  searched!: CurrentSearched;
 
   static hasStation(station: string) {
     return this.createQueryBuilder('stationFromTo')

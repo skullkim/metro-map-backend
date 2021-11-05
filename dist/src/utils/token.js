@@ -9,7 +9,7 @@ var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 dotenv_1.default.config();
 var generateAccessToken = function (data) {
     return jsonwebtoken_1.default.sign(data, "" + process.env.JWT_ACCESS_SECRET, {
-        expiresIn: '1h',
+        expiresIn: '30m',
     });
 };
 exports.generateAccessToken = generateAccessToken;

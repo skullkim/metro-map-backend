@@ -124,8 +124,8 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 
       res.cookie(`${process.env.JWT_REFRESH_TOKEN}`, refreshToken, {
         httpOnly: true,
-        sameSite: 'none',
         secure: true,
+        sameSite: 'none',
       });
       res.json(jsonResponse(req, { user_id: user.id, accessToken }));
     });
@@ -146,13 +146,15 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const generateRefreshToken = (req: Request, res: Response) => {
+const generateRefreshToken = async (req: Request, res: Response) => {
   const { refreshToken } = res.locals;
+
   jwt.verify(
     refreshToken,
     `${process.env.JWT_REFRESH_SECRET}`,
     (err: any, user: any) => {
       const { iat, ...userInfo } = user as RefreshToken;
+
       if (err) {
         res.status(403);
         return res.json(
