@@ -5,6 +5,12 @@ import verifyAccessTokenMiddleware from '../middleWares/verifyAccessToken.middle
 
 const router = express.Router();
 
+router.delete(
+  '/:bookmarkId/user/:userId',
+  verifyAccessTokenMiddleware,
+  bookMarkController.deleteUserBookMarks
+);
+
 router.get(
   '/user/:userId',
   verifyAccessTokenMiddleware,

@@ -24,6 +24,27 @@ const getUserBookMarks = async (
   }
 };
 
+const deleteUserBookMarks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id: userId }: { id: number } = res.locals.userData;
+    const {
+      pathInfo: { from, to, stopover, target },
+    } = req.body;
+
+    await StationBookMark.deleteBookMark(userId, from, to, stopover, target);
+
+    res.status(204);
+    return res.json(jsonResponse(req, {}, 204));
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   getUserBookMarks,
+  deleteUserBookMarks,
 };
