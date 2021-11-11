@@ -11,8 +11,14 @@ const getUserBookMarks = async (
   try {
     const { userId }: { userId: number } = res.locals.userData;
     const bookMarks = await StationBookMark.getBookMarks(userId);
+
+    const responseBookMarks = bookMarks.map((bookmarkData) => ({
+      ...bookmarkData,
+      bookmark: true,
+    }));
+
     res.status(200);
-    return res.json(jsonResponse(req, bookMarks));
+    return res.json(jsonResponse(req, responseBookMarks));
   } catch (err) {
     next(err);
   }

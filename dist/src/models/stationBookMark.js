@@ -69,13 +69,14 @@ var StationBookMark = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     StationBookMark_1 = StationBookMark;
-    StationBookMark.getBookMark = function (userId, from, to, stopover) {
+    StationBookMark.getBookMark = function (userId, from, to, stopover, target) {
         return this.createQueryBuilder('stationBookMark')
             .innerJoin('stationBookMark.user', 'user')
             .where('user.id = :userId', { userId: userId })
             .andWhere('stationBookMark.from = :from', { from: from })
             .andWhere('stationBookMark.to = :to', { to: to })
             .andWhere('stationBookMark.stopover = :stopover', { stopover: stopover })
+            .andWhere('stationBookMark.target = :target', { target: target })
             .getOne();
     };
     StationBookMark.getBookMarks = function (userId) {
@@ -84,7 +85,7 @@ var StationBookMark = /** @class */ (function (_super) {
             .where('user.id = userId', { userId: userId })
             .getMany();
     };
-    StationBookMark.setBookMark = function (userEmail, from, to, stopover) {
+    StationBookMark.setBookMark = function (userEmail, from, to, stopover, target) {
         return __awaiter(this, void 0, void 0, function () {
             var user;
             return __generator(this, function (_a) {
@@ -100,13 +101,14 @@ var StationBookMark = /** @class */ (function (_super) {
                                 to: to,
                                 stopover: stopover,
                                 user: user,
+                                target: target,
                             })
                                 .execute()];
                 }
             });
         });
     };
-    StationBookMark.deleteBookMark = function (userId, from, to, stopover) {
+    StationBookMark.deleteBookMark = function (userId, from, to, stopover, target) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.createQueryBuilder('stationBookMark')
@@ -116,6 +118,7 @@ var StationBookMark = /** @class */ (function (_super) {
                         .andWhere('from = :from', { from: from })
                         .andWhere('to = :to', { to: to })
                         .andWhere('stopover = :stopover', { stopover: stopover })
+                        .andWhere('target = :target', { target: target })
                         .execute()];
             });
         });
@@ -146,6 +149,13 @@ var StationBookMark = /** @class */ (function (_super) {
         }),
         __metadata("design:type", String)
     ], StationBookMark.prototype, "stopover", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({
+            length: 10,
+            nullable: false,
+        }),
+        __metadata("design:type", String)
+    ], StationBookMark.prototype, "target", void 0);
     __decorate([
         (0, typeorm_1.ManyToOne)(function () { return user_1.User; }, function (user) { return user.bookMark; }),
         __metadata("design:type", user_1.User)

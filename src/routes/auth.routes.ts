@@ -1,7 +1,7 @@
 import express from 'express';
 
 import authController from '../controllers/auth.controllers';
-import validateEmailMiddleware from '../middleWares/validateEmail.middleware';
+import validateEmailReauthorizeMiddleware from '../middleWares/validateEmailReauthorize.middleware';
 import validateUserInfoMiddleware from '../middleWares/validateUserInfo.middleware';
 import verifyAccessTokenMiddleware from '../middleWares/verifyAccessToken.middleware';
 import verifyRefreshTokenMiddleware from '../middleWares/verifyRefreshToken.middleware';
@@ -14,7 +14,7 @@ router.get('/signup/email', authController.verifySignupEmail);
 
 router.post(
   '/signup/email/reauthorization',
-  validateEmailMiddleware,
+  validateEmailReauthorizeMiddleware,
   authController.resendSignupEmail
 );
 
