@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+import { CurrentSearched } from '../models/currentSearched';
 import { StationBookMark } from '../models/stationBookMark';
 import { jsonResponse } from '../utils/jsonResponse/success';
 
@@ -36,6 +37,18 @@ const deleteUserBookMarks = async (
     } = req.body;
 
     await StationBookMark.deleteBookMark(userId, from, to, stopover, target);
+
+    const searchHistories = await CurrentSearched.getUserSearchHistory(userId);
+    const hasSearchHistory = searchHistories.filter(
+      (searchHistory) =>
+        searchHistory.target == target &&
+        searchHistory.from == from &&
+        searchHistory.to == to &&
+        searchHistory.stopover == stopover
+    );
+    if (hasSearchHistory.length) {
+      await CurrentSearched.checkBookmark(hasSearchHistory[0].id);
+    }
 
     res.status(204);
     return res.json(jsonResponse(req, {}, 204));
