@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { LostAndFound } from '../models/lostAndFound';
+import { jsonResponse } from '../utils/jsonResponse/success';
 
 const getLostAndFoundList = async (
   req: Request,
@@ -9,7 +10,9 @@ const getLostAndFoundList = async (
 ) => {
   try {
     const lostAndFoundList = await LostAndFound.getLostAndFoundList();
-    res.send(lostAndFoundList);
+
+    res.status(200);
+    res.json(jsonResponse(req, lostAndFoundList));
   } catch (err) {
     next(err);
   }
