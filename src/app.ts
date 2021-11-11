@@ -7,6 +7,7 @@ import passport from 'passport';
 import { createConnection } from 'typeorm';
 
 import passportConfig from './config/passport';
+import amenitiesRouter from './routes/amenities.routes';
 import authRouter from './routes/auth.routes';
 import bookmarkRouter from './routes/bookmark.routes';
 import pathRouter from './routes/path.routes';
@@ -50,6 +51,7 @@ createConnection().then(() => {
   app.use('/authentication', authRouter);
   app.use('/search-history', searchHistoryRouter);
   app.use('/bookmark', bookmarkRouter);
+  app.use('/amenities', amenitiesRouter);
 
   app.use((req: Request, response: Response, next: NextFunction) => {
     const error: ReqError = new Error(

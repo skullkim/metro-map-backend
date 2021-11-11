@@ -23,7 +23,7 @@ export class LostAndFound extends BaseEntity {
   })
   operatingHour!: string;
 
-  static getLostAndFoundLists() {
+  static getLostAndFoundList() {
     return this.createQueryBuilder('lostAndFound').getMany();
   }
 }
