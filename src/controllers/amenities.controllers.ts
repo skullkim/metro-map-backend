@@ -34,7 +34,16 @@ const getStoreBoxList = async (
   }
 };
 
+const sendUserComplainEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.json('sendUserComplainEmail');
+};
+
 export default {
   getLostAndFoundList,
   getStoreBoxList,
+  sendUserComplainEmail,
 };
