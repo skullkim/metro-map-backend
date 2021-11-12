@@ -15,6 +15,8 @@ export enum ErrorMessage {
   TokenAuth = 'Authentication error',
   TokenExpired = 'token expired',
   InvalidToken = 'invalidToken',
+  ComplainContextIsTooShort = '민원내용은 10글자 이상이여야 합니',
+  InvalidSubwayLine = '올바르지 않은 지하철 노선입니다',
 }
 
 export enum SuccessMessage {
@@ -37,4 +39,9 @@ export interface RefreshToken {
   id: number;
   email: string;
   iat: number;
+}
+export interface UserComplain {
+  email?: string;
+  subwayLine?: number;
+  userComplainContext?: string;
 }
