@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get('/lost-and-found', amenitiesControllers.getLostAndFoundList);
 
+router.get('/store-box', amenitiesControllers.getStoreBoxList);
+
 export default router;

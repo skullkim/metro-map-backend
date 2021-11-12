@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import { LostAndFound } from '../models/lostAndFound';
+import { StoreBox } from '../models/storeBox';
 import { jsonResponse } from '../utils/jsonResponse/success';
 
 const getLostAndFoundList = async (
@@ -18,6 +19,22 @@ const getLostAndFoundList = async (
   }
 };
 
+const getStoreBoxList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const storeBoxList = await StoreBox.getStoreBoxList();
+
+    res.status(200);
+    res.json(jsonResponse(req, storeBoxList));
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   getLostAndFoundList,
+  getStoreBoxList,
 };
