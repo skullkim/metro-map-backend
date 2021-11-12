@@ -23,6 +23,13 @@ const validateUserComplainContext = (
         message: ErrorMessage.ComplainContextIsTooShort,
       })
     );
+  } else if (userComplainContext.length >= 301) {
+    res.status(400);
+    return res.json(
+      jsonErrorResponse(req, {
+        message: ErrorMessage.ComplainContextIsTooLong,
+      })
+    );
   } else if (!subwayLine || 9 <= subwayLine || subwayLine <= 0) {
     res.status(400);
     return res.json(

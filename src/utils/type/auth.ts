@@ -15,7 +15,8 @@ export enum ErrorMessage {
   TokenAuth = 'Authentication error',
   TokenExpired = 'token expired',
   InvalidToken = 'invalidToken',
-  ComplainContextIsTooShort = '민원내용은 10글자 이상이여야 합니',
+  ComplainContextIsTooShort = '민원내용은 10글자 이상이여야 합니다',
+  ComplainContextIsTooLong = '민원 내용은 300글자 이하여야 합니다',
   InvalidSubwayLine = '올바르지 않은 지하철 노선입니다',
 }
 
