@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import { LostAndFound } from '../models/lostAndFound';
 import { StoreBox } from '../models/storeBox';
 import { jsonResponse } from '../utils/jsonResponse/success';
+import sendUserComplainedContextToUser from '../utils/sendUserComplainEmail';
+import { UserComplain } from '../utils/type/auth';
 
 const getLostAndFoundList = async (
   req: Request,
@@ -39,7 +41,15 @@ const sendUserComplainEmail = async (
   res: Response,
   next: NextFunction
 ) => {
-  res.json('sendUserComplainEmail');
+  try {
+    const userComplainInfo: UserComplain = req.body;
+    await sendUserComplainedContextToUser(userComplainInfo);
+
+    res.status(204);
+    res.end();
+  } catch (err) {
+    next(err);
+  }
 };
 
 export default {
