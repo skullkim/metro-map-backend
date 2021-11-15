@@ -45,9 +45,8 @@ var util_1 = require("util");
 var dotenv_1 = __importDefault(require("dotenv"));
 var handlebars_1 = __importDefault(require("handlebars"));
 var node_cron_1 = __importDefault(require("node-cron"));
-var nodemailer_1 = __importDefault(require("nodemailer"));
-var nodemailer_smtp_transport_1 = __importDefault(require("nodemailer-smtp-transport"));
 var authEmail_1 = require("../models/authEmail");
+var createNodemailerTransport_1 = __importDefault(require("./createNodemailerTransport"));
 dotenv_1.default.config();
 var getEmailContext = function (user) { return __awaiter(void 0, void 0, void 0, function () {
     var randomString, url, insertId, readFile, filePath, emailContext, template, emailToSend, err_1;
@@ -83,14 +82,7 @@ var sendEmailToValidate = function (user) { return __awaiter(void 0, void 0, voi
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                emailTransport = nodemailer_1.default.createTransport((0, nodemailer_smtp_transport_1.default)({
-                    service: "" + process.env.EMAIL_SERVICE,
-                    host: "" + process.env.EMAIL_HOST,
-                    auth: {
-                        user: "" + process.env.EMAIL,
-                        pass: "" + process.env.EMAIL_PASSWORD,
-                    },
-                }));
+                emailTransport = (0, createNodemailerTransport_1.default)();
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);

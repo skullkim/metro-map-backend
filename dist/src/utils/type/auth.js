@@ -14,6 +14,9 @@ var ErrorMessage;
     ErrorMessage["TokenAuth"] = "Authentication error";
     ErrorMessage["TokenExpired"] = "token expired";
     ErrorMessage["InvalidToken"] = "invalidToken";
+    ErrorMessage["ComplainContextIsTooShort"] = "\uBBFC\uC6D0\uB0B4\uC6A9\uC740 10\uAE00\uC790 \uC774\uC0C1\uC774\uC5EC\uC57C \uD569\uB2C8\uB2E4";
+    ErrorMessage["ComplainContextIsTooLong"] = "\uBBFC\uC6D0 \uB0B4\uC6A9\uC740 300\uAE00\uC790 \uC774\uD558\uC5EC\uC57C \uD569\uB2C8\uB2E4";
+    ErrorMessage["InvalidSubwayLine"] = "\uC62C\uBC14\uB974\uC9C0 \uC54A\uC740 \uC9C0\uD558\uCCA0 \uB178\uC120\uC785\uB2C8\uB2E4";
 })(ErrorMessage = exports.ErrorMessage || (exports.ErrorMessage = {}));
 var SuccessMessage;
 (function (SuccessMessage) {
