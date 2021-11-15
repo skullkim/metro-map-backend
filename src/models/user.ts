@@ -51,11 +51,27 @@ export class User extends BaseEntity {
       .execute();
   }
 
-  static userCheckedEmail(id: number) {
+  static userCheckedEmail(id: number, checkedEmail: boolean = true) {
     return this.createQueryBuilder('user')
       .update(User)
-      .set({ checkedEmail: true })
+      .set({ checkedEmail })
       .where('id = :id', { id })
+      .execute();
+  }
+
+  static updateUserEmail(userId: number, email: string) {
+    return this.createQueryBuilder('user')
+      .update(User)
+      .set({ email })
+      .where('id = :userId', { userId })
+      .execute();
+  }
+
+  static updateUserPassword(userId: number, password: string) {
+    return this.createQueryBuilder('user')
+      .update(User)
+      .set({ password })
+      .where('id = :userId', { userId })
       .execute();
   }
 }
