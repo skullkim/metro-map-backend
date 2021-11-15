@@ -18,6 +18,8 @@ export enum ErrorMessage {
   ComplainContextIsTooShort = '민원내용은 10글자 이상이여야 합니다',
   ComplainContextIsTooLong = '민원 내용은 300글자 이하여야 합니다',
   InvalidSubwayLine = '올바르지 않은 지하철 노선입니다',
+  InvalidPrevPassword = '기존 비밀번호가 올바르지 않습니다',
+  CantChangePassword = '기존 비밀번호와 새로운 비밀번호를 모두 입력해 주세요',
 }
 
 export enum SuccessMessage {
@@ -41,8 +43,15 @@ export interface RefreshToken {
   email: string;
   iat: number;
 }
+
 export interface UserComplain {
   email?: string;
   subwayLine?: number;
   userComplainContext?: string;
+}
+
+export interface UserInformation {
+  email?: string;
+  prevPassword: string;
+  newPassword: string;
 }
