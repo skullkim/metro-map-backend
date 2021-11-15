@@ -12,6 +12,7 @@ import authRouter from './routes/auth.routes';
 import bookmarkRouter from './routes/bookmark.routes';
 import pathRouter from './routes/path.routes';
 import searchHistoryRouter from './routes/searchHistory.routes';
+import userRouter from './routes/user.routes';
 import { ReqError, HttpException } from './utils/type/Error';
 
 createConnection().then(() => {
@@ -52,6 +53,7 @@ createConnection().then(() => {
   app.use('/search-history', searchHistoryRouter);
   app.use('/bookmark', bookmarkRouter);
   app.use('/amenities', amenitiesRouter);
+  app.use('/user', userRouter);
 
   app.use((req: Request, response: Response, next: NextFunction) => {
     const error: ReqError = new Error(
