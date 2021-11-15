@@ -36,11 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var user_1 = require("../entity/user");
+var user_1 = require("../models/user");
 var fail_1 = require("../utils/jsonResponse/fail");
 var auth_1 = require("../utils/type/auth");
 var auth_2 = require("../utils/validation/auth");
-var validateEmail = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+var validateEmailReauthorizeMiddleware = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var email, exUser, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -69,5 +69,5 @@ var validateEmail = function (req, res, next) { return __awaiter(void 0, void 0,
         }
     });
 }); };
-exports.default = validateEmail;
-//# sourceMappingURL=validateEmailReauthorizeMiddleware.js.map
+exports.default = validateEmailReauthorizeMiddleware;
+//# sourceMappingURL=validateEmailReauthorize.middleware.js.map

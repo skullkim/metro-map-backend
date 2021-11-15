@@ -34,7 +34,7 @@ const setUserPathBookmark = async (
       },
     } = res;
     const {
-      pathInfo: { from, to, stopover },
+      pathInfo: { from, to, stopover, target },
     } = req.body;
 
     await CurrentSearched.checkBookmark(bookmarkId);
@@ -43,12 +43,13 @@ const setUserPathBookmark = async (
       id,
       from,
       to,
-      stopover
+      stopover,
+      target
     );
     if (!exBookmark) {
-      await StationBookMark.setBookMark(email, from, to, stopover);
+      await StationBookMark.setBookMark(email, from, to, stopover, target);
     } else {
-      await StationBookMark.deleteBookMark(id, from, to, stopover);
+      await StationBookMark.deleteBookMark(id, from, to, stopover, target);
     }
 
     res.status(204);

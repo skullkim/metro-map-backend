@@ -5,12 +5,11 @@ import { promisify } from 'util';
 import dotenv from 'dotenv';
 import handlebars from 'handlebars';
 import cron from 'node-cron';
-import nodemailer from 'nodemailer';
-import smtpTransport from 'nodemailer-smtp-transport';
 
 import { AuthEmail } from '../models/authEmail';
 import { User } from '../models/user';
 
+import createNodemailerTransport from './createNodemailerTransport';
 import { EmailContext } from './type/auth';
 
 dotenv.config();
@@ -43,16 +42,8 @@ const getEmailContext = async (
 };
 
 const sendEmailToValidate = async (user: User | undefined) => {
-  const emailTransport = nodemailer.createTransport(
-    smtpTransport({
-      service: `${process.env.EMAIL_SERVICE}`,
-      host: `${process.env.EMAIL_HOST}`,
-      auth: {
-        user: `${process.env.EMAIL}`,
-        pass: `${process.env.EMAIL_PASSWORD}`,
-      },
-    })
-  );
+  const emailTransport = createNodemailerTransport();
+
   try {
     const { emailContext, authEmailId }: EmailContext = await getEmailContext(
       user

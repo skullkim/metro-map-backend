@@ -31,6 +31,12 @@ export class StationBookMark extends BaseEntity {
   })
   stopover!: string;
 
+  @Column({
+    length: 10,
+    nullable: false,
+  })
+  target!: string;
+
   @ManyToOne(() => User, (user) => user.bookMark)
   user!: User;
 
@@ -38,7 +44,8 @@ export class StationBookMark extends BaseEntity {
     userId: number,
     from: string,
     to: string,
-    stopover: string
+    stopover: string,
+    target: string
   ) {
     return this.createQueryBuilder('stationBookMark')
       .innerJoin('stationBookMark.user', 'user')
@@ -46,14 +53,23 @@ export class StationBookMark extends BaseEntity {
       .andWhere('stationBookMark.from = :from', { from })
       .andWhere('stationBookMark.to = :to', { to })
       .andWhere('stationBookMark.stopover = :stopover', { stopover })
+      .andWhere('stationBookMark.target = :target', { target })
       .getOne();
+  }
+
+  static getBookMarks(userId: number) {
+    return this.createQueryBuilder('stationBookMark')
+      .innerJoin('stationBookMark.user', 'user')
+      .where('user.id = userId', { userId })
+      .getMany();
   }
 
   static async setBookMark(
     userEmail: string,
     from: string,
     to: string,
-    stopover: string
+    stopover: string,
+    target: string
   ) {
     const user = await User.getUser(userEmail);
     return this.createQueryBuilder('stationBookMark')
@@ -64,6 +80,7 @@ export class StationBookMark extends BaseEntity {
         to,
         stopover,
         user,
+        target,
       })
       .execute();
   }
@@ -72,7 +89,8 @@ export class StationBookMark extends BaseEntity {
     userId: number,
     from: string,
     to: string,
-    stopover: string
+    stopover: string,
+    target: string
   ) {
     return this.createQueryBuilder('stationBookMark')
       .delete()
@@ -81,6 +99,7 @@ export class StationBookMark extends BaseEntity {
       .andWhere('from = :from', { from })
       .andWhere('to = :to', { to })
       .andWhere('stopover = :stopover', { stopover })
+      .andWhere('target = :target', { target })
       .execute();
   }
 }
