@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Request, Response, NextFunction } from 'express';
 
+import { Token } from '../models/token';
 import { User } from '../models/user';
 import sendEmailToValidate from '../utils/emailAuth';
 import { jsonResponse } from '../utils/jsonResponse/success';
@@ -28,6 +29,11 @@ const changeUserInformation = async (
       await User.updateUserPassword(userId, bcryptPassword);
     }
 
+    req.logOut();
+    res.clearCookie(`${process.env.JWT_REFRESH_TOKEN}`);
+    await Token.deleteRefreshToken(
+      req.cookies[`${process.env.JWT_REFRESH_TOKEN}`]
+    );
     res.status(204);
     res.json(jsonResponse(req, {}, 204));
   } catch (err) {
@@ -35,6 +41,28 @@ const changeUserInformation = async (
   }
 };
 
+const getUserEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {
+      userData: { id: userId },
+    } = res.locals;
+
+    const { email: userEmail } = (await User.getUserEmail(
+      userId
+    )) as unknown as User;
+
+    res.status(200);
+    res.json(jsonResponse(req, { email: userEmail }));
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   changeUserInformation,
+  getUserEmail,
 };

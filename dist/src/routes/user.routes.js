@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var user_controllers_1 = __importDefault(require("../controllers/user.controllers"));
+var validateChangeUserInformation_middleware_1 = __importDefault(require("../middleWares/validateChangeUserInformation.middleware"));
 var verifyAccessToken_middleware_1 = __importDefault(require("../middleWares/verifyAccessToken.middleware"));
 var router = express_1.default.Router();
-router.get('/user/:userId', verifyAccessToken_middleware_1.default, user_controllers_1.default.getUserSearchHistories);
-router.put('/bookmark/:bookmarkId', verifyAccessToken_middleware_1.default, user_controllers_1.default.setUserPathBookmark);
+router.put('/:userId/user-information', verifyAccessToken_middleware_1.default, validateChangeUserInformation_middleware_1.default, user_controllers_1.default.changeUserInformation);
 exports.default = router;
 //# sourceMappingURL=user.routes.js.map

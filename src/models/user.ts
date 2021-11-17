@@ -74,4 +74,10 @@ export class User extends BaseEntity {
       .where('id = :userId', { userId })
       .execute();
   }
+
+  static getUserEmail(userId: number) {
+    return this.createQueryBuilder('user')
+      .where('user.id = :userId', { userId })
+      .getOne();
+  }
 }

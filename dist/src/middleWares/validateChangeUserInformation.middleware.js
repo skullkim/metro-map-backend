@@ -41,50 +41,64 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var user_1 = require("../models/user");
-var emailAuth_1 = __importDefault(require("../utils/emailAuth"));
-var changeUserInformation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, prevPassword, newPassword, userId, _b, bcryptPassword, err_1;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+var fail_1 = require("../utils/jsonResponse/fail");
+var auth_1 = require("../utils/type/auth");
+var auth_2 = require("../utils/validation/auth");
+var validateChangeUserInformationMiddleware = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, email, prevPassword, newPassword, userEmail, hasSameEmail, exUser, isValidPrevPassword, err_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _c.trys.push([0, 9, , 10]);
+                _b.trys.push([0, 7, , 8]);
                 _a = req.body, email = _a.email, prevPassword = _a.prevPassword, newPassword = _a.newPassword;
-                userId = res.locals.userData.id;
-                if (!email) return [3 /*break*/, 5];
-                return [4 /*yield*/, user_1.User.updateUserEmail(userId, email)];
-            case 1:
-                _c.sent();
-                return [4 /*yield*/, user_1.User.userCheckedEmail(userId, false)];
-            case 2:
-                _c.sent();
-                _b = emailAuth_1.default;
+                userEmail = res.locals.userData.email;
+                if (!email) return [3 /*break*/, 2];
                 return [4 /*yield*/, user_1.User.getUser(email)];
-            case 3: return [4 /*yield*/, _b.apply(void 0, [_c.sent()])];
+            case 1:
+                hasSameEmail = _b.sent();
+                if (hasSameEmail) {
+                    res.status(400);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.SameEmail }))];
+                }
+                if (!(0, auth_2.isValidEmail)(email)) {
+                    res.status(400);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidEmail }))];
+                }
+                _b.label = 2;
+            case 2:
+                if (!(prevPassword && newPassword)) return [3 /*break*/, 5];
+                return [4 /*yield*/, user_1.User.getUser(userEmail)];
+            case 3:
+                exUser = _b.sent();
+                return [4 /*yield*/, bcrypt_1.default.compare(prevPassword, exUser.password)];
             case 4:
-                _c.sent();
-                _c.label = 5;
+                isValidPrevPassword = _b.sent();
+                if (!isValidPrevPassword) {
+                    res.status(400);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidPrevPassword }))];
+                }
+                if (!(0, auth_2.isValidPassword)(prevPassword)) {
+                    res.status(400);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidPassword }))];
+                }
+                return [3 /*break*/, 6];
             case 5:
-                if (!(prevPassword && newPassword)) return [3 /*break*/, 8];
-                return [4 /*yield*/, bcrypt_1.default.hash(newPassword, 12)];
+                if ((!prevPassword && newPassword) ||
+                    (prevPassword && !newPassword)) {
+                    res.status(400);
+                    return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.CantChangePassword }))];
+                }
+                _b.label = 6;
             case 6:
-                bcryptPassword = _c.sent();
-                return [4 /*yield*/, user_1.User.updateUserPassword(userId, bcryptPassword)];
+                next();
+                return [3 /*break*/, 8];
             case 7:
-                _c.sent();
-                _c.label = 8;
-            case 8:
-                req.method = 'POST';
-                res.redirect(307, '/authentication/logout');
-                return [3 /*break*/, 10];
-            case 9:
-                err_1 = _c.sent();
+                err_1 = _b.sent();
                 next(err_1);
-                return [3 /*break*/, 10];
-            case 10: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };
-exports.default = {
-    changeUserInformation: changeUserInformation,
-};
-//# sourceMappingURL=user.controllers.js.map
+exports.default = validateChangeUserInformationMiddleware;
+//# sourceMappingURL=validateChangeUserInformation.middleware.js.map

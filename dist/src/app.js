@@ -16,6 +16,7 @@ var auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 var bookmark_routes_1 = __importDefault(require("./routes/bookmark.routes"));
 var path_routes_1 = __importDefault(require("./routes/path.routes"));
 var searchHistory_routes_1 = __importDefault(require("./routes/searchHistory.routes"));
+var user_routes_1 = __importDefault(require("./routes/user.routes"));
 (0, typeorm_1.createConnection)().then(function () {
     var app = (0, express_1.default)();
     dotenv_1.default.config();
@@ -45,6 +46,7 @@ var searchHistory_routes_1 = __importDefault(require("./routes/searchHistory.rou
     app.use('/search-history', searchHistory_routes_1.default);
     app.use('/bookmark', bookmark_routes_1.default);
     app.use('/amenities', amenities_routes_1.default);
+    app.use('/user', user_routes_1.default);
     app.use(function (req, response, next) {
         var error = new Error(req.method + " " + req.originalUrl + " router doesn't exist");
         error.status = 400;

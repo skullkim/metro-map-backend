@@ -13,4 +13,10 @@ router.put(
   userInformation.changeUserInformation
 );
 
+router.get(
+  '/:userId/email',
+  verifyAccessTokenMiddleware,
+  userInformation.getUserEmail
+);
+
 export default router;

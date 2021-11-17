@@ -46,11 +46,26 @@ var User = /** @class */ (function (_super) {
             .values([{ email: email, password: password, checkedEmail: false }])
             .execute();
     };
-    User.userCheckedEmail = function (id) {
+    User.userCheckedEmail = function (id, checkedEmail) {
+        if (checkedEmail === void 0) { checkedEmail = true; }
         return this.createQueryBuilder('user')
             .update(User_1)
-            .set({ checkedEmail: true })
+            .set({ checkedEmail: checkedEmail })
             .where('id = :id', { id: id })
+            .execute();
+    };
+    User.updateUserEmail = function (userId, email) {
+        return this.createQueryBuilder('user')
+            .update(User_1)
+            .set({ email: email })
+            .where('id = :userId', { userId: userId })
+            .execute();
+    };
+    User.updateUserPassword = function (userId, password) {
+        return this.createQueryBuilder('user')
+            .update(User_1)
+            .set({ password: password })
+            .where('id = :userId', { userId: userId })
             .execute();
     };
     var User_1;
