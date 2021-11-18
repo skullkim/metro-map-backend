@@ -120,6 +120,10 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
         `${process.env.JWT_REFRESH_SECRET}`
       );
 
+      const exRefreshToken = await Token.isRefreshTokenExist(id);
+      if (exRefreshToken) {
+        await Token.deleteRefreshToken(exRefreshToken.refreshToken);
+      }
       await Token.setRefreshToken(user, refreshToken);
 
       res.cookie(`${process.env.JWT_REFRESH_TOKEN}`, refreshToken, {

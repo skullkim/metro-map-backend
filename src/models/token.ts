@@ -37,6 +37,13 @@ export class Token extends BaseEntity {
       .getOne();
   }
 
+  static isRefreshTokenExist(userId: number) {
+    return this.createQueryBuilder('token')
+      .innerJoin('token.user', 'user')
+      .where('user.id = :userId', { userId })
+      .getOne();
+  }
+
   static deleteRefreshToken(refreshToken: string) {
     return this.createQueryBuilder('token')
       .delete()
