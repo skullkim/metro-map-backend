@@ -52,6 +52,6 @@ export interface UserComplain {
 
 export interface UserInformation {
   email?: string;
-  prevPassword: string;
+  previousPassword: string;
   newPassword: string;
 }

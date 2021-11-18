@@ -40,15 +40,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcrypt_1 = __importDefault(require("bcrypt"));
+var token_1 = require("../models/token");
 var user_1 = require("../models/user");
 var emailAuth_1 = __importDefault(require("../utils/emailAuth"));
+var success_1 = require("../utils/jsonResponse/success");
 var changeUserInformation = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, prevPassword, newPassword, userId, _b, bcryptPassword, err_1;
+    var _a, email, previousPassword, newPassword, userId, _b, bcryptPassword, err_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _c.trys.push([0, 9, , 10]);
-                _a = req.body, email = _a.email, prevPassword = _a.prevPassword, newPassword = _a.newPassword;
+                _c.trys.push([0, 10, , 11]);
+                _a = req.body, email = _a.email, previousPassword = _a.previousPassword, newPassword = _a.newPassword;
                 userId = res.locals.userData.id;
                 if (!email) return [3 /*break*/, 5];
                 return [4 /*yield*/, user_1.User.updateUserEmail(userId, email)];
@@ -64,7 +66,7 @@ var changeUserInformation = function (req, res, next) { return __awaiter(void 0,
                 _c.sent();
                 _c.label = 5;
             case 5:
-                if (!(prevPassword && newPassword)) return [3 /*break*/, 8];
+                if (!(previousPassword && newPassword)) return [3 /*break*/, 8];
                 return [4 /*yield*/, bcrypt_1.default.hash(newPassword, 12)];
             case 6:
                 bcryptPassword = _c.sent();
@@ -73,18 +75,46 @@ var changeUserInformation = function (req, res, next) { return __awaiter(void 0,
                 _c.sent();
                 _c.label = 8;
             case 8:
-                req.method = 'POST';
-                res.redirect(307, '/authentication/logout');
-                return [3 /*break*/, 10];
+                console.log(req.cookies["" + process.env.JWT_REFRESH_TOKEN]);
+                req.logOut();
+                return [4 /*yield*/, token_1.Token.deleteRefreshToken(req.cookies["" + process.env.JWT_REFRESH_TOKEN])];
             case 9:
+                _c.sent();
+                res.clearCookie("" + process.env.JWT_REFRESH_TOKEN);
+                res.status(204);
+                res.json((0, success_1.jsonResponse)(req, {}, 204));
+                return [3 /*break*/, 11];
+            case 10:
                 err_1 = _c.sent();
                 next(err_1);
-                return [3 /*break*/, 10];
-            case 10: return [2 /*return*/];
+                return [3 /*break*/, 11];
+            case 11: return [2 /*return*/];
+        }
+    });
+}); };
+var getUserEmail = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var userId, userEmail, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                userId = res.locals.userData.id;
+                return [4 /*yield*/, user_1.User.getUserEmail(userId)];
+            case 1:
+                userEmail = (_a.sent()).email;
+                res.status(200);
+                res.json((0, success_1.jsonResponse)(req, { email: userEmail }));
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                next(err_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.default = {
     changeUserInformation: changeUserInformation,
+    getUserEmail: getUserEmail,
 };
 //# sourceMappingURL=user.controllers.js.map

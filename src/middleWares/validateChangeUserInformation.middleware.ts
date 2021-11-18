@@ -12,7 +12,7 @@ const validateChangeUserInformationMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    const { email, prevPassword, newPassword }: UserInformation = req.body;
+    const { email, previousPassword, newPassword }: UserInformation = req.body;
     const {
       userData: { email: userEmail },
     } = res.locals;
@@ -34,11 +34,11 @@ const validateChangeUserInformationMiddleware = async (
       }
     }
 
-    if (prevPassword && newPassword) {
+    if (previousPassword && newPassword) {
       const exUser = await User.getUser(userEmail);
 
       const isValidPrevPassword = await bcrypt.compare(
-        prevPassword,
+        previousPassword,
         exUser!.password
       );
 
@@ -49,15 +49,15 @@ const validateChangeUserInformationMiddleware = async (
         );
       }
 
-      if (!isValidPassword(prevPassword)) {
+      if (!isValidPassword(previousPassword)) {
         res.status(400);
         return res.json(
           jsonErrorResponse(req, { message: ErrorMessage.InvalidPassword })
         );
       }
     } else if (
-      (!prevPassword && newPassword) ||
-      (prevPassword && !newPassword)
+      (!previousPassword && newPassword) ||
+      (previousPassword && !newPassword)
     ) {
       res.status(400);
       return res.json(

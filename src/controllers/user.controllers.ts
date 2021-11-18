@@ -13,7 +13,7 @@ const changeUserInformation = async (
   next: NextFunction
 ) => {
   try {
-    const { email, prevPassword, newPassword }: UserInformation = req.body;
+    const { email, previousPassword, newPassword }: UserInformation = req.body;
     const {
       userData: { id: userId },
     } = res.locals;
@@ -24,16 +24,16 @@ const changeUserInformation = async (
       await sendEmailToValidate(await User.getUser(email));
     }
 
-    if (prevPassword && newPassword) {
+    if (previousPassword && newPassword) {
       const bcryptPassword: string = await bcrypt.hash(newPassword, 12);
       await User.updateUserPassword(userId, bcryptPassword);
     }
 
     req.logOut();
-    res.clearCookie(`${process.env.JWT_REFRESH_TOKEN}`);
     await Token.deleteRefreshToken(
       req.cookies[`${process.env.JWT_REFRESH_TOKEN}`]
     );
+    res.clearCookie(`${process.env.JWT_REFRESH_TOKEN}`);
     res.status(204);
     res.json(jsonResponse(req, {}, 204));
   } catch (err) {

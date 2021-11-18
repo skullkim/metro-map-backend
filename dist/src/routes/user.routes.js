@@ -9,5 +9,6 @@ var validateChangeUserInformation_middleware_1 = __importDefault(require("../mid
 var verifyAccessToken_middleware_1 = __importDefault(require("../middleWares/verifyAccessToken.middleware"));
 var router = express_1.default.Router();
 router.put('/:userId/user-information', verifyAccessToken_middleware_1.default, validateChangeUserInformation_middleware_1.default, user_controllers_1.default.changeUserInformation);
+router.get('/:userId/email', verifyAccessToken_middleware_1.default, user_controllers_1.default.getUserEmail);
 exports.default = router;
 //# sourceMappingURL=user.routes.js.map

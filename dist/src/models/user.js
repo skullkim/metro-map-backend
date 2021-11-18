@@ -68,6 +68,11 @@ var User = /** @class */ (function (_super) {
             .where('id = :userId', { userId: userId })
             .execute();
     };
+    User.getUserEmail = function (userId) {
+        return this.createQueryBuilder('user')
+            .where('user.id = :userId', { userId: userId })
+            .getOne();
+    };
     var User_1;
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),

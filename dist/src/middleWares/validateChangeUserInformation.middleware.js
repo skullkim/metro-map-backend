@@ -45,12 +45,12 @@ var fail_1 = require("../utils/jsonResponse/fail");
 var auth_1 = require("../utils/type/auth");
 var auth_2 = require("../utils/validation/auth");
 var validateChangeUserInformationMiddleware = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, email, prevPassword, newPassword, userEmail, hasSameEmail, exUser, isValidPrevPassword, err_1;
+    var _a, email, previousPassword, newPassword, userEmail, hasSameEmail, exUser, isValidPrevPassword, err_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 7, , 8]);
-                _a = req.body, email = _a.email, prevPassword = _a.prevPassword, newPassword = _a.newPassword;
+                _a = req.body, email = _a.email, previousPassword = _a.previousPassword, newPassword = _a.newPassword;
                 userEmail = res.locals.userData.email;
                 if (!email) return [3 /*break*/, 2];
                 return [4 /*yield*/, user_1.User.getUser(email)];
@@ -66,25 +66,25 @@ var validateChangeUserInformationMiddleware = function (req, res, next) { return
                 }
                 _b.label = 2;
             case 2:
-                if (!(prevPassword && newPassword)) return [3 /*break*/, 5];
+                if (!(previousPassword && newPassword)) return [3 /*break*/, 5];
                 return [4 /*yield*/, user_1.User.getUser(userEmail)];
             case 3:
                 exUser = _b.sent();
-                return [4 /*yield*/, bcrypt_1.default.compare(prevPassword, exUser.password)];
+                return [4 /*yield*/, bcrypt_1.default.compare(previousPassword, exUser.password)];
             case 4:
                 isValidPrevPassword = _b.sent();
                 if (!isValidPrevPassword) {
                     res.status(400);
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidPrevPassword }))];
                 }
-                if (!(0, auth_2.isValidPassword)(prevPassword)) {
+                if (!(0, auth_2.isValidPassword)(previousPassword)) {
                     res.status(400);
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.InvalidPassword }))];
                 }
                 return [3 /*break*/, 6];
             case 5:
-                if ((!prevPassword && newPassword) ||
-                    (prevPassword && !newPassword)) {
+                if ((!previousPassword && newPassword) ||
+                    (previousPassword && !newPassword)) {
                     res.status(400);
                     return [2 /*return*/, res.json((0, fail_1.jsonErrorResponse)(req, { message: auth_1.ErrorMessage.CantChangePassword }))];
                 }
