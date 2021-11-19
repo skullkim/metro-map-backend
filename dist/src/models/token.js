@@ -45,6 +45,12 @@ var Token = /** @class */ (function (_super) {
             .where('Token.refreshToken = :refreshToken', { refreshToken: refreshToken })
             .getOne();
     };
+    Token.isRefreshTokenExist = function (userId) {
+        return this.createQueryBuilder('token')
+            .innerJoin('token.user', 'user')
+            .where('user.id = :userId', { userId: userId })
+            .getOne();
+    };
     Token.deleteRefreshToken = function (refreshToken) {
         return this.createQueryBuilder('token')
             .delete()

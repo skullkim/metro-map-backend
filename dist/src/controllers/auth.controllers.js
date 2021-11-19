@@ -163,7 +163,7 @@ var signin = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                 return res.json((0, fail_1.jsonErrorResponse)(req, info, status_1));
             }
             req.login(user, { session: false }, function (loginError) { return __awaiter(void 0, void 0, void 0, function () {
-                var id, email, tokenData, accessToken, refreshToken;
+                var id, email, tokenData, accessToken, refreshToken, exRefreshToken;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -174,8 +174,16 @@ var signin = function (req, res, next) { return __awaiter(void 0, void 0, void 0
                             tokenData = { id: id, email: email };
                             accessToken = (0, token_2.generateAccessToken)(tokenData);
                             refreshToken = jsonwebtoken_1.default.sign(tokenData, "" + process.env.JWT_REFRESH_SECRET);
-                            return [4 /*yield*/, token_1.Token.setRefreshToken(user, refreshToken)];
+                            return [4 /*yield*/, token_1.Token.isRefreshTokenExist(id)];
                         case 1:
+                            exRefreshToken = _a.sent();
+                            if (!exRefreshToken) return [3 /*break*/, 3];
+                            return [4 /*yield*/, token_1.Token.deleteRefreshToken(exRefreshToken.refreshToken)];
+                        case 2:
+                            _a.sent();
+                            _a.label = 3;
+                        case 3: return [4 /*yield*/, token_1.Token.setRefreshToken(user, refreshToken)];
+                        case 4:
                             _a.sent();
                             res.cookie("" + process.env.JWT_REFRESH_TOKEN, refreshToken, {
                                 httpOnly: true,

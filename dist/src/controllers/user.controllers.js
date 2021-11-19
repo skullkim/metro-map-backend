@@ -75,7 +75,6 @@ var changeUserInformation = function (req, res, next) { return __awaiter(void 0,
                 _c.sent();
                 _c.label = 8;
             case 8:
-                console.log(req.cookies["" + process.env.JWT_REFRESH_TOKEN]);
                 req.logOut();
                 return [4 /*yield*/, token_1.Token.deleteRefreshToken(req.cookies["" + process.env.JWT_REFRESH_TOKEN])];
             case 9:
