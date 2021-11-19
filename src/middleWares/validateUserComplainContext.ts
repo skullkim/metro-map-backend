@@ -30,7 +30,7 @@ const validateUserComplainContext = (
         message: ErrorMessage.ComplainContextIsTooLong,
       })
     );
-  } else if (!subwayLine || 9 <= subwayLine || subwayLine <= 0) {
+  } else if (!subwayLine || 10 <= subwayLine || subwayLine <= 0) {
     res.status(400);
     return res.json(
       jsonErrorResponse(req, {
