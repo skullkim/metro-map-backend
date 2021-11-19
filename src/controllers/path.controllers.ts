@@ -48,14 +48,14 @@ const optimizedPathStopover = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { startStation, stopoverStation, arriveStation } =
-    req.query as unknown as SearchPath;
-  const { pathTarget } = req.params as unknown as MinPathTarget;
-  const {
-    locals: { userData },
-  } = res;
-
   try {
+    const { startStation, stopoverStation, arriveStation } =
+      req.query as unknown as SearchPath;
+    const { pathTarget } = req.params as unknown as MinPathTarget;
+    const {
+      locals: { userData },
+    } = res;
+
     if (userData) {
       const pathInfo = {
         startStation,

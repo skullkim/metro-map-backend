@@ -9,9 +9,9 @@ const getUserSearchHistories = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId } = req.params as unknown as { userId: number };
-
   try {
+    const { userId } = req.params as unknown as { userId: number };
+
     const searchHistory = await CurrentSearched.getUserSearchHistory(userId);
 
     res.status(200);
