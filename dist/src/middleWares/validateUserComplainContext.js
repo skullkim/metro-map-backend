@@ -21,7 +21,7 @@ var validateUserComplainContext = function (req, res, next) {
             message: auth_1.ErrorMessage.ComplainContextIsTooLong,
         }));
     }
-    else if (!subwayLine || 9 <= subwayLine || subwayLine <= 0) {
+    else if (!subwayLine || 10 <= subwayLine || subwayLine <= 0) {
         res.status(400);
         return res.json((0, fail_1.jsonErrorResponse)(req, {
             message: auth_1.ErrorMessage.InvalidSubwayLine,

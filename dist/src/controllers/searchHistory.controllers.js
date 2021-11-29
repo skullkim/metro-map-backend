@@ -44,20 +44,18 @@ var getUserSearchHistories = function (req, res, next) { return __awaiter(void 0
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 2, , 3]);
                 userId = req.params.userId;
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, currentSearched_1.CurrentSearched.getUserSearchHistory(userId)];
-            case 2:
+            case 1:
                 searchHistory = _a.sent();
                 res.status(200);
                 return [2 /*return*/, res.json((0, success_1.jsonResponse)(req, { search_history: searchHistory }))];
-            case 3:
+            case 2:
                 err_1 = _a.sent();
                 next(err_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };

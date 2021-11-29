@@ -78,13 +78,11 @@ var optimizedPathStopover = function (req, res, next) { return __awaiter(void 0,
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                _b.trys.push([0, 4, , 5]);
                 _a = req.query, startStation = _a.startStation, stopoverStation = _a.stopoverStation, arriveStation = _a.arriveStation;
                 pathTarget = req.params.pathTarget;
                 userData = res.locals.userData;
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 5, , 6]);
-                if (!userData) return [3 /*break*/, 3];
+                if (!userData) return [3 /*break*/, 2];
                 pathInfo = {
                     startStation: startStation,
                     arriveStation: arriveStation,
@@ -92,20 +90,20 @@ var optimizedPathStopover = function (req, res, next) { return __awaiter(void 0,
                     pathTarget: pathTarget,
                 };
                 return [4 /*yield*/, (0, searchHistory_1.setSearchHistory)(userData.email, pathInfo)];
-            case 2:
+            case 1:
                 _b.sent();
-                _b.label = 3;
-            case 3: return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(startStation, stopoverStation, arriveStation, pathTarget)];
-            case 4:
+                _b.label = 2;
+            case 2: return [4 /*yield*/, (0, optimizedPath_1.getOptimizedPathWithStopover)(startStation, stopoverStation, arriveStation, pathTarget)];
+            case 3:
                 jsonRes = _b.sent();
                 res.status(200);
                 res.json((0, success_1.jsonResponse)(req, jsonRes));
-                return [3 /*break*/, 6];
-            case 5:
+                return [3 /*break*/, 5];
+            case 4:
                 err_2 = _b.sent();
                 next(err_2);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
